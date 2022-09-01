@@ -2,8 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <list>
 
-void SeekLetters(int i, char *Letters, int Size, char Caracter, char *TokensClasses, bool Found);
+void SeekLetters(int i, char *Letters, int Size, char Caracter, std::list <std::string> TokensClasses, bool Found);
 
 int main(){ 
     //Criar uma função para idenficar cada um dos Tokens
@@ -17,7 +18,7 @@ int main(){
     char Digits[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};    
     bool Found = false;
 
-    char TokensClasses[200]; //Lista final do output
+    std::list <std::string> TokensClasses; //Lista final do output
 
     std::fstream File;    //Criando o objeto (arquivo)
     File.open("algol.txt", std::ios_base::in);
@@ -30,23 +31,29 @@ int main(){
             // std::cout << Caracter;
             SeekLetters( 0, Letters, (sizeof(Letters)/sizeof(Letters[0])), Caracter, TokensClasses, Found);
         }
+        //Verificar pq não está funcionando 
         File.close();
         if(File.is_open()){
             std::cout << "Não foi possivel fechar o arquivo\n";
         }
     }
+    
+    for (auto i = TokensClasses.cbegin(); i != TokensClasses.cend(); i++)
+    {
+        std::cout << *i;
+    }
     return 0;
 }
-void SeekLetters(int i, char *Letters, int Size, char Caracter, char *TokensClasses, bool Found)
+void SeekLetters(int i, char *Letters, int Size, char Caracter, std::list<std::string> TokensClasses, bool Found)
 {
     if(i == Size){
         return;
     }else{
         if(Caracter == Letters[i]){ //Faz parte do alfabeto
-            //função para add ao final da lista de tokens
             
-            Found = true;
-            std::cout << "Letra " << Letters[i] << " encontrada!\n";
+            TokensClasses.push_back(Caracter+"- é Letra\n");
+            Found = true;            
+            // std::cout << "Letra " << Letters[i] << " encontrada!\n";
             return;
         }
         SeekLetters(i+1, Letters, Size, Caracter, TokensClasses, Found);
