@@ -9,7 +9,7 @@ std::list<std::string> SeekLetters(int i, char *Letters, int Size, char Caracter
 int main(){ 
     //Criar uma função para idenficar cada um dos Tokens
     char Separadores[]{',', ':','_', ' ', '(', ')', '[', ']'};
-    std::string BracketComp{"begin", "end"};
+    std::string BracketComp[]{"begin", "end"};
     std::string SeparadoresComp[]{":=", "step", "until", "while", "comment"};
     char Op_Aritimeticos[]{'+', '-', '*', '/'};
     char Op_Relacionais_simples[]{'<', '=', '>'};
