@@ -5,7 +5,7 @@
 #include "FuncoesCompostas.cpp"
 #include "FuncoesSimples.cpp"
 
-int main(){ 
+int main(){
     char separators[]{',', ':','_', '(', ')', '[', ']'};
     std::string BracketComp[]{"begin", "end"};
     std::string compSeparators[]{":=", "step", "until", "while", "comment"}; //:= pode ser : ou :=
@@ -15,11 +15,11 @@ int main(){
     std::string declarator[]{"own", "integer", "array", "procedure"};
 
     std::string opSequential[] {"goto", "if", "then", "else", "for", "do"}; //'e' pode ser end ou else
-    
+
     char Letters[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     char Digits[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-    int validBegin{-1};       
+    int validBegin{-1};
     int validEnd{-1};
     int validAssigment{-1};
     int validStep{-1};
@@ -41,7 +41,7 @@ int main(){
     int validDo{-1};
 
     std::list<std::string> TokensClasses; //Lista final do output,,,,
-    
+
     std::fstream File;    //Criando o objeto (arquivo)
     File.open("algol.txt", std::ios_base::in);
 
@@ -115,17 +115,18 @@ int main(){
 
             // Verificação dos caracteres simples
             TokensClasses=SeekLetters(0, Letters, (sizeof(Letters)/sizeof(Letters[0])), character, TokensClasses);
+            TokensClasses=SeekDigits(Digits, (sizeof(Digits)/sizeof(Digits[0])), character, TokensClasses);
             TokensClasses=SeekSeparators(separators, (sizeof(separators)/sizeof(separators[0])), character, TokensClasses);
             TokensClasses=SeekArithmetic(opArithmetic, (sizeof(opArithmetic)/sizeof(opArithmetic[0])), character, TokensClasses);
             TokensClasses=SeekRelational(opRelational, (sizeof(opRelational)/sizeof(opRelational[0])), character, TokensClasses);
         }
-        //Verificar pq não está funcionando 
+        //Verificar pq não está funcionando
         File.close();
         if(File.is_open()){
             std::cout << "Não foi possivel fechar o arquivo\n";
         }
     }
-    
+
     //Imprimindo lista com os tokens Finais
     for (auto i: TokensClasses)
     {

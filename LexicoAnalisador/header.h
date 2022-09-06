@@ -3,6 +3,7 @@
 
 //---------- Encontrando os Simples
 std::list<std::string> SeekLetters(int i, char *Letters, int Size, char character, std::list <std::string> TokensClasses);
+std::list<std::string> SeekDigits(char *Digits, int Size, char character,std::list<std::string> TokensClasses);
 std::list<std::string> SeekSeparators(char *separators, int size, char character,std::list<std::string> TokensClasses);
 std::list<std::string> SeekArithmetic(char *opArithmetic, int size, char character,std::list<std::string> TokensClasses);
 std::list<std::string> SeekRelational(char *opRelational, int size, char character,std::list<std::string> TokensClasses);
