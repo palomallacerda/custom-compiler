@@ -39,3 +39,10 @@ std::list<std::string> SeekThen(int &validThen, std::string* opSequential, char 
 std::list<std::string> SeekElse(int &validElse, std::string* opSequential, char character, std::list<std::string> TokensClasses);
 std::list<std::string> SeekFor(int &validFor, std::string* opSequential, char character, std::list<std::string> TokensClasses);
 std::list<std::string> SeekDo(int &validDo, std::string* opSequential, char character, std::list<std::string> TokensClasses);
+
+// ------ Verificação de erros
+bool CheackUpperCase(char character);
+bool ChecaValidos(char *validos, char character);
+
+
+
