@@ -4,20 +4,21 @@
 
 #include "FuncoesCompostas.cpp"
 #include "FuncoesSimples.cpp"
+#include "ChecaErros.cpp"
 
 int main(){
     char separators[]{',', ':','_', '(', ')', '[', ']'};
-    std::string BracketComp[]{"begin", "end"};
-    std::string compSeparators[]{":=", "step", "until", "while", "comment"}; //:= pode ser : ou :=
     char opArithmetic[]{'+', '-', '*', '/'};
     char opRelational[]{'<', '=', '>'};
-    std::string opCompRelational[]{"<=", "!=", ">="};
-    std::string declarator[]{"own", "integer", "array", "procedure"};
-
-    std::string opSequential[] {"goto", "if", "then", "else", "for", "do"}; //'e' pode ser end ou else
-
     char Letters[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     char Digits[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    char ignore[]{' ', '\n', ';'};
+
+    std::string BracketComp[]{"begin", "end"};
+    std::string compSeparators[]{":=", "step", "until", "while", "comment"}; //:= pode ser : ou :=
+    std::string opCompRelational[]{"<=", "!=", ">="};
+    std::string declarator[]{"own", "integer", "array", "procedure"};
+    std::string opSequential[] {"goto", "if", "then", "else", "for", "do"}; //'e' pode ser end ou else
 
     int validBegin{-1};
     int validEnd{-1};
@@ -48,8 +49,50 @@ int main(){
     if(File.is_open()){
         char character;
 
-        while(!File.eof()){
+        // Checa o arquivo por caracteres estranhos
+        while(!File.eof())
+        {
             File.get(character);
+            bool flag = false;
+
+            if(ChecaValidos(Letters, character, sizeof(Letters)/ sizeof(Letters[0])))
+            {
+                continue;
+            }
+            if(ChecaValidos(Digits, character, sizeof(Digits)/ sizeof(Digits[0])))
+            {
+                continue;
+            }
+            if(ChecaValidos(separators, character, sizeof(separators)/ sizeof(separators[0])))
+            {
+                continue;
+            }
+            if(ChecaValidos(opArithmetic, character, sizeof(opArithmetic)/ sizeof(opArithmetic[0])))
+            {
+                continue;
+            }
+            if(ChecaValidos(opRelational, character, sizeof(opRelational)/ sizeof(opRelational[0])))
+            {
+                continue;
+            }
+            if(ChecaValidos(ignore, character, sizeof(opRelational)/ sizeof(opRelational[0])))
+            {
+                continue;
+            }
+            if (!flag)
+            {
+                std::cout << "Error on --- " << character << std::endl;
+                exit(1);
+            }
+        }
+
+        File.clear();
+        File.seekg(0);
+
+        while(!File.eof())
+        {
+            File.get(character);
+
             // Verificação dos caracteres Compostos
             if(character == 'b' || validBegin >=0){
                 TokensClasses=SeekBegin(validBegin, BracketComp,character, TokensClasses);
@@ -112,17 +155,17 @@ int main(){
                 TokensClasses=SeekDo(validDo, opSequential, character, TokensClasses);
             }
 
-
             // Verificação dos caracteres simples
             TokensClasses=SeekLetters(0, Letters, (sizeof(Letters)/sizeof(Letters[0])), character, TokensClasses);
             TokensClasses=SeekDigits(Digits, (sizeof(Digits)/sizeof(Digits[0])), character, TokensClasses);
             TokensClasses=SeekSeparators(separators, (sizeof(separators)/sizeof(separators[0])), character, TokensClasses);
             TokensClasses=SeekArithmetic(opArithmetic, (sizeof(opArithmetic)/sizeof(opArithmetic[0])), character, TokensClasses);
             TokensClasses=SeekRelational(opRelational, (sizeof(opRelational)/sizeof(opRelational[0])), character, TokensClasses);
+            
         }
-        //Verificar pq não está funcionando
         File.close();
-        if(File.is_open()){
+        if(File.is_open())
+        {
             std::cout << "Não foi possivel fechar o arquivo\n";
         }
     }
