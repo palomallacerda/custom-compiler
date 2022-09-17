@@ -44,5 +44,5 @@ std::list<std::string> SeekDo(int &validDo, std::string* opSequential, char char
 bool ChecaValidos(char *validos, char character, int size_arr);
 
 // verify reserverd words
-// void seekReserved(int start, int end, std::fstream& File, std::list<std::string> TokensClasses, std::string* BracketComp, std::string* opCompRelational,
-// std::string* compSeparators,  std::string* declarator, std::string* opSequential);
+void seekReserved(int start, int end, std::fstream& File, std::list<std::string> TokensClasses, std::string* BracketComp, std::string* opCompRelational,
+std::string* compSeparators,  std::string* declarator, std::string* opSequential);
