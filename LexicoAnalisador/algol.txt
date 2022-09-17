@@ -1,6 +1,6 @@
-procedure Absmax(a) Size:(n, m) Result:(y) Subscripts:(i, k);
+procedure absmax(a) size:(n, m) result:(y) subscripts:(i, k);
     value n, m; array a; integer n, m, i, k; real y;
-comment The absolute greatest element of the matrix a, of size n by m,
+comment the absolute greatest element of the matrix a, of size n by m,
     is transferred to y, and the subscripts of this element to i and k
     this is a test + -- a b xx /;
 begin
