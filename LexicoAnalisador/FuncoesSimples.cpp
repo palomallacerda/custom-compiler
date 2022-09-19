@@ -45,13 +45,12 @@
         return false;
     }
 
-    std::list<std::string> SeekDigits(char *Digits, int Size, char character,std::list<std::string> TokensClasses){
+    bool SeekDigits(char *Digits, int Size, char character,std::list<std::string> TokensClasses){
+        bool valid = false;
         for (int i = 0; i < Size; i++){
             if(character == Digits[i]){
-                std::string Classe = "\ndigito - ";
-                Classe += character;
-                TokensClasses.push_back(Classe);
+                valid = true;
             }
         }
-        return TokensClasses;
+        return valid;
     }
