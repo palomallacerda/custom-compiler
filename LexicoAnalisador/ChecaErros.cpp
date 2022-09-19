@@ -1,20 +1,9 @@
-#include <cctype>
-// #include <iostream>
 #include <algorithm>
 #include "header.h"
 
-bool CheackUpperCase(char character)
+bool ChecaValidos(char *validos, char character, int size_arr)
 {
-    if (isupper(character))
-    {
-    return false;
-    }
-    return true;
-}
-
-bool ChecaValidos(char *validos, char character)
-{
-    for (int i = 0; i < sizeof(validos)/sizeof(validos[0]); i++)
+    for (int i = 0; i < size_arr; i++)
     {
         if (validos[i] == character)
         {

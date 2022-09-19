@@ -13,7 +13,7 @@ std::list<std::string> SeekBegin(int &validBegin, std::string* Bracket,char char
 
     if(validBegin == 4) {
         std::string Classe = "\nIdenficador Reservado - "+Begin;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -31,7 +31,7 @@ std::list<std::string> SeekEnd(int &validEnd, std::string* Bracket,char characte
 
     if(validEnd == 2) {
         std::string Classe = "\nIdenficador Reservado - "+end;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -306,7 +306,7 @@ std::list<std::string> SeekThen(int &validThen, std::string* opSequential, char 
 
     if(validThen == 3) {
         std::string Classe = "\nIdenficador Reservado - "+Then;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -324,7 +324,7 @@ std::list<std::string> SeekElse(int &validElse, std::string* opSequential, char 
 
     if(validElse == 3) {
         std::string Classe = "\nIdenficador Reservado - "+Else;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -342,7 +342,7 @@ std::list<std::string> SeekFor(int &validFor, std::string* opSequential, char ch
 
     if(validFor == 2) {
         std::string Classe = "\nIdenficador Reservado - "+FOR;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -359,7 +359,7 @@ std::list<std::string> SeekDo(int &validDo, std::string* opSequential, char char
 
     if(validDo == 1) {
         std::string Classe = "\nIdenficador Reservado - "+Do;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
