@@ -40,18 +40,9 @@ std::list<std::string> SeekElse(int &validElse, std::string* opSequential, char 
 std::list<std::string> SeekFor(int &validFor, std::string* opSequential, char character, std::list<std::string> TokensClasses);
 std::list<std::string> SeekDo(int &validDo, std::string* opSequential, char character, std::list<std::string> TokensClasses);
 
-<<<<<<< HEAD
 // Check errors
 bool ChecaValidos(char *validos, char character, int size_arr);
 
 // verify reserverd words
 std::list<std::string> seekReserved(int start, int end, std::fstream& File, std::list<std::string> TokensClasses, std::string* BracketComp, std::string* opCompRelational,
 std::string* compSeparators,  std::string* declarator, std::string* opSequential);
-=======
-// ------ Verificação de erros
-bool CheackUpperCase(char character);
-bool ChecaValidos(char *validos, char character);
-
-
-
->>>>>>> main

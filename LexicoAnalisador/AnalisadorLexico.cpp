@@ -5,15 +5,12 @@
 // #include "FuncoesCompostas.cpp"
 #include "FuncoesSimples.cpp"
 #include "ChecaErros.cpp"
-<<<<<<< HEAD
 #include "VerificadorReservadas.cpp"
 /* TODO
 - Falta analisar os casos dos separadores compostos (Só analisar uma posição afrente
     já que todos compostos são de tamanho 2);
 - Os digitos não estão sendo considerados como números;
 */
-=======
->>>>>>> main
 
 int main(){
     char separators[]{',', ':','_', '(', ')', '[', ']', ' ', ';'};
@@ -44,7 +41,6 @@ int main(){
         while(!File.eof())
         {
             File.get(character);
-<<<<<<< HEAD
             bool flag = false;
 
             if(ChecaValidos(Letters, character, sizeof(Letters)/ sizeof(Letters[0])))
@@ -138,84 +134,6 @@ int main(){
             // Verificação dos caracteres simples
             // TokensClasses=SeekLetters(0, Letters, (sizeof(Letters)/sizeof(Letters[0])), character, TokensClasses);
             // TokensClasses=SeekDigits(Digits, (sizeof(Digits)/sizeof(Digits[0])), character, TokensClasses);
-=======
-            if(CheackUpperCase(character) && ChecaValidos(separators, character) || ChecaValidos(opArithmetic, character) || ChecaValidos(opRelational, character) || 
-            ChecaValidos(Letters, character)|| ChecaValidos(Digits, character)){
-                 // Verificação dos caracteres Compostos
-                if(character == 'b' || validBegin >=0){
-                    TokensClasses=SeekBegin(validBegin, BracketComp,character, TokensClasses);
-                }
-                if(character == 'e' || validEnd >=0){
-                    TokensClasses=SeekEnd(validEnd, BracketComp, character, TokensClasses);
-                }
-                if(character == ':' || validAssigment >= 0){
-                    TokensClasses=SeekAssigment(validAssigment, compSeparators, character, TokensClasses);
-                }
-                if(character == 's' || validStep >= 0){
-                    TokensClasses=SeekStep(validStep, compSeparators, character, TokensClasses);
-                }
-                if(character == 'u' || validUntil >=0){
-                    TokensClasses=Seekuntil(validUntil, compSeparators, character, TokensClasses);
-                }
-                if(character=='w' || validWhile>=0){
-                    TokensClasses=SeekWhile(validWhile,compSeparators, character, TokensClasses);
-                }
-                if(character=='c' || validComment>=0){
-                    TokensClasses=SeekComment(validComment, compSeparators, character, TokensClasses);
-                }
-                if(character=='<' || validMenorIgual>=0){
-                    TokensClasses=SeekMenorIgual(validMenorIgual, opCompRelational, character, TokensClasses);
-                }
-                if(character=='!' || validDiferente>=0){
-                    TokensClasses=SeekDiferente(validDiferente, opCompRelational, character, TokensClasses);
-                }
-                if(character=='>' || validMaiorIgual>=0){
-                    TokensClasses=SeekMaiorIgual(validMaiorIgual, opCompRelational, character, TokensClasses);
-                }
-                if(character=='o' || validOwn>=0){
-                    TokensClasses=SeekOwn(validOwn, declarator, character, TokensClasses);
-                }
-                if(character=='i' || validInt >=0){
-                    TokensClasses=SeekInteger(validInt, declarator, character, TokensClasses);
-                }
-                if(character=='a' || validArray >=0){
-                    TokensClasses=SeekArray(validArray, declarator, character, TokensClasses);
-                }
-                if(character=='p' || validProcedure >=0){
-                    TokensClasses=SeekProcedure(validProcedure, declarator, character, TokensClasses);
-                }
-                if(character=='g' || validGoto >=0){
-                    TokensClasses=SeekGoto(validGoto, opSequential, character, TokensClasses);
-                }
-                if(character=='i' || validIf >=0){
-                    TokensClasses=SeekIf(validIf, opSequential, character, TokensClasses);
-                }
-                if(character=='t' || validThen >=0){
-                    TokensClasses=SeekThen(validThen, opSequential, character, TokensClasses);
-                }
-                if(character=='e' || validElse >=0){
-                    TokensClasses=SeekElse(validElse, opSequential, character, TokensClasses);
-                }
-                if(character=='f' || validFor >=0){
-                    TokensClasses=SeekFor(validFor, opSequential, character, TokensClasses);
-                }
-                if(character=='d' || validDo >=0){
-                    TokensClasses=SeekDo(validDo, opSequential, character, TokensClasses);
-                }
-
-                // Verificação dos caracteres simples
-                TokensClasses=SeekLetters(0, Letters, (sizeof(Letters)/sizeof(Letters[0])), character, TokensClasses);
-                TokensClasses=SeekDigits(Digits, (sizeof(Digits)/sizeof(Digits[0])), character, TokensClasses);
-                TokensClasses=SeekSeparators(separators, (sizeof(separators)/sizeof(separators[0])), character, TokensClasses);
-                TokensClasses=SeekArithmetic(opArithmetic, (sizeof(opArithmetic)/sizeof(opArithmetic[0])), character, TokensClasses);
-                TokensClasses=SeekRelational(opRelational, (sizeof(opRelational)/sizeof(opRelational[0])), character, TokensClasses);
-            }
-            else{
-                std::cout << "Erro On --- " << character << std::endl;
-                exit(1);
-            }
-            
->>>>>>> main
         }
         File.close();
         if(File.is_open())
