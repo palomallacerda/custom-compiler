@@ -91,7 +91,7 @@ int main(){
                 // volta o ponteiro do arquivo para a posição start
                 File.seekg(start);
 
-                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential);
+                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
                 
                 // seta o start para a posição de end(ou seja voltou para onde tinha chamando seekReserved)
                 start = end;
@@ -108,7 +108,7 @@ int main(){
 
                 File.seekg(start);
 
-                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential);
+                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
                 start = end;
 
                 std::string Classe = "\noperador aritmetico - ";
@@ -121,7 +121,7 @@ int main(){
 
                 File.seekg(start);
 
-                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential);
+                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
                 
                 start = end;
 
@@ -133,7 +133,6 @@ int main(){
 
             // Verificação dos caracteres simples
             // TokensClasses=SeekLetters(0, Letters, (sizeof(Letters)/sizeof(Letters[0])), character, TokensClasses);
-            // TokensClasses=SeekDigits(Digits, (sizeof(Digits)/sizeof(Digits[0])), character, TokensClasses);
         }
         File.close();
         if(File.is_open())
