@@ -7,9 +7,7 @@
 #include "ChecaErros.cpp"
 #include "VerificadorReservadas.cpp"
 /* TODO
-- Falta analisar os casos dos separadores compostos (Só analisar uma posição afrente
-    já que todos compostos são de tamanho 2);
-- Os digitos não estão sendo considerados como números;
+    Prodecure bugou .-.
 */
 
 int main(){
@@ -98,7 +96,6 @@ int main(){
 
                 end = File.tellg();
 
-                //File.seekg(end);
                 File.get(next);
 
                 if (next == '='){
@@ -113,13 +110,11 @@ int main(){
                     TokensClasses.push_back(Classe);
                 }
                 else{
-                    //AQUI ESTÁ BUGADO
-                    std::cout << "teste\n";
-                    File.seekg(end);
+                    File.seekg(start);
 
                     TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
                     start = end;
-
+                    File.seekg(end);
                     TokensClasses.push_back(Classe);
                 }
             }
@@ -151,8 +146,9 @@ int main(){
                 TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
                 start = end;
 
-                std::string Classe = "\noperador aritmetico - ";
+                std::string Classe = "\nOperador aritmetico - ";
                 File.get(character);
+                File.seekg(end);
                 Classe += character;
                 TokensClasses.push_back(Classe);
             }
@@ -165,14 +161,11 @@ int main(){
                 
                 start = end;
 
-                std::string Classe = "\noperador relacional - ";
+                std::string Classe = "\nOperador relacional - ";
                 File.get(character);
                 Classe += character;
                 TokensClasses.push_back(Classe);
             }
-
-            // Verificação dos caracteres simples
-            // TokensClasses=SeekLetters(0, Letters, (sizeof(Letters)/sizeof(Letters[0])), character, TokensClasses);
         }
         File.close();
         if(File.is_open())

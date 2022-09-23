@@ -32,7 +32,7 @@ std::string* compSeparators,  std::string* declarator, std::string* opSequential
     File.seekg(start);
 
     while(!File.eof()){
-        if (File.tellg() == end-1){
+        if (File.tellg() == end - 1){
             break;
         }
         char character;
@@ -172,7 +172,7 @@ std::string* compSeparators,  std::string* declarator, std::string* opSequential
     // se a palavra não for reservada é salva como identificador (aqui podemos colocar a verificação de número)
     if(!found){
         if(id != "" ){
-            TokensClasses.push_back("Identidicador - " + id);
+            TokensClasses.push_back("\nIdentidicador - " + id);
         }
     }
 
