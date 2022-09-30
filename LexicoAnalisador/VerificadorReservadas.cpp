@@ -121,7 +121,7 @@ std::string* compSeparators,  std::string* declarator, std::string* opSequential
         }
         if(character=='p' || validProcedure >=0){
             TokensClasses=SeekProcedure(validProcedure, declarator, character, TokensClasses);
-            if(validArray == 8) {
+            if(validProcedure == 8) {
                 found = true;
             }
         }
