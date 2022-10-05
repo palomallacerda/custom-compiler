@@ -7,13 +7,11 @@
 #include "ChecaErros.cpp"
 #include "VerificadorReservadas.cpp"
 /* TODO
-- Falta analisar os casos dos separadores compostos (Só analisar uma posição afrente
-    já que todos compostos são de tamanho 2);
-- Os digitos não estão sendo considerados como números;
+    Prodecure bugou .-.
 */
 
 int main(){
-    char separators[]{',', ':','_', '(', ')', '[', ']', ' ', ';'};
+    char separators[]{',', ':','_', '(', ')', '[', ']', ' ', ';', '!'};
     char opArithmetic[]{'+', '-', '*', '/'};
     char opRelational[]{'<', '=', '>'};
     char Letters[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
@@ -83,15 +81,52 @@ int main(){
         {
             File.get(character);
 
+            if (character == '<' || character == '>' || character == '!' || character == ':'){
+                char next; 
+                std::string Classe;
+
+                if (character == ':'){
+                    Classe = "\nSeparador - ";
+                    Classe += character;
+                }
+                else {
+                    Classe = "\nOperador relacional - ";
+                    Classe += character;
+                }
+
+                end = File.tellg();
+
+                File.get(next);
+
+                if (next == '='){
+                    Classe += next;
+
+                    File.seekg(start);
+
+                    TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
+                    start = end + 1;
+
+                    File.seekg(end + 1);
+                    TokensClasses.push_back(Classe);
+                }
+                else{
+                    File.seekg(start);
+
+                    TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
+                    start = end;
+                    File.seekg(end);
+                    TokensClasses.push_back(Classe);
+                }
+            }
             //verifica se é um separador
-            if (SeekSeparators(separators, (sizeof(separators)/sizeof(separators[0])), character, TokensClasses)){
+            else  if(SeekSeparators(separators, (sizeof(separators)/sizeof(separators[0])), character, TokensClasses)){
                 // salva a posição do separador
                 end = File.tellg();
 
                 // volta o ponteiro do arquivo para a posição start
                 File.seekg(start);
 
-                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential);
+                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
                 
                 // seta o start para a posição de end(ou seja voltou para onde tinha chamando seekReserved)
                 start = end;
@@ -108,11 +143,12 @@ int main(){
 
                 File.seekg(start);
 
-                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential);
+                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
                 start = end;
 
-                std::string Classe = "\noperador aritmetico - ";
+                std::string Classe = "\nOperador aritmetico - ";
                 File.get(character);
+                File.seekg(end);
                 Classe += character;
                 TokensClasses.push_back(Classe);
             }
@@ -121,19 +157,15 @@ int main(){
 
                 File.seekg(start);
 
-                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential);
+                TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
                 
                 start = end;
 
-                std::string Classe = "\noperador relacional - ";
+                std::string Classe = "\nOperador relacional - ";
                 File.get(character);
                 Classe += character;
                 TokensClasses.push_back(Classe);
             }
-
-            // Verificação dos caracteres simples
-            // TokensClasses=SeekLetters(0, Letters, (sizeof(Letters)/sizeof(Letters[0])), character, TokensClasses);
-            // TokensClasses=SeekDigits(Digits, (sizeof(Digits)/sizeof(Digits[0])), character, TokensClasses);
         }
         File.close();
         if(File.is_open())

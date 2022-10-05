@@ -3,7 +3,7 @@
 
 //---------- Encontrando os Simples
 std::list<std::string> SeekLetters(int i, char *Letters, int Size, char character, std::list <std::string> TokensClasses);
-std::list<std::string> SeekDigits(char *Digits, int Size, char character,std::list<std::string> TokensClasses);
+bool SeekDigits(char *Digits, int Size, char character,std::list<std::string> TokensClasses);
 bool SeekSeparators(char *separators, int size, char character,std::list<std::string> TokensClasses);
 bool SeekArithmetic(char *opArithmetic, int size, char character,std::list<std::string> TokensClasses);
 bool SeekRelational(char *opRelational, int size, char character,std::list<std::string> TokensClasses);
@@ -45,4 +45,4 @@ bool ChecaValidos(char *validos, char character, int size_arr);
 
 // verify reserverd words
 std::list<std::string> seekReserved(int start, int end, std::fstream& File, std::list<std::string> TokensClasses, std::string* BracketComp, std::string* opCompRelational,
-std::string* compSeparators,  std::string* declarator, std::string* opSequential);
+std::string* compSeparators,  std::string* declarator, std::string* opSequential, char *Digits);

@@ -121,11 +121,6 @@ std::list<std::string> SeekComment(int &validComment, std::string* compSeparator
     else{
         validComment = -1;
     }
-
-    if(validComment == 6) {
-        std::string Classe = "\nIdenficador Reservado - "+comment;
-        TokensClasses.push_back(Classe);  
-    }
     return TokensClasses;
 }
 
