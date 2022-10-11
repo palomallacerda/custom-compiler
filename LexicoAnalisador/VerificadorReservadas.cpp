@@ -1,9 +1,10 @@
 #include <fstream>
+#include <regex>
 #include "FuncoesCompostas.cpp"
 #include "header.h"
 
 // Função para identificar palavras reservadas ou identificadores 
-std::list<std::string> seekReserved(int start, int end, std::fstream& File, std::list<std::string> TokensClasses, std::string* BracketComp, std::string* opCompRelational,
+std::list<Token> seekReserved(int start, int end, std::fstream& File, std::list<Token> TokensClasses, std::string* BracketComp, std::string* opCompRelational,
 std::string* compSeparators,  std::string* declarator, std::string* opSequential, char *Digits){
     int validBegin{-1};
     int validEnd{-1};
@@ -38,7 +39,7 @@ std::string* compSeparators,  std::string* declarator, std::string* opSequential
         char character;
         File.get(character);
         
-         id+= character;
+         id += character;
 
         if(character=='<' || validMenorIgual>=0){
             TokensClasses=SeekMenorIgual(validMenorIgual, opCompRelational, character, TokensClasses);
@@ -162,8 +163,9 @@ std::string* compSeparators,  std::string* declarator, std::string* opSequential
             }
         }
         if(SeekDigits(Digits, (sizeof(Digits)/sizeof(Digits[0])), character, TokensClasses)){
-            std::string Classe = "\nDigito - ";
-            Classe += character;
+            Token Classe;
+            Classe.tipo = "Digito";
+            Classe.rotulo = character;
             TokensClasses.push_back(Classe);
             found = true;
         }
@@ -171,10 +173,17 @@ std::string* compSeparators,  std::string* declarator, std::string* opSequential
 
     // se a palavra não for reservada é salva como identificador (aqui podemos colocar a verificação de número)
     if(!found){
-        if(id != "" ){
-            TokensClasses.push_back("\nIdentidicador - " + id);
+        if(!id.empty()){
+            std::regex r("\\s+");
+            id = std::regex_replace(id, r, "");
+
+            Token Classe;
+            Classe.tipo = "Identificador";
+            Classe.rotulo = id;
+            TokensClasses.push_back(Classe);
         }
     }
 
     return TokensClasses;
 }
+

@@ -1,7 +1,7 @@
 #include "header.h"
 
 //Verificar se a palavra reservada Begin
-std::list<std::string> SeekBegin(int &validBegin, std::string* Bracket,char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekBegin(int &validBegin, std::string* Bracket,char character, std::list<Token> TokensClasses){
     std::string Begin = Bracket[0];
 
     if(character == Begin[validBegin+1]){
@@ -12,14 +12,16 @@ std::list<std::string> SeekBegin(int &validBegin, std::string* Bracket,char char
     }
 
     if(validBegin == 4) {
-        std::string Classe = "\nIdenficador Reservado - "+Begin;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = Begin;
         TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
 
 //Verificar se a palavra reservada end
-std::list<std::string> SeekEnd(int &validEnd, std::string* Bracket,char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekEnd(int &validEnd, std::string* Bracket,char character, std::list<Token> TokensClasses){
     std::string end = Bracket[1];
 
     if(character == end[validEnd+1]){
@@ -30,14 +32,16 @@ std::list<std::string> SeekEnd(int &validEnd, std::string* Bracket,char characte
     }
 
     if(validEnd == 2) {
-        std::string Classe = "\nIdenficador Reservado - "+end;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = end;
         TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
 
 //Verificar se a palavra reservada Comment
-std::list<std::string> SeekAssigment(int &validAssigment, std::string* compSeparators,char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekAssigment(int &validAssigment, std::string* compSeparators,char character, std::list<Token> TokensClasses){
     std::string assigment = compSeparators[0];
 
     if(character == assigment[validAssigment+1]){
@@ -48,14 +52,16 @@ std::list<std::string> SeekAssigment(int &validAssigment, std::string* compSepar
     }
 
     if(validAssigment == 1) {
-        std::string Classe = "\nIdenficador Reservado - "+assigment;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = assigment;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
 //Verificar se a palavra reservada step
-std::list<std::string> SeekStep(int &validStep, std::string* compSeparators,char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekStep(int &validStep, std::string* compSeparators,char character, std::list<Token> TokensClasses){
     std::string step = compSeparators[1];
 
     if(character == step[validStep+1]){
@@ -66,15 +72,16 @@ std::list<std::string> SeekStep(int &validStep, std::string* compSeparators,char
     }
 
     if(validStep == 3) {
-        std::string Classe = "\nIdenficador Reservado - "+step;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = step;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
-
 //Verificar se a palavra reservada until
-std::list<std::string> Seekuntil(int &validUntil, std::string* compSeparators,char character, std::list<std::string> TokensClasses){
+std::list<Token> Seekuntil(int &validUntil, std::string* compSeparators,char character, std::list<Token> TokensClasses){
     std::string until = compSeparators[2];
 
     if(character == until[validUntil+1]){
@@ -85,15 +92,16 @@ std::list<std::string> Seekuntil(int &validUntil, std::string* compSeparators,ch
     }
 
     if(validUntil == 4) {
-        std::string Classe = "\nIdenficador Reservado - "+until;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = until;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
-
 //Verificar se a palavra reservada while
-std::list<std::string> SeekWhile(int &validWhile, std::string* compSeparators,char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekWhile(int &validWhile, std::string* compSeparators,char character, std::list<Token> TokensClasses){
     std::string While = compSeparators[3];
 
     if(character == While[validWhile+1]){
@@ -104,15 +112,16 @@ std::list<std::string> SeekWhile(int &validWhile, std::string* compSeparators,ch
     }
 
     if(validWhile == 4) {
-        std::string Classe = "\nIdenficador Reservado - "+While;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = While;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
-
 //Verificar se a palavra reservada Comment
-std::list<std::string> SeekComment(int &validComment, std::string* compSeparators,char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekComment(int &validComment, std::string* compSeparators,char character, std::list<Token> TokensClasses){
     std::string comment = compSeparators[4];
 
     if(character == comment[validComment+1]){
@@ -125,7 +134,7 @@ std::list<std::string> SeekComment(int &validComment, std::string* compSeparator
 }
 
 //Verificar se a palavra reservada menorIgual
-std::list<std::string> SeekMenorIgual(int &validMenorIgual, std::string* opCompRelational,char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekMenorIgual(int &validMenorIgual, std::string* opCompRelational,char character, std::list<Token> TokensClasses){
     std::string menorIgual = opCompRelational[0];
 
     if(character == menorIgual[validMenorIgual+1]){
@@ -136,14 +145,16 @@ std::list<std::string> SeekMenorIgual(int &validMenorIgual, std::string* opCompR
     }
 
     if(validMenorIgual == 1) {
-        std::string Classe = "\nIdenficador Reservado - "+menorIgual;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = menorIgual;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
 //Verificar se a palavra reservada é operador diferente
-std::list<std::string> SeekDiferente(int &validDiferente, std::string* opCompRelational, char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekDiferente(int &validDiferente, std::string* opCompRelational, char character, std::list<Token> TokensClasses){
     std::string diferente = opCompRelational[1];
 
     if(character == diferente[validDiferente+1]){
@@ -154,14 +165,16 @@ std::list<std::string> SeekDiferente(int &validDiferente, std::string* opCompRel
     }
 
     if(validDiferente == 1) {
-        std::string Classe = "\nIdenficador Reservado - "+diferente;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = diferente;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
 //Verificar se a palavra reservada >=
-std::list<std::string> SeekMaiorIgual(int &validMaiorigual, std::string* opCompRelational,char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekMaiorIgual(int &validMaiorigual, std::string* opCompRelational,char character, std::list<Token> TokensClasses){
     std::string maiorIgual = opCompRelational[2];
 
     if(character == maiorIgual[validMaiorigual+1]){
@@ -172,16 +185,16 @@ std::list<std::string> SeekMaiorIgual(int &validMaiorigual, std::string* opCompR
     }
 
     if(validMaiorigual == 1) {
-        std::string Classe = "\nIdenficador Reservado - "+maiorIgual;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = maiorIgual;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
-
-
 //Verificar se a palavra reservada Own
-std::list<std::string> SeekOwn(int &validOwn, std::string* declarador,char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekOwn(int &validOwn, std::string* declarador,char character, std::list<Token> TokensClasses){
     std::string own = declarador[0];
 
     if(character == own[validOwn+1]){
@@ -192,14 +205,16 @@ std::list<std::string> SeekOwn(int &validOwn, std::string* declarador,char chara
     }
 
     if(validOwn == 1) {
-        std::string Classe = "\nIdenficador Reservado - "+own;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = own;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
 //Verificar se a palabra reservada integer
-std::list<std::string> SeekInteger(int &validInt, std::string* declarador, char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekInteger(int &validInt, std::string* declarador, char character, std::list<Token> TokensClasses){
     std::string integer = declarador[1];
 
     if(character == integer[validInt+1]){
@@ -210,14 +225,16 @@ std::list<std::string> SeekInteger(int &validInt, std::string* declarador, char 
     }
 
     if(validInt == 6) {
-        std::string Classe = "\nIdenficador Reservado - "+integer;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = integer;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
 //Verificar se a palabra reservada array
-std::list<std::string> SeekArray(int &validArray, std::string* declarador, char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekArray(int &validArray, std::string* declarador, char character, std::list<Token> TokensClasses){
     std::string array = declarador[2];
 
     if(character == array[validArray+1]){
@@ -228,15 +245,16 @@ std::list<std::string> SeekArray(int &validArray, std::string* declarador, char 
     }
 
     if(validArray == 4) {
-        std::string Classe = "\nIdenficador Reservado - "+array;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = array;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
-
 //Verificar se a palabra reservada array
-std::list<std::string> SeekProcedure(int &validProcedure, std::string* declarador, char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekProcedure(int &validProcedure, std::string* declarador, char character, std::list<Token> TokensClasses){
     std::string procedure = declarador[3];
 
     if(character == procedure[validProcedure+1]){
@@ -247,14 +265,16 @@ std::list<std::string> SeekProcedure(int &validProcedure, std::string* declarado
     }
 
     if(validProcedure == 8) {
-        std::string Classe = "\nIdenficador Reservado - "+procedure;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = procedure;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
 //Verificando se o operador é valido (GOTO)
-std::list<std::string> SeekGoto(int &validGoto, std::string* opSequential, char character, std::list<std::string> TokensClasses){
+std::list<Token> SeekGoto(int &validGoto, std::string* opSequential, char character, std::list<Token> TokensClasses){
     std::string goTo = opSequential[0];
 
     if(character == goTo[validGoto+1]){
@@ -265,14 +285,16 @@ std::list<std::string> SeekGoto(int &validGoto, std::string* opSequential, char 
     }
 
     if(validGoto == 3) {
-        std::string Classe = "\nIdenficador Reservado - "+goTo;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = goTo;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
 
 //Verificando se é a condicional IF
-std::list<std::string> SeekIf(int &validIf, std::string* opSequential, char character, std::list<std::string> TokensClasses){ 
+std::list<Token> SeekIf(int &validIf, std::string* opSequential, char character, std::list<Token> TokensClasses){ 
     std::string IF = opSequential[1];
 
     if(character == IF[validIf+1]){
@@ -283,13 +305,16 @@ std::list<std::string> SeekIf(int &validIf, std::string* opSequential, char char
     }
 
     if(validIf == 1) {
-        std::string Classe = "\nIdenficador Reservado - "+IF;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = IF;
         TokensClasses.push_back(Classe);  
     }
     return TokensClasses;
 }
+
 //Verificando se é a condicional THEN
-std::list<std::string> SeekThen(int &validThen, std::string* opSequential, char character, std::list<std::string> TokensClasses){ 
+std::list<Token> SeekThen(int &validThen, std::string* opSequential, char character, std::list<Token> TokensClasses){ 
     std::string Then = opSequential[2];
 
     if(character == Then[validThen+1]){
@@ -300,14 +325,16 @@ std::list<std::string> SeekThen(int &validThen, std::string* opSequential, char 
     }
 
     if(validThen == 3) {
-        std::string Classe = "\nIdenficador Reservado - "+Then;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = Then;
         TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
 
 //Verificando se é a condicional ELSE
-std::list<std::string> SeekElse(int &validElse, std::string* opSequential, char character, std::list<std::string> TokensClasses){ 
+std::list<Token> SeekElse(int &validElse, std::string* opSequential, char character, std::list<Token> TokensClasses){ 
     std::string Else = opSequential[3];
 
     if(character == Else[validElse+1]){
@@ -318,31 +345,36 @@ std::list<std::string> SeekElse(int &validElse, std::string* opSequential, char 
     }
 
     if(validElse == 3) {
-        std::string Classe = "\nIdenficador Reservado - "+Else;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = Else;
         TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
 
 //Verificando se é a condicional FOR
-std::list<std::string> SeekFor(int &validFor, std::string* opSequential, char character, std::list<std::string> TokensClasses){ 
+std::list<Token> SeekFor(int &validFor, std::string* opSequential, char character, std::list<Token> TokensClasses){ 
     std::string FOR = opSequential[4];
 
     if(character == FOR[validFor+1]){
-        validFor +=1;
+        validFor += 1;
     }
     else{
         validFor = -1;
     }
 
     if(validFor == 2) {
-        std::string Classe = "\nIdenficador Reservado - "+FOR;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = FOR;
         TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
+
 //Verificando se é a condicional FOR
-std::list<std::string> SeekDo(int &validDo, std::string* opSequential, char character, std::list<std::string> TokensClasses){ 
+std::list<Token> SeekDo(int &validDo, std::string* opSequential, char character, std::list<Token> TokensClasses){ 
     std::string Do = opSequential[5];
 
     if(character == Do[validDo+1]){
@@ -353,7 +385,9 @@ std::list<std::string> SeekDo(int &validDo, std::string* opSequential, char char
     }
 
     if(validDo == 1) {
-        std::string Classe = "\nIdenficador Reservado - "+Do;
+        Token Classe;
+        Classe.tipo = "Idenficador Reservado";
+        Classe.rotulo = Do;
         TokensClasses.push_back(Classe);
     }
     return TokensClasses;

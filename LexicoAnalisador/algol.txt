@@ -1,9 +1,4 @@
-procedure absmax(a) size:(n, m) result:(y) subscripts:(i, k);
-    value n, m; array a; integer n, m, i, k; real y;
-comment the absolute greatest element of the matrix a, of size n by m;
 begin
-            if abs(a[p, q]) > y then
-                begin y := abs(a[p, q]);
-                    i:=p; k := q
-                end
-end  absmax  
+    file f(kind = remote);
+    write(f, hello world!);
+end
