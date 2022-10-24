@@ -1,22 +1,19 @@
-
 #include <iostream>
 #include <fstream>
-
-// #include "FuncoesCompostas.cpp"
+#include "header.h"
 #include "FuncoesSimples.cpp"
-#include "ChecaErros.cpp"
 #include "VerificadorReservadas.cpp"
 /* TODO
     Prodecure bugou .-.
 */
 
-int main(){
+bool Analisador_Lexico(){
     char separators[]{',', ':','_', '(', ')', '[', ']', ' ', ';', '!'};
     char opArithmetic[]{'+', '-', '*', '/'};
     char opRelational[]{'<', '=', '>'};
     char Letters[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     char Digits[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-    char ignore[]{' ', '\n', ';'};
+    char ignore[]{'\n', '\t'};
 
     std::string BracketComp[]{"begin", "end"};
     std::string compSeparators[]{":=", "step", "until", "while", "comment"}; //:= pode ser : ou :=
@@ -26,8 +23,7 @@ int main(){
 
     int start, end;
     bool s_sep;
-
-    std::list<std::string> TokensClasses; //Lista final do output,,,,
+    std::list<Token> TokensClasses; //Lista final do output,,,,
 
     std::fstream File;    //Criando o objeto (arquivo)
     File.open("algol.txt", std::ios_base::in);
@@ -67,8 +63,8 @@ int main(){
             }
             if (!flag)
             {
-                std::cout << "Error on --- " << character << std::endl;
-                exit(1);
+                std::cout << "Caracter desconhecido: " << character << std::endl;
+                return false;
             }
         }
 
@@ -83,24 +79,22 @@ int main(){
 
             if (character == '<' || character == '>' || character == '!' || character == ':'){
                 char next; 
-                std::string Classe;
+                Token Classe;
 
                 if (character == ':'){
-                    Classe = "\nSeparador - ";
-                    Classe += character;
+                    Classe.tipo = "Separador";
+                    Classe.rotulo += character;
                 }
                 else {
-                    Classe = "\nOperador relacional - ";
-                    Classe += character;
+                    Classe.tipo = "Operador relacional";
+                    Classe.rotulo += character;
                 }
 
                 end = File.tellg();
-
                 File.get(next);
 
                 if (next == '='){
-                    Classe += next;
-
+                    Classe.rotulo += next;
                     File.seekg(start);
 
                     TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
@@ -133,8 +127,9 @@ int main(){
 
                 File.get(character);
                 if (character != ' '){
-                    std::string Classe = "\nSeparador - ";
-                    Classe += character;
+                    Token Classe;
+                    Classe.tipo = "Separador";
+                    Classe.rotulo += character;
                     TokensClasses.push_back(Classe);
                 }
             }
@@ -146,10 +141,11 @@ int main(){
                 TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
                 start = end;
 
-                std::string Classe = "\nOperador aritmetico - ";
+                Token Classe;
+                Classe.tipo = "Operador aritmetico";
                 File.get(character);
                 File.seekg(end);
-                Classe += character;
+                Classe.rotulo = character;
                 TokensClasses.push_back(Classe);
             }
             else if (SeekRelational(opRelational, (sizeof(opRelational)/sizeof(opRelational[0])), character, TokensClasses)){
@@ -158,12 +154,12 @@ int main(){
                 File.seekg(start);
 
                 TokensClasses = seekReserved(start, end, File, TokensClasses, BracketComp, opCompRelational, compSeparators, declarator, opSequential, Digits);
-                
                 start = end;
 
-                std::string Classe = "\nOperador relacional - ";
+                Token Classe;
+                Classe.tipo = "Operador relacional";
                 File.get(character);
-                Classe += character;
+                Classe.rotulo = character;
                 TokensClasses.push_back(Classe);
             }
         }
@@ -177,8 +173,21 @@ int main(){
     //Imprimindo lista com os tokens Finais
     for (auto i: TokensClasses)
     {
-            std::cout << i << std::endl;
+            std::cout << i.tipo << " - " << i.rotulo << std::endl;
     }
 
-    return 0;
+    return true;
+}
+
+bool ChecaValidos(char *validos, char character, int size_arr)
+{
+    //Procura por caracteres que não estão na gramática
+    for (int i = 0; i < size_arr; i++)
+    {
+        if (validos[i] == character)
+        {
+            return true;
+        }
+    }
+    return false;
 }
