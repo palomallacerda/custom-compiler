@@ -3,9 +3,6 @@
 #include "header.h"
 #include "FuncoesSimples.cpp"
 #include "VerificadorReservadas.cpp"
-/* TODO
-    Prodecure bugou .-.
-*/
 
 bool Analisador_Lexico(){
     char separators[]{',', ':','_', '(', ')', '[', ']', ' ', ';', '!'};
@@ -67,7 +64,6 @@ bool Analisador_Lexico(){
                 return false;
             }
         }
-
         File.clear();
         File.seekg(0);
         //salva a posição inicial do arquivo
@@ -128,7 +124,24 @@ bool Analisador_Lexico(){
                 File.get(character);
                 if (character != ' '){
                     Token Classe;
-                    Classe.tipo = "Separador";
+                    switch (character)
+                    {
+                    case '(':
+                        Classe.tipo = "SepAbPar";
+                        break;
+                    case ')':
+                        Classe.tipo = "SepFePar";
+                        break;
+                    case '[':
+                        Classe.tipo = "SepAbCoch";
+                        break;
+                    case ']':
+                        Classe.tipo = "SepFeCoch";
+                        break;
+                    default:
+                        Classe.tipo = "Separador";
+                        break;
+                    }
                     Classe.rotulo += character;
                     TokensClasses.push_back(Classe);
                 }
@@ -169,12 +182,17 @@ bool Analisador_Lexico(){
             std::cout << "Não foi possivel fechar o arquivo\n";
         }
     }
+    Token Classe;
+    Classe.tipo = "Fim";
+    Classe.rotulo = "$";
+    TokensClasses.push_back(Classe);
 
     //Imprimindo lista com os tokens Finais
     for (auto i: TokensClasses)
     {
             std::cout << i.tipo << " - " << i.rotulo << std::endl;
     }
+
 
     return true;
 }
