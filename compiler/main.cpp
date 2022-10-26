@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "AnalisadorLexico.cpp"
-// #include "AnalisadorSintdr.cpp"
+#include "AnalisadorSintdr.cpp"
 
 int main() {
     bool flag_lexico = true;
@@ -14,15 +14,15 @@ int main() {
         std::cout << "Erro na análise léxica" << std::endl;
         exit(0);
     }
-    
+
    ClassesTokens = TokensLexico();
 
-//    ClassesTokens = InicialState(ClassesTokens);
+   ClassesTokens = InicialState(ClassesTokens);
 
-//    if(ClassesTokens.empty()){
-//     std::cout << "Análise Sintática concluida com sucesso" << std::endl;
-//    }
-//    else{
+   if(ClassesTokens.empty()){
+    std::cout << "Análise Sintática concluida com sucesso" << std::endl;
+   }
+   else{
     
-//    }
+   }
 }
