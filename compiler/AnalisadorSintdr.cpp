@@ -62,7 +62,28 @@ bool blockaux(Token aux, std::list<Token> tokensEntrada){
         blockaux(aux, tokensEntrada);
     }
 }
-
+bool compoundStatement(Token aux, std::list <Token> tokensEntrada){
+    if(!unlabelledCompound(aux, tokensEntrada)){
+        if(label(aux, tokensEntrada)){
+            if(aux.rotulo == ";"){
+                tokensEntrada.pop_front();
+                aux = tokensEntrada.front();
+                if(compoundTail(aux, tokensEntrada)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    else return true;
+}
+bool unlabelledCompound(Token aux, std::list <Token> TokensEntrada){
+    if(aux.rotulo == "begin"){
+        TokensEntrada.pop_front();
+        aux = TokensEntrada.front();
+        return compoundStatement(aux, TokensEntrada) ? true : false;
+    }else return false;
+}
 bool declaration(Token aux, std::list <Token> TokensEntrada){
    return typedeclaration(aux, TokensEntrada) ? true : false;
 }
@@ -97,28 +118,143 @@ bool compoundTail(Token aux, std::list <Token> tokensEntrada){
         else if(aux.rotulo == ";"){
             tokensEntrada.pop_front();
             aux = tokensEntrada.front();
-            compoundTail(aux, tokensEntrada);
+            return compoundTail(aux, tokensEntrada) ? true : false;
         }
     }
-    
+    return false;
 }
 bool statement(Token aux, std::list <Token> tokensEntrada){
     if(!uncoditionalStatement(aux, tokensEntrada)){
         if(!conditionalStatement(aux, tokensEntrada)){
-            if(forStatement(aux, tokensEntrada)){
-                return true;
-            }
-            else return false;
+            return forStatement(aux, tokensEntrada) ? true : false;
         }
     }
     return true;
 }
 bool uncoditionalStatement(Token aux, std::list <Token> tokensEntrada){
+    if(!basicStatement(aux,tokensEntrada)){
+        if(!compoundStatement(aux, tokensEntrada)){
+            return block(aux, tokensEntrada) ? true : false;
+        }
+    }
+    return true;
+}
+bool basicStatement(Token aux, std::list <Token> tokensEntrada){
+    if(!UnlabelledbasicStatement(aux, tokensEntrada)){
+        if(label(aux, tokensEntrada)){
+            if(aux.rotulo == ":"){
+                tokensEntrada.pop_front();
+                aux = tokensEntrada.front();
+                if(basicStatement(aux, tokensEntrada)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    return true;
+}
+bool label(Token aux, std::list <Token> tokensEntrada){
+    if(!identifier(aux, tokensEntrada)){
+        if(!unsignedInteger(aux, tokensEntrada)){
+            return false;
+        }
+    }
+    return true;
+}
 
+bool UnlabelledbasicStatement(Token aux, std::list <Token> tokensEntrada){
+    if(!assignmentStatement(aux, tokensEntrada)){
+        if(!goToStatement(aux, tokensEntrada)){
+            if(!dummyStatement(aux, tokensEntrada)){
+                return procedureStatement(aux, tokensEntrada) ? true : false;
+            }
+        }
+    }
+    return true;
+}
+
+
+bool unsignedInteger(Token aux, std::list <Token> tokensEntrada){
+    if(!digitFunction(aux, tokensEntrada)){
+        //recursividade
+        unsignedInteger(aux, tokensEntrada);
+    }
+
+    return true;
 }
 bool conditionalStatement(Token aux, std::list <Token> tokensEntrada){
-    
+
 }
 bool forStatement(Token aux, std::list <Token> tokensEntrada){
     
+}
+
+bool assignmentStatement(Token aux, std::list <Token> tokensEntrada){
+
+}
+
+bool goToStatement(Token aux, std::list <Token> tokensEntrada){
+    if(aux.rotulo == "goto"){
+        tokensEntrada.pop_front();
+        aux = tokensEntrada.front();
+        return designationalExpression(aux, tokensEntrada) ? true : false;
+    }
+    else return false;
+}
+bool dummyStatement(Token aux, std::list <Token> tokensEntrada){
+    
+}
+bool procedureStatement(Token aux, std::list <Token> tokensEntrada){
+    
+}
+bool designationalExpression(Token aux, std::list <Token> tokensEntrada){
+    if(!simplesDesignationalExpression(aux, tokensEntrada)){
+        if(ifClause(aux, tokensEntrada)){
+            if(simplesDesignationalExpression(aux, tokensEntrada)){
+                if(aux.rotulo == "else"){
+                    if(designationalExpression(aux, tokensEntrada)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    return true;
+}
+
+bool ifClause(Token aux, std::list <Token> tokensEntrada){
+    if(aux.rotulo == "if"){
+        tokensEntrada.pop_front();
+        aux = tokensEntrada.front();
+        if(booleanExpression(aux, tokensEntrada)){
+            if(aux.rotulo == "then"){
+                tokensEntrada.pop_front();
+                aux = tokensEntrada.front();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+bool simplesDesignationalExpression(Token aux, std::list <Token> tokensEntrada){
+    
+}
+bool identifier(Token aux, std::list <Token> tokensEntrada){
+    if(!letter(aux, tokensEntrada)){
+        //recursividade a esquerda
+    }
+}
+
+bool booleanExpression(Token aux, std::list <Token> tokensEntrada){
+    
+}
+
+bool letter(Token aux, std::list <Token> tokensEntrada){
+    //VERIFICAR TODOS OS TERMINAIS DE LETRAS
+}
+
+bool digitFunction(Token aux, std::list <Token> tokensEntrada){
+    //terminais digitos
 }
