@@ -1039,6 +1039,49 @@ bool auxIdentifier(Token* aux, std::list <Token> tokensEntrada, char character, 
     }
 }
 
+bool basicSymbol(Token* aux, std::list <Token> tokensEntrada, char character){
+    if(!letter(aux, tokensEntrada, character)){
+        if(!digitFunction(aux, tokensEntrada, character)){
+            if(!logicalValue(aux, tokensEntrada){
+                if(!delimiterFunction(Token* aux, std::list <Token> tokensEntrada)){ 
+                    //Falta fazer esta função
+                    return false;
+                }
+            }
+        }
+    }
+    else return true;
+}
+
+bool delimiterFunction(Token* aux, std::list <Token> tokensEntrada){
+    if(!operatorFunction(aux, tokensEntrada)){
+        if(!separatorFunction(aux, tokensEntrada)){
+            if(!bracketFunction(aux, tokensEntrada)){
+                if(!declaratorFunction(aux, tokensEntrada)){
+                    if(!specificatorFunction(aux, tokensEntrada)){
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    else return true;
+}
+
+bool operatorFunction(Token* aux, std::list <Token> tokensEntrada){
+    if(!arithmeticOperator(aux, tokensEntrada)){
+        if(!relationalOperator(aux, tokensEntrada)){
+            if(!logicalOperator(aux, tokensEntrada)){
+                if(!sequentialOperator(aux, tokensEntrada)){
+                    //Falta fazer essas funções
+                    return false;
+                }
+            }
+        }
+    }
+    else return true;
+}
+
 bool booleanExpression(Token* aux, std::list <Token> tokensEntrada){
     if(!simpleBoolean(aux, tokensEntrada)){
         if(ifClause(aux, tokensEntrada)){
