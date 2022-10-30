@@ -309,6 +309,10 @@ bool auxSpecificationPart(Token* aux, std::list <Token> tokensEntrada){
      return true;
 }
 
+bool subscriptExpression(Token* aux, std::list <Token> tokensEntrada){
+    return arithmeticExpression(aux,tokensEntrada) ? true : false;
+}
+
 bool identifierList(Token* aux, std::list <Token> tokensEntrada){
     if(identifier(aux, tokensEntrada)){
         if(auxIdentifierList(aux, tokensEntrada)){
