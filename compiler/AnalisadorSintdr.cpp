@@ -1058,9 +1058,21 @@ bool booleanExpression(Token* aux, std::list <Token> tokensEntrada){
 }
 
 bool simpleBoolean(Token * aux, std::list <Token> tokensEntrada){
-    if(!implication(aux, tokensEntrada)){
-         //recursividade a esquerda
+    if(implication(aux, tokensEntrada)){
+        auxSimpleBoolean(aux, tokensEntrada)
     }
+}
+bool auxSimpleBoolean(Token * aux, std::list <Token> tokensEntrada){
+    if(aux->rotulo == "=="){
+        tokensEntrada.pop_front();
+        Token aux1 = tokensEntrada.front();
+        aux = &aux1;
+        if(implication(aux, tokensEntrada)){
+            auxSimpleBoolean(aux, tokensEntrada)
+        }
+        else return false;
+    }
+    else return true
 }
 
 bool implication(Token * aux, std::list <Token> tokensEntrada){
@@ -1069,7 +1081,7 @@ bool implication(Token * aux, std::list <Token> tokensEntrada){
     }
     else return false;
 }
-// 
+
 bool booleanTerm(Token * aux, std::list <Token> tokensEntrada){
     if(booleanFactor(aux, tokensEntrada)){
         if(auxBooleanTerm(aux, tokensEntrada)){
@@ -1184,12 +1196,13 @@ bool relation(Token * aux, std::list <Token> tokensEntrada){
     return false;
 }
 
+// Rever essa função
 bool relationalOperator(Token * aux, std::list <Token> tokensEntrada){
     if(aux->rotulo == "<"){
         tokensEntrada.pop_front();
         Token aux1 = tokensEntrada.front();
         aux = &aux1;
-        if(if(aux->rotulo == "="){
+        if(aux->rotulo == "="){
             tokensEntrada.pop_front();
             Token aux1 = tokensEntrada.front();
             aux = &aux1;
@@ -1289,17 +1302,24 @@ bool arrayIdentifier(Token * aux, std::list <Token> tokensEntrada){
 }
 
 bool subscriptList(Token * aux, std::list <Token> tokensEntrada){
-    if(!subscriptExpression(aux, tokensEntrada)){
-        if(subscriptList(aux, tokensEntrada)){ //recursividade a esquerda [retirar]
-            if(aux->rotulo == ","){
-                if(subscriptExpression(aux, tokensEntrada)){
-                    return true;
-                }
-            }
+    if(subscriptExpression(aux, tokensEntrada)){
+        if (auxSubscriptList(aux, tokensEntrada)){
+            return true;
         }
-        return false;
     }
-    return true;
+    else return false;
+}
+bool auxSubscriptList(Token * aux, std::list <Token> tokensEntrada){
+    if(aux->rotulo == ","){
+        tokensEntrada.pop_front();
+        Token aux1 = tokensEntrada.front();
+        aux = &aux1;
+        if (subscriptExpression(aux, tokensEntrada)){
+            auxSubscriptList(aux, tokensEntrada)
+        }
+        else return false;
+    }
+    else return true;
 }
 
 bool subscriptExpression(Token * aux, std::list <Token> tokensEntrada){
