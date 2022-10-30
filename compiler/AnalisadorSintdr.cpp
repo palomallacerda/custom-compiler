@@ -696,13 +696,14 @@ bool forList(Token* aux, std::list <Token> tokensEntrada){
 }
 
 bool forListAux(Token* aux, std::list <Token> tokensEntrada){
-    if(aux->rotulo == ','){
+    if(aux->rotulo == ","){
         tokensEntrada.pop_front();
         Token aux1 = tokensEntrada.front();
         aux = &aux1;
         if(forListElement(aux, tokensEntrada)){
-            forListAux(aux, tokensEntrada)
+            forListAux(aux, tokensEntrada);
         }
+    }
     else{
         return true;
     }
@@ -885,12 +886,12 @@ bool procedureIdentifier(Token* aux, std::list <Token> tokensEntrada){
 }
 
 bool actualParameterPart(Token* aux, std::list <Token> tokensEntrada){
-    if ( aux->rotulo == '('){
+    if ( aux->rotulo == "("){
         tokensEntrada.pop_front();
         Token aux1 = tokensEntrada.front();
         aux = &aux1;
         if (actualParameterList(aux, tokensEntrada)){
-            if ( aux->rotulo == ')'){
+            if ( aux->rotulo == ")"){
                 tokensEntrada.pop_front();
                 Token aux1 = tokensEntrada.front();
                 aux = &aux1;
@@ -916,7 +917,7 @@ bool actualParameterList(Token* aux, std::list <Token> tokensEntrada){
 bool actualParameterListAux(Token* aux, std::list <Token> tokensEntrada){
     if(parameterDelimiter(aux, tokensEntrada)){
         if(actualParameter(aux, tokensEntrada)){
-            actualParameterListAux(aux, tokensEntrada)
+            actualParameterListAux(aux, tokensEntrada);
         }
         else return false;
     }
@@ -1059,7 +1060,7 @@ bool booleanExpression(Token* aux, std::list <Token> tokensEntrada){
 
 bool simpleBoolean(Token * aux, std::list <Token> tokensEntrada){
     if(implication(aux, tokensEntrada)){
-        auxSimpleBoolean(aux, tokensEntrada)
+        auxSimpleBoolean(aux, tokensEntrada);
     }
 }
 bool auxSimpleBoolean(Token * aux, std::list <Token> tokensEntrada){
@@ -1068,11 +1069,11 @@ bool auxSimpleBoolean(Token * aux, std::list <Token> tokensEntrada){
         Token aux1 = tokensEntrada.front();
         aux = &aux1;
         if(implication(aux, tokensEntrada)){
-            auxSimpleBoolean(aux, tokensEntrada)
+            auxSimpleBoolean(aux, tokensEntrada);
         }
         else return false;
     }
-    else return true
+    else return true;
 }
 
 bool implication(Token * aux, std::list <Token> tokensEntrada){
@@ -1097,7 +1098,7 @@ bool auxBooleanTerm(Token * aux, std::list <Token> tokensEntrada){
         Token aux1 = tokensEntrada.front();
         aux = &aux1;
         if(booleanFactor(aux, tokensEntrada)){
-            auxBooleanTerm(aux, tokensEntrada)
+            auxBooleanTerm(aux, tokensEntrada);
         }
         else return false;
     }
@@ -1141,11 +1142,11 @@ bool booleanSecondary(Token * aux, std::list <Token> tokensEntrada){
     else return true;
 }
 
-bool booleanPrimary(Token * aux, std::list <Token> tokensEntrada){
+bool booleanPrimary(Token* aux, std::list <Token> tokensEntrada){
     if(!logicalValue(aux, tokensEntrada)){
         if(!variable(aux, tokensEntrada)){
             if(!functionDesignator(aux, tokensEntrada)){
-                if(!relation(aux, tokensEntrda)){
+                if(!relation(aux, tokensEntrada)){
                     if(aux->rotulo == "("){
                         tokensEntrada.pop_front();
                         Token aux1 = tokensEntrada.front();
@@ -1315,7 +1316,7 @@ bool auxSubscriptList(Token * aux, std::list <Token> tokensEntrada){
         Token aux1 = tokensEntrada.front();
         aux = &aux1;
         if (subscriptExpression(aux, tokensEntrada)){
-            auxSubscriptList(aux, tokensEntrada)
+            auxSubscriptList(aux, tokensEntrada);
         }
         else return false;
     }
