@@ -3,7 +3,7 @@
 #include "AnalisadorLexico.cpp"
 #include "AnalisadorSintdr.cpp"
 
-int main() {
+int main(){
     bool flag_lexico = true;
     std::list<Token> ClassesTokens;
 
@@ -21,8 +21,9 @@ int main() {
 
    if(ClassesTokens.empty()){
     std::cout << "Análise Sintática concluida com sucesso" << std::endl;
+   }else{
+    std::cout << "Análise Sintática não foi concluida com sucesso" << std::endl;
    }
-   else{
-    
-   }
+
+   return 0;
 }

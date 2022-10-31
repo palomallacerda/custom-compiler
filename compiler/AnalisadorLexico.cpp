@@ -201,8 +201,7 @@ std::list<Token> TokensLexico(){ //Metodo para retornar tokens lexicos
     return TokensClasses;
 }
 
-bool ChecaValidos(char *validos, char character, int size_arr)
-{
+bool ChecaValidos(char *validos, char character, int size_arr){
     //Procura por caracteres que não estão na gramática
     for (int i = 0; i < size_arr; i++)
     {
