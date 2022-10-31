@@ -26,6 +26,7 @@ int main(){
     //     std::cout << i.rotulo << " - " << i.tipo << std::endl;
     // }
     std::cout << "Análise Sintática não foi concluida com sucesso" << std::endl;
+    
    }
 
    return 0;

@@ -129,11 +129,11 @@ bool unlabelledCompound(Token* aux, std::list <Token>* tokensEntrada){
     }else return false;
 }
 
-bool declaration(Token* aux, std::list <Token>* TokensEntrada){
+bool declaration(Token* aux, std::list<Token>* TokensEntrada){
     std::cout <<"Depois do primeiro POP " << TokensEntrada->front().rotulo << std::endl;
     std::cout <<"aux POP " << aux->rotulo << std::endl;
 
-   if(!typedeclaration(aux, *TokensEntrada)){
+   if(!typedeclaration(aux, TokensEntrada)){
         if(!arrayDeclaration(aux, TokensEntrada)){
             if(!procedureDeclaration(aux, TokensEntrada)){
                 return false;
@@ -143,7 +143,7 @@ bool declaration(Token* aux, std::list <Token>* TokensEntrada){
    return true;
 }
 
-bool arrayDeclaration(Token* aux, std::list <Token>* tokensEntrada){
+bool arrayDeclaration(Token* aux, std::list<Token>* tokensEntrada){
     if(aux->rotulo == "array"){
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
@@ -152,7 +152,7 @@ bool arrayDeclaration(Token* aux, std::list <Token>* tokensEntrada){
             return true;
         }
     }
-    else if(Local_or_Own_type(aux, *tokensEntrada)){
+    else if(Local_or_Own_type(aux, tokensEntrada)){
         if(aux->rotulo=="array"){
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
@@ -472,7 +472,10 @@ bool procedureBody(Token* aux, std::list <Token>* tokensEntrada){
 }
 
 bool typedeclaration(Token* aux, std::list <Token>* tokensEntrada){
-    if(Local_or_Own_type(aux, *tokensEntrada)){
+
+    if(Local_or_Own_type(aux, tokensEntrada)){
+        Token aux1 = tokensEntrada->front();
+        aux = &aux1;
         if(typeList(aux, tokensEntrada)){
             return true;
         }
@@ -486,9 +489,7 @@ bool typeList(Token* aux, std::list <Token>* tokensEntrada){
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
-            if(typeList(aux, tokensEntrada)){
-                return true;
-            }
+            typeList(aux, tokensEntrada);
         }
         else return true;
     }
@@ -501,11 +502,8 @@ bool simpleVariable(Token* aux, std::list <Token>* tokensEntrada){
 
 bool Local_or_Own_type(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "integer"){
-        // std::list<Token>* tokensEntrada
-        //tokensEntrada->pop_front();
         tokensEntrada->pop_front();
-        Token aux1 = tokensEntrada->front();
-        aux = &aux1;
+        std::cout << "aux dps da troca " << tokensEntrada->front().rotulo << std::endl;
         return true;
     }
     else if(aux->rotulo == "own"){
@@ -1041,6 +1039,9 @@ bool simplesDesignationalExpression(Token* aux, std::list <Token>* tokensEntrada
 bool identifier(Token* aux, std::list <Token>* tokensEntrada){
     char character;
     character = aux->rotulo[0];
+
+    std::cout << "Aux do identifier - " << aux->rotulo << std::endl;
+
     std::cout << "SEJA O Y PFV - " << character << std::endl;
 
     int tam = aux->rotulo.size();
@@ -1507,7 +1508,7 @@ bool subscriptedVariable(Token* aux, std::list <Token>* tokensEntrada){
 bool arrayIdentifier(Token * aux, std::list <Token>* tokensEntrada){
     return identifier(aux, tokensEntrada) ? true : false;
 }
-
+// ERRROOR
 bool subscriptList(Token * aux, std::list <Token>* tokensEntrada){
     if(!subscriptExpression(aux, tokensEntrada)){
         if(subscriptList(aux, tokensEntrada)){ //recursividade a esquerda [retirar]
