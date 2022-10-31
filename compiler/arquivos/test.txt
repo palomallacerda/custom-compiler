@@ -1,2 +1,4 @@
-begin 
-
+begin
+    integer y;
+    y := 0;
+end
