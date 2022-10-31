@@ -324,7 +324,6 @@ bool specificationPart(Token* aux, std::list <Token>* tokensEntrada){
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
-                
                 if(auxSpecificationPart(aux, tokensEntrada)){
                     return true;
                 }

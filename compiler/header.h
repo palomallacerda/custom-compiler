@@ -9,6 +9,14 @@ class Token{
         std::string tipo;
 };
 
+class TabelaPred{
+    public:
+        std::string nome;
+        std::string tipo;
+        std::string valorInicial;
+        std::string escopo;
+};
+
 bool Analisador_Lexico();
 
 //---------- Encontrando os Simples
