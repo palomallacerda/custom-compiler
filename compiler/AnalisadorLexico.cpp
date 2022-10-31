@@ -3,6 +3,7 @@
 #include "header.h"
 #include "FuncoesSimples.cpp"
 #include "VerificadorReservadas.cpp"
+#pragma once
 
 std::list<Token> TokensClasses; //Lista final do output
 
@@ -24,7 +25,7 @@ bool Analisador_Lexico(){
     bool s_sep;
 
     std::fstream File;    //Criando o objeto (arquivo)
-    File.open("arquivos/algol.txt", std::ios_base::in);
+    File.open("arquivos/loop.txt", std::ios_base::in);
 
     if(File.is_open()){
         char character;
@@ -189,10 +190,10 @@ bool Analisador_Lexico(){
     TokensClasses.push_back(Classe);
 
     //Imprimindo lista com os tokens Finais
-    for (auto i: TokensClasses)
-    {
-            std::cout << i.tipo << " - " << i.rotulo << std::endl;
-    }
+    // for (auto i: TokensClasses)
+    // {
+    //         std::cout << i.tipo << " - " << i.rotulo << std::endl;
+    // }
 
     return true;
 }

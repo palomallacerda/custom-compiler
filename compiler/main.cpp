@@ -16,12 +16,15 @@ int main(){
     }
 
    ClassesTokens = TokensLexico();
-
    ClassesTokens = InicialState(ClassesTokens);
 
    if(ClassesTokens.empty()){
     std::cout << "Análise Sintática concluida com sucesso" << std::endl;
    }else{
+    // std::cout << "PILHA DPS DO SINTATICO" << std::endl;
+    // for (auto i : ClassesTokens){
+    //     std::cout << i.rotulo << " - " << i.tipo << std::endl;
+    // }
     std::cout << "Análise Sintática não foi concluida com sucesso" << std::endl;
    }
 

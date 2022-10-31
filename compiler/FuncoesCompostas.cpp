@@ -55,7 +55,7 @@ std::list<Token> SeekAssigment(int &validAssigment, std::string* compSeparators,
         Token Classe;
         Classe.tipo = "Idenficador Reservado";
         Classe.rotulo = assigment;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -75,7 +75,7 @@ std::list<Token> SeekStep(int &validStep, std::string* compSeparators,char chara
         Token Classe;
         Classe.tipo = "Idenficador Reservado";
         Classe.rotulo = step;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -95,7 +95,7 @@ std::list<Token> Seekuntil(int &validUntil, std::string* compSeparators,char cha
         Token Classe;
         Classe.tipo = "Idenficador Reservado";
         Classe.rotulo = until;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -115,7 +115,7 @@ std::list<Token> SeekWhile(int &validWhile, std::string* compSeparators,char cha
         Token Classe;
         Classe.tipo = "Idenficador Reservado";
         Classe.rotulo = While;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -148,7 +148,7 @@ std::list<Token> SeekMenorIgual(int &validMenorIgual, std::string* opCompRelatio
         Token Classe;
         Classe.tipo = "Idenficador Reservado";
         Classe.rotulo = menorIgual;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -168,7 +168,7 @@ std::list<Token> SeekDiferente(int &validDiferente, std::string* opCompRelationa
         Token Classe;
         Classe.tipo = "Idenficador Reservado";
         Classe.rotulo = diferente;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -188,7 +188,7 @@ std::list<Token> SeekMaiorIgual(int &validMaiorigual, std::string* opCompRelatio
         Token Classe;
         Classe.tipo = "Idenficador Reservado";
         Classe.rotulo = maiorIgual;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -248,7 +248,7 @@ std::list<Token> SeekArray(int &validArray, std::string* declarador, char charac
         Token Classe;
         Classe.tipo = "Idenficador Reservado";
         Classe.rotulo = array;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
@@ -288,7 +288,7 @@ std::list<Token> SeekGoto(int &validGoto, std::string* opSequential, char charac
         Token Classe;
         Classe.tipo = "Idenficador Reservado";
         Classe.rotulo = goTo;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
