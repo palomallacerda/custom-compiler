@@ -41,14 +41,43 @@ std::list<Token> InicialState(std::list <Token> tokensEntrada){
             }
         }
     }
+    if(tokensEntrada.front().rotulo == "0"){
+        tabelaAtual.nome = tokensEntrada.front().rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = tokensEntrada.front().tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
 
+        tokensEntrada.pop_front();
+        if(tokensEntrada.front().rotulo == ";"){
+            tabelaAtual.nome = tokensEntrada.front().rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = tokensEntrada.front().tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
+            tokensEntrada.pop_front();
+        }
+        if(tokensEntrada.front().rotulo == "end"){
+            tabelaAtual.nome = tokensEntrada.front().rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = tokensEntrada.front().tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+            tokensEntrada.pop_front();
+        }
+        if(tokensEntrada.front().rotulo == "$"){
+            tokensEntrada.pop_front();
+        }
+        
+    }
     std::cout << "PILHA NO SINTATICO" << std::endl;
     for (auto i : tokensEntrada){
         std::cout << i.rotulo << " - " << i.tipo << std::endl;
     }
     std::cout << "##################################################################" << std::endl;
     for (auto i : tabelaList){
-        std::cout << "# Nome - " << i.nome << " | Tipo - " << i.tipo <<" | Valor Inicial - " <<  i.valorInicial << " | Escopo - " << i.valorInicial << std::endl;
+        std::cout << "# Nome - " << i.nome << " | Tipo - " << i.tipo <<" | Valor Inicial - " <<  i.valorInicial << " | Escopo - " << i.escopo << std::endl;
     }
     std::cout << "##################################################################" << std::endl;
     
@@ -58,7 +87,6 @@ std::list<Token> InicialState(std::list <Token> tokensEntrada){
 bool block(Token* aux, std::list <Token>* tokensEntrada){
     if(!UnlabelledBlock(aux, tokensEntrada)){
         if(label(aux, tokensEntrada)){
-
             if (tokensEntrada->front().rotulo == ":")
             {
                 tabelaAtual.nome = tokensEntrada->front().rotulo;
@@ -74,7 +102,11 @@ bool block(Token* aux, std::list <Token>* tokensEntrada){
             }
             else return false;
         }
-        else return false;
+        else {
+            std::cout <<"ESSE FALSE AQUI\n";
+
+            return false;
+        }
     }
     return true;
 }
@@ -82,7 +114,7 @@ bool block(Token* aux, std::list <Token>* tokensEntrada){
 bool UnlabelledBlock(Token* aux, std::list <Token>* tokensEntrada){
     if (blockHead(aux, tokensEntrada)){
         // A pilha ta fazendo retornar pro begin
-        std::cout << "PONTO E VIRGULA AQUI " << tokensEntrada->front().rotulo << std::endl;
+        // std::cout << "PONTO E VIRGULA AQUI " << tokensEntrada->front().rotulo << std::endl;
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         if (tokensEntrada->front().rotulo == ";"){
@@ -91,12 +123,10 @@ bool UnlabelledBlock(Token* aux, std::list <Token>* tokensEntrada){
             tabelaAtual.tipo = tokensEntrada->front().tipo;
             tabelaAtual.valorInicial = "null";
             tabelaList.push_back(tabelaAtual);
-            std::cout << "Add o ; a tabela " << tokensEntrada->front().rotulo << std::endl;
 
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
-            std:: cout << "EITA KARAI \n";
             if (compoundTail(aux, tokensEntrada)){
                 return true;
             }
@@ -155,6 +185,9 @@ bool blockaux(Token* aux, std::list <Token>* tokensEntrada){
 bool compoundStatement(Token* aux, std::list <Token>* tokensEntrada){
     if(!unlabelledCompound(aux, tokensEntrada)){
         if(label(aux, tokensEntrada)){
+            // std:: cout << "ONDE É\n";
+            std:: cout << tokensEntrada->front().rotulo <<"\n";
+
             if(tokensEntrada->front().rotulo == ":"){
                 tabelaAtual.nome = tokensEntrada->front().rotulo;
                 tabelaAtual.escopo = "local";
@@ -184,13 +217,18 @@ bool unlabelledCompound(Token* aux, std::list <Token>* tokensEntrada){
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
-        return compoundTail(aux, tokensEntrada) ? true : false;
+        if(compoundTail(aux, tokensEntrada)){
+            return true;
+        }
+        else {
+            return false;
+        }
     }else return false;
 }
 
 bool declaration(Token* aux, std::list<Token>* TokensEntrada){
-    std::cout <<"Depois do primeiro POP " << TokensEntrada->front().rotulo << std::endl;
-    std::cout <<"aux POP " << aux->rotulo << std::endl;
+    // std::cout <<"Depois do primeiro POP " << TokensEntrada->front().rotulo << std::endl;
+    // std::cout <<"aux POP " << aux->rotulo << std::endl;
 
    if(!typedeclaration(aux, TokensEntrada)){
         if(!arrayDeclaration(aux, TokensEntrada)){
@@ -729,10 +767,11 @@ bool Local_or_Own_type(Token* aux, std::list <Token>* tokensEntrada){
 }
 
 bool compoundTail(Token* aux, std::list <Token>* tokensEntrada){
+    // caminho correto para o 0
     if(statement(aux, tokensEntrada)){
         if(tokensEntrada->front().rotulo == "end"){
             tabelaAtual.nome = tokensEntrada->front().rotulo;
-            tabelaAtual.escopo = "global";
+            tabelaAtual.escopo = "local";
             tabelaAtual.tipo = tokensEntrada->front().tipo;
             tabelaAtual.valorInicial = "null";
             tabelaList.push_back(tabelaAtual);
@@ -752,9 +791,11 @@ bool compoundTail(Token* aux, std::list <Token>* tokensEntrada){
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
-            return compoundTail(aux, tokensEntrada) ? true : false;
+            //modificação do retorno
+            compoundTail(aux, tokensEntrada);
         }
     }
+    std:: cout << "onde deveria estar o zero - " << tokensEntrada->front().rotulo<< "\n";
     return false;
 }
 
@@ -764,12 +805,13 @@ bool statement(Token* aux, std::list <Token>* tokensEntrada){
             return forStatement(aux, tokensEntrada) ? true : false;
         }
     }
+    std::cout << "NESSE\n";
     return true;
 }
 
 bool uncoditionalStatement(Token* aux, std::list <Token>* tokensEntrada){
     if(!basicStatement(aux,tokensEntrada)){
-        if(!compoundStatement(aux, tokensEntrada)){
+        if(!compoundStatement(aux, tokensEntrada)){        
             return block(aux, tokensEntrada) ? true : false;
         }
     }
@@ -804,6 +846,8 @@ bool label(Token* aux, std::list <Token>* tokensEntrada){
         if(!unsignedInteger(aux, tokensEntrada)){
             return false;
         }
+        std::cout<<"INTEGER CHAMOU DIGIT\n";
+
     }
     return true;
 }
@@ -825,7 +869,7 @@ bool unsignedInteger(Token* aux, std::list <Token>* tokensEntrada){
     int i = 0;
     char character = tokensEntrada->front().rotulo[0];
     int tam = tokensEntrada->front().rotulo.size();
-
+    std::cout << "O zero ta aqui " << tokensEntrada->front().rotulo << std::endl;
     if(digit(aux, tokensEntrada, character)){
         return true;
     }
@@ -921,14 +965,16 @@ bool assignmentStatement(Token* aux, std::list <Token>* tokensEntrada){
         return true;
     }
     else if (leftPart(aux, tokensEntrada)){
+        std:: cout << "HUMMMMM \n";
+
         return true;
     }
     return false;
 }
 
 bool leftPart(Token* aux, std::list <Token>* tokensEntrada){
-    std:: cout << "HUMMMMM \n";
     if(variable(aux, tokensEntrada)){
+
         if(tokensEntrada->front().rotulo == ":="){
             tabelaAtual.nome = tokensEntrada->front().rotulo;
             tabelaAtual.escopo = "local";
@@ -1274,6 +1320,7 @@ bool integer(Token* aux, std::list <Token>* tokensEntrada){
         }
         else return false;
     }
+
     return true;
 }
 
@@ -1742,7 +1789,7 @@ bool bracket(Token* aux, std::list <Token>* tokensEntrada){
     else if(tokensEntrada->front().rotulo == "end"){
 
         tabelaAtual.nome = tokensEntrada->front().rotulo;
-        tabelaAtual.escopo = "local";
+        tabelaAtual.escopo = "Global";
         tabelaAtual.tipo = tokensEntrada->front().tipo;
         tabelaAtual.valorInicial = "null";
         tabelaList.push_back(tabelaAtual);
@@ -1900,7 +1947,7 @@ bool sequentialOperator(Token* aux, std::list <Token>* tokensEntrada){
 bool auxIdentifier(Token* aux, std::list <Token>* tokensEntrada, char character, int i, int tam){
     i++;
     if(i == tam-1){
-        std::cout <<"TRUE"<<std::endl;
+        // std::cout <<"TRUE"<<std::endl;
         //add aqui na tabela de precedencia
         return true;
     }
@@ -2219,7 +2266,7 @@ bool subscriptList(Token * aux, std::list <Token>* tokensEntrada){
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
-                
+
                 if(subscriptExpression(aux, tokensEntrada)){
                     return true;
                 }
@@ -2246,6 +2293,7 @@ bool digit(Token* aux, std::list <Token>* tokensEntrada, char character){
     //terminais digitos
     char digits[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     if(ChecaValidos(digits, character, sizeof(digits)/ sizeof(digits[0]))){
+        std::cout <<"DEU BOM\n";
         return true;
     }
     else return false;
