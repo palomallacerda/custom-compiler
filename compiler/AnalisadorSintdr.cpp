@@ -96,6 +96,7 @@ bool UnlabelledBlock(Token* aux, std::list <Token>* tokensEntrada){
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
+            std:: cout << "EITA KARAI \n";
             if (compoundTail(aux, tokensEntrada)){
                 return true;
             }
@@ -926,6 +927,7 @@ bool assignmentStatement(Token* aux, std::list <Token>* tokensEntrada){
 }
 
 bool leftPart(Token* aux, std::list <Token>* tokensEntrada){
+    std:: cout << "HUMMMMM \n";
     if(variable(aux, tokensEntrada)){
         if(tokensEntrada->front().rotulo == ":="){
             tabelaAtual.nome = tokensEntrada->front().rotulo;
@@ -1081,6 +1083,8 @@ bool expression(Token* aux, std::list <Token>* tokensEntrada){
 }
 
 bool arithmeticExpression(Token* aux, std::list <Token>* tokensEntrada){
+    Token aux1 = tokensEntrada->front();
+    aux = &aux1;
     if(!simpleArithmeticExpression(aux, tokensEntrada)){
         if(ifClause(aux, tokensEntrada)){
             if(simpleArithmeticExpression(aux, tokensEntrada)){
@@ -1093,7 +1097,11 @@ bool arithmeticExpression(Token* aux, std::list <Token>* tokensEntrada){
             }
             else return false;
         }
-        else return false;
+        else{
+            tokensEntrada->push_front(*aux);
+            return false;
+        }
+            
     }
     return true;
 }
