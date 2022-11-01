@@ -189,7 +189,7 @@ bool Analisador_Lexico(){
     Classe.rotulo = "$";
     TokensClasses.push_back(Classe);
 
-    //Imprimindo lista com os tokens Finais
+    // Imprimindo lista com os tokens Finais
     // for (auto i: TokensClasses)
     // {
     //         std::cout << i.tipo << " - " << i.rotulo << std::endl;

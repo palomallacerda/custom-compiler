@@ -6,6 +6,9 @@
 //     Resolver o erro de ponteiro nas listas de tokens
 //
 
+std::list <TabelaPred> tabelaList; //Tabala preditiva
+TabelaPred tabelaAtual;
+
 std::list<Token> InicialState(std::list <Token> tokensEntrada){
     int tam = tokensEntrada.size();
     Token *aux = &tokensEntrada.front();
@@ -22,6 +25,7 @@ std::list<Token> InicialState(std::list <Token> tokensEntrada){
                     std::cout << i.tipo << " - " << i.rotulo << std::endl;
                 }
             }
+
         }
     }
     else{
@@ -32,6 +36,12 @@ std::list<Token> InicialState(std::list <Token> tokensEntrada){
     for (auto i : tokensEntrada){
         std::cout << i.rotulo << " - " << i.tipo << std::endl;
     }
+    std::cout << "###############################################################" << std::endl;
+    for (auto i : tabelaList){
+        std::cout << "# Nome - " << i.nome << " # Tipo - " << i.tipo <<" # Valor Inicial - " <<  i.valorInicial << " # Escopo - " << i.valorInicial << std::endl;
+    }
+    std::cout << "###############################################################" << std::endl;
+    
     return tokensEntrada;
 }
 
@@ -41,6 +51,12 @@ bool block(Token* aux, std::list <Token>* tokensEntrada){
 
             if (aux->rotulo == ":")
             {
+                tabelaAtual.nome = aux->rotulo;
+                tabelaAtual.escopo = "local";
+                tabelaAtual.tipo = aux->tipo;
+                tabelaAtual.valorInicial = "null";
+                tabelaList.push_back(tabelaAtual);
+
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
@@ -57,8 +73,13 @@ bool UnlabelledBlock(Token* aux, std::list <Token>* tokensEntrada){
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
 
-        if (tokensEntrada->front().rotulo == ";")
-        {
+        if (tokensEntrada->front().rotulo == ";"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
@@ -72,9 +93,13 @@ bool UnlabelledBlock(Token* aux, std::list <Token>* tokensEntrada){
 
 bool blockHead(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "begin"){
-        std::cout << "AQUI O BEGIN DO BLOCKHEAD" << std::endl;
-        tokensEntrada->pop_front();
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "global";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
 
+        tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         if(declaration(aux, tokensEntrada)){
@@ -86,13 +111,21 @@ bool blockHead(Token* aux, std::list <Token>* tokensEntrada){
     }
     else{
         if(blockaux(aux, tokensEntrada)){
-            return true;
+            if(aux->rotulo == ";"){
+                tokensEntrada->pop_front();
+                Token aux1 = tokensEntrada->front();
+                aux = &aux1;
+            }
+            else return false;
         }
         else{
             //Colocar uma opção para ir add a lista de erro
             return false;
         }
+        return false;   
     }
+    
+
 }
 
 bool blockaux(Token* aux, std::list <Token>* tokensEntrada){
@@ -109,6 +142,12 @@ bool compoundStatement(Token* aux, std::list <Token>* tokensEntrada){
     if(!unlabelledCompound(aux, tokensEntrada)){
         if(label(aux, tokensEntrada)){
             if(aux->rotulo == ":"){
+                tabelaAtual.nome = aux->rotulo;
+                tabelaAtual.escopo = "local";
+                tabelaAtual.tipo = aux->tipo;
+                tabelaAtual.valorInicial = "null";
+                tabelaList.push_back(tabelaAtual);
+
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
@@ -122,6 +161,12 @@ bool compoundStatement(Token* aux, std::list <Token>* tokensEntrada){
 
 bool unlabelledCompound(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "begin"){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "global";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -145,6 +190,12 @@ bool declaration(Token* aux, std::list<Token>* TokensEntrada){
 
 bool arrayDeclaration(Token* aux, std::list<Token>* tokensEntrada){
     if(aux->rotulo == "array"){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "global";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -154,6 +205,12 @@ bool arrayDeclaration(Token* aux, std::list<Token>* tokensEntrada){
     }
     else if(Local_or_Own_type(aux, tokensEntrada)){
         if(aux->rotulo=="array"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
@@ -176,6 +233,12 @@ bool arrayList(Token* aux, std::list <Token>* tokensEntrada){
 }
 bool auxArrayList(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == ","){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -190,21 +253,39 @@ bool auxArrayList(Token* aux, std::list <Token>* tokensEntrada){
 bool arraySegment(Token* aux, std::list <Token>* tokensEntrada){
     if(arrayIdentifier(aux, tokensEntrada)){
         if(aux->rotulo == "["){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
         
             if(boundPairList(aux, tokensEntrada)){
                 if(aux->rotulo == "]"){
+                    tabelaAtual.nome = aux->rotulo;
+                    tabelaAtual.escopo = "local";
+                    tabelaAtual.tipo = aux->tipo;
+                    tabelaAtual.valorInicial = "null";
+                    tabelaList.push_back(tabelaAtual);
+
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
-        
+
                 return true;
                 }
             }
         }
         else if(aux->rotulo == ","){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
@@ -229,6 +310,12 @@ bool boundPairList(Token* aux, std::list <Token>* tokensEntrada){
 
 bool auxBoundPair(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == ","){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -244,6 +331,12 @@ bool auxBoundPair(Token* aux, std::list <Token>* tokensEntrada){
 bool boundPair(Token* aux, std::list <Token>* tokensEntrada){
     if(lowerBound(aux, tokensEntrada)){
         if(aux->rotulo == ":"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
@@ -262,6 +355,12 @@ bool lowerBound(Token* aux, std::list <Token>* tokensEntrada){
 
 bool procedureDeclaration(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "procedure"){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "global";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -273,6 +372,12 @@ bool procedureDeclaration(Token* aux, std::list <Token>* tokensEntrada){
     }
     else if(type(aux, tokensEntrada)){
         if(aux->rotulo == "procedure"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
@@ -299,6 +404,12 @@ bool procedureHeading(Token* aux, std::list <Token>* tokensEntrada){
     if(procedureIdentifier(aux, tokensEntrada)){
         if(formalParameterPart(aux, tokensEntrada)){
             if(aux->rotulo == ";"){
+                tabelaAtual.nome = aux->rotulo;
+                tabelaAtual.escopo = "local";
+                tabelaAtual.tipo = aux->tipo;
+                tabelaAtual.valorInicial = "null";
+                tabelaList.push_back(tabelaAtual);
+
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
@@ -321,6 +432,12 @@ bool specificationPart(Token* aux, std::list <Token>* tokensEntrada){
      else if(specifier(aux, tokensEntrada)){
         if(identifierList(aux, tokensEntrada)){
             if(aux->rotulo == ";"){
+                tabelaAtual.nome = aux->rotulo;
+                tabelaAtual.escopo = "local";
+                tabelaAtual.tipo = aux->tipo;
+                tabelaAtual.valorInicial = "null";
+                tabelaList.push_back(tabelaAtual);
+
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
@@ -339,7 +456,7 @@ bool auxSpecificationPart(Token* aux, std::list <Token>* tokensEntrada){
             auxSpecificationPart(aux, tokensEntrada);
         }
         else return false;
-     }
+    }
      return true;
 }
 
@@ -354,6 +471,12 @@ bool identifierList(Token* aux, std::list <Token>* tokensEntrada){
 
 bool auxIdentifierList(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == ","){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -366,18 +489,36 @@ bool auxIdentifierList(Token* aux, std::list <Token>* tokensEntrada){
 
 bool specifier(Token* aux, std::list <Token>* tokensEntrada){
      if(aux->rotulo == "array"){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "global";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         return true;
      }
      else if(aux->rotulo == "label"){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "global";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         return true;
      }
      else if(aux->rotulo == "procedure"){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "global";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -386,6 +527,12 @@ bool specifier(Token* aux, std::list <Token>* tokensEntrada){
      else{
         if(type(aux, tokensEntrada)){
             if(aux->rotulo == "procedure"){
+                tabelaAtual.nome = aux->rotulo;
+                tabelaAtual.escopo = "local";
+                tabelaAtual.tipo = aux->tipo;
+                tabelaAtual.valorInicial = "null";
+                tabelaList.push_back(tabelaAtual);
+
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
@@ -404,6 +551,12 @@ bool valuePart(Token* aux, std::list <Token>* tokensEntrada){
         if(identifierList(aux, tokensEntrada)){
             if(aux->rotulo==";")
             {
+                tabelaAtual.nome = aux->rotulo;
+                tabelaAtual.escopo = "local";
+                tabelaAtual.tipo = aux->tipo;
+                tabelaAtual.valorInicial = "null";
+                tabelaList.push_back(tabelaAtual);
+
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
@@ -417,11 +570,23 @@ bool valuePart(Token* aux, std::list <Token>* tokensEntrada){
 
 bool formalParameterPart(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "("){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         if(formalParameterList(aux, tokensEntrada)){
             if(aux->rotulo == ")"){
+                tabelaAtual.nome = aux->rotulo;
+                tabelaAtual.escopo = "local";
+                tabelaAtual.tipo = aux->tipo;
+                tabelaAtual.valorInicial = "null";
+                tabelaList.push_back(tabelaAtual);
+
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
@@ -448,12 +613,18 @@ bool auxFormalParameterList(Token* aux, std::list <Token>* tokensEntrada){
         }
         else return false;
     }
-    
+
     return true;
 }
 
 bool parameterDelimiter(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == ","){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -485,6 +656,12 @@ bool typedeclaration(Token* aux, std::list <Token>* tokensEntrada){
 bool typeList(Token* aux, std::list <Token>* tokensEntrada){
     if(simpleVariable(aux, tokensEntrada)){
         if(aux->rotulo == ","){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
@@ -501,15 +678,33 @@ bool simpleVariable(Token* aux, std::list <Token>* tokensEntrada){
 
 bool Local_or_Own_type(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "integer"){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
-        std::cout << "aux dps da troca " << tokensEntrada->front().rotulo << std::endl;
+        std::cout << "Token após pop " << tokensEntrada->front().rotulo << std::endl;
         return true;
     }
     else if(aux->rotulo == "own"){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         if(aux->rotulo == "integer"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
@@ -522,12 +717,24 @@ bool Local_or_Own_type(Token* aux, std::list <Token>* tokensEntrada){
 bool compoundTail(Token* aux, std::list <Token>* tokensEntrada){
     if(statement(aux, tokensEntrada)){
         if(aux->rotulo == "end"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "global";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
             return true;
         }
         else if(aux->rotulo == ";"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
@@ -559,6 +766,12 @@ bool basicStatement(Token* aux, std::list <Token>* tokensEntrada){
     if(!UnlabelledbasicStatement(aux, tokensEntrada)){
         if(label(aux, tokensEntrada)){
             if(aux->rotulo == ":"){
+                tabelaAtual.nome = aux->rotulo;
+                tabelaAtual.escopo = "local";
+                tabelaAtual.tipo = aux->tipo;
+                tabelaAtual.valorInicial = "null";
+                tabelaList.push_back(tabelaAtual);
+
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
@@ -596,7 +809,7 @@ bool unsignedInteger(Token* aux, std::list <Token>* tokensEntrada){
     int i = 0;
     char character = aux->rotulo[0];
     int tam = aux->rotulo.size();
-    
+
     if(digit(aux, tokensEntrada, character)){
         return true;
     }
@@ -623,12 +836,21 @@ bool unsignedIntegerAux(Token* aux, std::list <Token>* tokensEntrada, char chara
 bool conditionalStatement(Token* aux, std::list <Token>* tokensEntrada){
      if(ifStatement(aux, tokensEntrada)){
         if(aux->rotulo == "else"){ //entre no segundo ou
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
+            tokensEntrada->pop_front();
+            Token aux1 = tokensEntrada->front();
+            aux = &aux1;
             if(statement(aux, tokensEntrada)){
                 return true;
             }
         }
         return false;
-     }
+    }
      else if(ifClause(aux, tokensEntrada)){
         if(forStatement(aux, tokensEntrada)){
             return true;
@@ -636,6 +858,12 @@ bool conditionalStatement(Token* aux, std::list <Token>* tokensEntrada){
      }
      else if(label(aux, tokensEntrada)){
         if(aux->rotulo == ":"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
@@ -653,6 +881,12 @@ bool forStatement(Token* aux, std::list <Token>* tokensEntrada){
     }
     else if(label(aux, tokensEntrada)){
         if(aux->rotulo == ":"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
@@ -677,19 +911,31 @@ bool assignmentStatement(Token* aux, std::list <Token>* tokensEntrada){
 bool leftPart(Token* aux, std::list <Token>* tokensEntrada){
     if(variable(aux, tokensEntrada)){
         if(aux->rotulo == ":="){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
-            
+
             return true;
         }
     }
     else if(procedureIdentifier(aux, tokensEntrada)){
         if(aux->rotulo == ":="){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
-            
+
             return true;
         }
     }
@@ -698,9 +944,29 @@ bool leftPart(Token* aux, std::list <Token>* tokensEntrada){
 }
 bool forClause(Token *aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "for"){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
+        tokensEntrada->pop_front();
+        Token aux1 = tokensEntrada->front();
+        aux = &aux1;
+
         if(variable(aux, tokensEntrada)){
             if(forList(aux, tokensEntrada)){
                 if(aux->rotulo == "do"){
+                    tabelaAtual.nome = aux->rotulo;
+                    tabelaAtual.escopo = "local";
+                    tabelaAtual.tipo = aux->tipo;
+                    tabelaAtual.valorInicial = "null";
+                    tabelaList.push_back(tabelaAtual);
+                    
+                    tokensEntrada->pop_front();
+                    Token aux1 = tokensEntrada->front();
+                    aux = &aux1;
+
                     return true;
                 }
             }
@@ -720,6 +986,13 @@ bool forList(Token* aux, std::list <Token>* tokensEntrada){
 
 bool forListAux(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == ","){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -734,11 +1007,24 @@ bool forListAux(Token* aux, std::list <Token>* tokensEntrada){
 bool forListElement(Token* aux, std::list <Token>* tokensEntrada){
     if(arithmeticExpression(aux, tokensEntrada)){
         if(aux->rotulo == "step"){
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "global";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
             if(arithmeticExpression(aux, tokensEntrada)){
                 if(aux->rotulo == "until"){
+
+                    tabelaAtual.nome = aux->rotulo;
+                    tabelaAtual.escopo = "global";
+                    tabelaAtual.tipo = aux->tipo;
+                    tabelaAtual.valorInicial = "null";
+                    tabelaList.push_back(tabelaAtual);
                     tokensEntrada->pop_front();
                     Token aux1 = tokensEntrada->front();
                     aux = &aux1;
@@ -749,6 +1035,12 @@ bool forListElement(Token* aux, std::list <Token>* tokensEntrada){
             }
         }
         else if(aux->rotulo == "while"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "global";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
@@ -811,6 +1103,13 @@ bool auxSimpleArithmeticExpression(Token* aux, std::list <Token>* tokensEntrada)
 }
 bool addingOperator(Token *aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "+"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -847,6 +1146,12 @@ bool auxTerm(Token* aux, std::list <Token>* tokensEntrada){
 
 bool multiplyingOperator(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "*"){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -876,6 +1181,13 @@ bool primary(Token* aux, std::list <Token>* tokensEntrada){
 
 bool exponentialPart(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "^"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -889,18 +1201,36 @@ bool exponentialPart(Token* aux, std::list <Token>* tokensEntrada){
 bool integer(Token* aux, std::list <Token>* tokensEntrada){
     if(!unsignedInteger(aux, tokensEntrada)){
         if(aux->rotulo == "+"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
+            tokensEntrada->pop_front();
+            Token aux1 = tokensEntrada->front();
+            aux = &aux1;
             if(unsignedInteger(aux, tokensEntrada)){
                 return true;
             }
         }
         else if(aux->rotulo == "-"){
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
+            tokensEntrada->pop_front();
+            Token aux1 = tokensEntrada->front();
+            aux = &aux1;
             if(unsignedInteger(aux, tokensEntrada)){
                 return true;
             }
         }
-        else return true;
+        else return false;
     }
-    return false;
+    return true;
 }
 
 bool functionDesignator(Token* aux, std::list <Token>* tokensEntrada){
@@ -913,16 +1243,39 @@ bool functionDesignator(Token* aux, std::list <Token>* tokensEntrada){
 }
 
 bool procedureIdentifier(Token* aux, std::list <Token>* tokensEntrada){
-    return identifier(aux, tokensEntrada) ? true : false;
+    if(identifier(aux, tokensEntrada)){
+        return true;
+    }
+    else{
+        return false;
+    } 
 }
 
 bool actualParameterPart(Token* aux, std::list <Token>* tokensEntrada){
+    std::cout << "Valor no actualParameter aux " << aux->rotulo << std::endl;
+
+    std::cout << "Valor no actualParameter" << tokensEntrada->front().rotulo << std::endl;
+
     if (aux->rotulo == "("){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         if (actualParameterList(aux, tokensEntrada)){
             if ( aux->rotulo == ")"){
+
+                tabelaAtual.nome = aux->rotulo;
+                tabelaAtual.escopo = "local";
+                tabelaAtual.tipo = aux->tipo;
+                tabelaAtual.valorInicial = "null";
+                tabelaList.push_back(tabelaAtual);
+
                 tokensEntrada->pop_front();
                 Token aux1 = tokensEntrada->front();
                 aux = &aux1;
@@ -931,9 +1284,8 @@ bool actualParameterPart(Token* aux, std::list <Token>* tokensEntrada){
         }
         return false;
     }
-    else {
-        return true;
-    }
+
+    return true;
 }
 
 bool actualParameterList(Token* aux, std::list <Token>* tokensEntrada){
@@ -968,6 +1320,13 @@ bool actualParameter(Token* aux, std::list <Token>* tokensEntrada){
 
 bool goToStatement(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "goto"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -984,6 +1343,7 @@ bool dummyStatement(Token* aux, std::list <Token>* tokensEntrada){
 bool procedureStatement(Token* aux, std::list <Token>* tokensEntrada){
     if(procedureIdentifier(aux, tokensEntrada)){
         if(actualParameterPart(aux, tokensEntrada)){
+            std::cout << "ESSE TRUE AQUI "<< std::endl;
             return true;
         }
     }
@@ -996,6 +1356,13 @@ bool designationalExpression(Token* aux, std::list <Token>* tokensEntrada){
         if(ifClause(aux, tokensEntrada)){
             if(simplesDesignationalExpression(aux, tokensEntrada)){
                 if(aux->rotulo == "else"){
+
+                    tabelaAtual.nome = aux->rotulo;
+                    tabelaAtual.escopo = "local";
+                    tabelaAtual.tipo = aux->tipo;
+                    tabelaAtual.valorInicial = "null";
+                    tabelaList.push_back(tabelaAtual);
+
                     tokensEntrada->pop_front();
                     Token aux1 = tokensEntrada->front();
                     aux = &aux1;
@@ -1011,6 +1378,13 @@ bool designationalExpression(Token* aux, std::list <Token>* tokensEntrada){
 
 bool ifClause(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "if"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1045,13 +1419,27 @@ bool identifier(Token* aux, std::list <Token>* tokensEntrada){
 
     int tam = aux->rotulo.size();
     if(letter(aux, tokensEntrada, character)){
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
+        tokensEntrada->pop_front();
+        Token aux1 = tokensEntrada->front();
+        aux = &aux1;
+
         if(auxIdentifier(aux, tokensEntrada, character, 0, tam))
         {
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
-            return true;
         }
+        std::cout << "Letter Aux odemt - " << aux->rotulo << std::endl;
+
+        std::cout << "valor do token - " << tokensEntrada->front().rotulo << std::endl;
+
+        return true;
     }
 
     return false;
@@ -1065,9 +1453,28 @@ bool basicSymbol(Token* aux, std::list <Token>* tokensEntrada, char character){
                     return false;
                 }
             }
+            return true;
+        }
+        else{
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = aux->rotulo;
+            tabelaList.push_back(tabelaAtual);
+            return true;
+
         }
     }
-    return true;
+    else{
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+        return true;
+    }
 }
 
 bool delimiterFunction(Token* aux, std::list <Token>* tokensEntrada){
@@ -1088,42 +1495,91 @@ bool delimiterFunction(Token* aux, std::list <Token>* tokensEntrada){
 
 bool separator(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == ","){
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
             return true;
     }
     else if(aux->rotulo == ":"){
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
             return true;
     }
     else if(aux->rotulo == ";"){
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
             return true;
     }
     else if(aux->rotulo == ":="){
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
             return true;
     }
     else if(aux->rotulo == "_"){
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
             return true;
     }
     else if(aux->rotulo == "step"){
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
             return true;
     }
     else if(aux->rotulo == "until"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1131,12 +1587,19 @@ bool separator(Token* aux, std::list <Token>* tokensEntrada){
 
     }
     else if(aux->rotulo == "while"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         return true;
     }
-    else if(aux->rotulo == "comment"){
+    else if(aux->rotulo == "comment"){ //não add na tabela
         while(aux->rotulo != ";"){
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
@@ -1161,36 +1624,78 @@ bool operatorFunction(Token* aux, std::list <Token>* tokensEntrada){
 }
 bool bracket(Token* aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "("){
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
             return true;
     }
     else if(aux->rotulo == ")"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         return true;
     }
     else if(aux->rotulo == "["){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         return true;
     }
     else if(aux->rotulo == "]"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         return true;
     }
     else if(aux->rotulo == "begin"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         return true;
     }
     else if(aux->rotulo == "end"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1202,24 +1707,52 @@ bool bracket(Token* aux, std::list <Token>* tokensEntrada){
 
 bool declator(Token* aux, std::list <Token>* tokensEntrada){
     if (aux->rotulo == "own"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "global";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         return true;
     }
     else if (aux->rotulo == "integer"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "global";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         return true;
     }
     else if (aux->rotulo == "array"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "global";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         return true;
     }
     else if (aux->rotulo == "procedure"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "global";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1230,6 +1763,13 @@ bool declator(Token* aux, std::list <Token>* tokensEntrada){
 
 bool specificator(Token* aux, std::list <Token>* tokensEntrada){
     if (aux->rotulo == "label" || aux->rotulo == "value"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1240,6 +1780,13 @@ bool specificator(Token* aux, std::list <Token>* tokensEntrada){
 
 bool arithmeticOperator(Token* aux, std::list <Token>* tokensEntrada){
     if (aux->rotulo == "+" || aux->rotulo == "-" || aux->rotulo == "*" || aux->rotulo == "/"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1250,6 +1797,13 @@ bool arithmeticOperator(Token* aux, std::list <Token>* tokensEntrada){
 
 bool relationalOperator(Token* aux, std::list <Token>* tokensEntrada){
     if (aux->rotulo == "<" || aux->rotulo == "<=" || aux->rotulo == "=" || aux->rotulo == "!=" || aux->rotulo == ">" || aux->rotulo == ">="){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1260,6 +1814,13 @@ bool relationalOperator(Token* aux, std::list <Token>* tokensEntrada){
 
 bool logicalOperator(Token* aux, std::list <Token>* tokensEntrada){
     if (aux->rotulo == "==" || aux->rotulo == "||" || aux->rotulo == "&&" || aux->rotulo == "!"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1270,6 +1831,13 @@ bool logicalOperator(Token* aux, std::list <Token>* tokensEntrada){
 
 bool sequentialOperator(Token* aux, std::list <Token>* tokensEntrada){
     if (aux->rotulo == "goto" || aux->rotulo == "if" || aux->rotulo == "then" || aux->rotulo == "else" || aux->rotulo == "for" || aux->rotulo == "do"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1281,17 +1849,33 @@ bool sequentialOperator(Token* aux, std::list <Token>* tokensEntrada){
 bool auxIdentifier(Token* aux, std::list <Token>* tokensEntrada, char character, int i, int tam){
     i++;
     if(i == tam-1){
+        std::cout <<"TRUE"<<std::endl;
+        //add aqui na tabela de precedencia
         return true;
     }
     else{
+
         if(letter(aux, tokensEntrada, character)){
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             character = aux->rotulo[i];
             auxIdentifier(aux, tokensEntrada, character, i, tam);
         }
         else if(digit(aux, tokensEntrada, character)){
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = aux->rotulo;
+            tabelaList.push_back(tabelaAtual);
             auxIdentifier(aux, tokensEntrada, character, i, tam);
         }
-        
+        //Add aqui a lista de erro;
         return false;
     }
 }
@@ -1301,6 +1885,12 @@ bool booleanExpression(Token* aux, std::list <Token>* tokensEntrada){
         if(ifClause(aux, tokensEntrada)){
             if(simpleBoolean(aux, tokensEntrada)){
                 if(aux->rotulo == "else"){
+
+                    tabelaAtual.nome = aux->rotulo;
+                    tabelaAtual.escopo = "local";
+                    tabelaAtual.tipo = aux->tipo;
+                    tabelaAtual.valorInicial = "null";
+                    tabelaList.push_back(tabelaAtual);
                     tokensEntrada->pop_front();
                     Token aux1 = tokensEntrada->front();
                     aux = &aux1;
@@ -1325,6 +1915,13 @@ bool simpleBoolean(Token * aux, std::list <Token>* tokensEntrada){
 }
 bool auxSimpleBoolean(Token *aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "="){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1359,6 +1956,13 @@ bool booleanTerm(Token * aux, std::list <Token>* tokensEntrada){
 
 bool auxBooleanTerm(Token * aux, std::list <Token>* tokensEntrada){
      if(aux->rotulo == "||"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1395,7 +1999,15 @@ bool auxBooleanFactor(Token * aux, std::list <Token>* tokensEntrada){
 bool booleanSecondary(Token * aux, std::list <Token>* tokensEntrada){
     if(!booleanPrimary(aux, tokensEntrada)){
         if(aux->rotulo == "!"){
+            
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
+            
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
             if(booleanPrimary(aux, tokensEntrada)){
@@ -1413,11 +2025,25 @@ bool booleanPrimary(Token * aux, std::list <Token>* tokensEntrada){
             if(!functionDesignator(aux, tokensEntrada)){
                 if(!relation(aux, tokensEntrada)){
                     if(aux->rotulo == "("){
+
+                        tabelaAtual.nome = aux->rotulo;
+                        tabelaAtual.escopo = "local";
+                        tabelaAtual.tipo = aux->tipo;
+                        tabelaAtual.valorInicial = "null";
+                        tabelaList.push_back(tabelaAtual);
+
                         tokensEntrada->pop_front();
                         Token aux1 = tokensEntrada->front();
                         aux = &aux1;
                         if(booleanExpression(aux,tokensEntrada)){
                             if(aux->rotulo == ")"){
+
+                                tabelaAtual.nome = aux->rotulo;
+                                tabelaAtual.escopo = "local";
+                                tabelaAtual.tipo = aux->tipo;
+                                tabelaAtual.valorInicial = "null";
+                                tabelaList.push_back(tabelaAtual);
+
                                 tokensEntrada->pop_front();
                                 Token aux1 = tokensEntrada->front();
                                 aux = &aux1;
@@ -1437,6 +2063,13 @@ bool booleanPrimary(Token * aux, std::list <Token>* tokensEntrada){
 
 bool logicalValue(Token * aux, std::list <Token>* tokensEntrada){
     if(aux->rotulo == "true"){
+
+        tabelaAtual.nome = aux->rotulo;
+        tabelaAtual.escopo = "local";
+        tabelaAtual.tipo = aux->tipo;
+        tabelaAtual.valorInicial = "null";
+        tabelaList.push_back(tabelaAtual);
+
         tokensEntrada->pop_front();
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
@@ -1488,11 +2121,25 @@ bool variableIdenfier(Token* aux, std::list <Token>* tokensEntrada){
 bool subscriptedVariable(Token* aux, std::list <Token>* tokensEntrada){
     if(arrayIdentifier(aux, tokensEntrada)){
         if(aux->rotulo == "["){
+
+            tabelaAtual.nome = aux->rotulo;
+            tabelaAtual.escopo = "local";
+            tabelaAtual.tipo = aux->tipo;
+            tabelaAtual.valorInicial = "null";
+            tabelaList.push_back(tabelaAtual);
+
             tokensEntrada->pop_front();
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
             if(subscriptList(aux, tokensEntrada)){
                 if(aux->rotulo == "]"){
+
+                    tabelaAtual.nome = aux->rotulo;
+                    tabelaAtual.escopo = "local";
+                    tabelaAtual.tipo = aux->tipo;
+                    tabelaAtual.valorInicial = "null";
+                    tabelaList.push_back(tabelaAtual);
+
                     tokensEntrada->pop_front();
                     Token aux1 = tokensEntrada->front();
                     aux = &aux1;
@@ -1512,6 +2159,16 @@ bool subscriptList(Token * aux, std::list <Token>* tokensEntrada){
     if(!subscriptExpression(aux, tokensEntrada)){
         if(subscriptList(aux, tokensEntrada)){ //recursividade a esquerda [retirar]
             if(aux->rotulo == ","){
+
+                tabelaAtual.nome = aux->rotulo;
+                tabelaAtual.escopo = "local";
+                tabelaAtual.tipo = aux->tipo;
+                tabelaAtual.valorInicial = "null";
+                tabelaList.push_back(tabelaAtual);
+                tokensEntrada->pop_front();
+                Token aux1 = tokensEntrada->front();
+                aux = &aux1;
+                
                 if(subscriptExpression(aux, tokensEntrada)){
                     return true;
                 }

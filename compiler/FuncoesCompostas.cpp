@@ -208,7 +208,7 @@ std::list<Token> SeekOwn(int &validOwn, std::string* declarador,char character, 
         Token Classe;
         Classe.tipo = "Idenficador Reservado";
         Classe.rotulo = own;
-        TokensClasses.push_back(Classe);  
+        TokensClasses.push_back(Classe);
     }
     return TokensClasses;
 }
