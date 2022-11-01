@@ -69,10 +69,10 @@ bool block(Token* aux, std::list <Token>* tokensEntrada){
 
 bool UnlabelledBlock(Token* aux, std::list <Token>* tokensEntrada){
     if (blockHead(aux, tokensEntrada)){
-        tokensEntrada->pop_front();
+        // A pilha ta fazendo retornar pro begin
+        std::cout << "PONTO E VIRGULA AQUI " << tokensEntrada->front().rotulo << std::endl;
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
-
         if (tokensEntrada->front().rotulo == ";"){
             tabelaAtual.nome = aux->rotulo;
             tabelaAtual.escopo = "local";
@@ -1416,8 +1416,11 @@ bool identifier(Token* aux, std::list <Token>* tokensEntrada){
     std::cout << "Aux do identifier - " << aux->rotulo << std::endl;
 
     std::cout << "SEJA O Y PFV - " << character << std::endl;
-
+    
     int tam = aux->rotulo.size();
+    Token aux1 = tokensEntrada->front();
+    aux = &aux1;
+
     if(letter(aux, tokensEntrada, character)){
         tabelaAtual.nome = aux->rotulo;
         tabelaAtual.escopo = "local";
@@ -1436,7 +1439,6 @@ bool identifier(Token* aux, std::list <Token>* tokensEntrada){
             aux = &aux1;
         }
         std::cout << "Letter Aux odemt - " << aux->rotulo << std::endl;
-
         std::cout << "valor do token - " << tokensEntrada->front().rotulo << std::endl;
 
         return true;
