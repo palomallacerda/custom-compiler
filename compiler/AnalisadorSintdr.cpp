@@ -166,9 +166,8 @@ bool blockHead(Token* aux, std::list <Token>* tokensEntrada){
             //Colocar uma opção para ir add a lista de erro
             return false;
         }
-        return false;   
+        return false;
     }
-    
 
 }
 
