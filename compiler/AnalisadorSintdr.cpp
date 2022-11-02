@@ -103,7 +103,7 @@ bool block(Token* aux, std::list <Token>* tokensEntrada){
             else return false;
         }
         else {
-            std::cout <<"ESSE FALSE AQUI\n";
+            // std::cout <<"ESSE FALSE AQUI\n";
 
             return false;
         }
@@ -186,7 +186,7 @@ bool compoundStatement(Token* aux, std::list <Token>* tokensEntrada){
     if(!unlabelledCompound(aux, tokensEntrada)){
         if(label(aux, tokensEntrada)){
             // std:: cout << "ONDE É\n";
-            std:: cout << tokensEntrada->front().rotulo <<"\n";
+            // std:: cout << tokensEntrada->front().rotulo <<"\n";
 
             if(tokensEntrada->front().rotulo == ":"){
                 tabelaAtual.nome = tokensEntrada->front().rotulo;
@@ -737,7 +737,7 @@ bool Local_or_Own_type(Token* aux, std::list <Token>* tokensEntrada){
         tabelaList.push_back(tabelaAtual);
 
         tokensEntrada->pop_front();
-        std::cout << "Token após pop " << tokensEntrada->front().rotulo << std::endl;
+        // std::cout << "Token após pop " << tokensEntrada->front().rotulo << std::endl;
         return true;
     }
     else if(tokensEntrada->front().rotulo == "own"){
@@ -795,7 +795,6 @@ bool compoundTail(Token* aux, std::list <Token>* tokensEntrada){
             compoundTail(aux, tokensEntrada);
         }
     }
-    std:: cout << "onde deveria estar o zero - " << tokensEntrada->front().rotulo<< "\n";
     return false;
 }
 
@@ -805,7 +804,6 @@ bool statement(Token* aux, std::list <Token>* tokensEntrada){
             return forStatement(aux, tokensEntrada) ? true : false;
         }
     }
-    std::cout << "NESSE\n";
     return true;
 }
 
@@ -846,7 +844,7 @@ bool label(Token* aux, std::list <Token>* tokensEntrada){
         if(!unsignedInteger(aux, tokensEntrada)){
             return false;
         }
-        std::cout<<"INTEGER CHAMOU DIGIT\n";
+        // std::cout<<"INTEGER CHAMOU DIGIT\n";
 
     }
     return true;
@@ -869,14 +867,14 @@ bool unsignedInteger(Token* aux, std::list <Token>* tokensEntrada){
     int i = 0;
     char character = tokensEntrada->front().rotulo[0];
     int tam = tokensEntrada->front().rotulo.size();
-    std::cout << "O zero ta aqui " << tokensEntrada->front().rotulo << std::endl;
+    // std::cout << "O zero ta aqui " << tokensEntrada->front().rotulo << std::endl;
     if(digit(aux, tokensEntrada, character)){
         return true;
     }
     else{
         unsignedIntegerAux(aux, tokensEntrada, character, i, tam);
     }
-    std::cout << "deve ta com o := " << tokensEntrada->front().rotulo << std::endl;
+    // std::cout << "deve ta com o := " << tokensEntrada->front().rotulo << std::endl;
     return false;
 }
 
@@ -961,12 +959,9 @@ bool forStatement(Token* aux, std::list <Token>* tokensEntrada){
 
 bool assignmentStatement(Token* aux, std::list <Token>* tokensEntrada){
     if(arithmeticExpression(aux, tokensEntrada)){
-        std::cout <<"ENTROUUU\n";
         return true;
     }
     else if (leftPart(aux, tokensEntrada)){
-        std:: cout << "HUMMMMM \n";
-
         return true;
     }
     return false;
@@ -1234,7 +1229,7 @@ bool multiplyingOperator(Token* aux, std::list <Token>* tokensEntrada){
         Token aux1 = tokensEntrada->front();
         aux = &aux1;
         
-    std::cout <<"é um := "<< tokensEntrada->front().rotulo << std::endl;
+    // std::cout <<"é um := "<< tokensEntrada->front().rotulo << std::endl;
     if(tokensEntrada->front().rotulo == "*"){
         tabelaAtual.nome = tokensEntrada->front().rotulo;
         tabelaAtual.escopo = "local";
@@ -1345,9 +1340,9 @@ bool procedureIdentifier(Token* aux, std::list <Token>* tokensEntrada){
 }
 
 bool actualParameterPart(Token* aux, std::list <Token>* tokensEntrada){
-    std::cout << "Valor no actualParameter aux " << tokensEntrada->front().rotulo << std::endl;
+    // std::cout << "Valor no actualParameter aux " << tokensEntrada->front().rotulo << std::endl;
 
-    std::cout << "Valor no actualParameter" << tokensEntrada->front().rotulo << std::endl;
+    // std::cout << "Valor no actualParameter" << tokensEntrada->front().rotulo << std::endl;
 
     if (tokensEntrada->front().rotulo == "("){
 
@@ -1436,7 +1431,6 @@ bool dummyStatement(Token* aux, std::list <Token>* tokensEntrada){
 bool procedureStatement(Token* aux, std::list <Token>* tokensEntrada){
     if(procedureIdentifier(aux, tokensEntrada)){
         if(actualParameterPart(aux, tokensEntrada)){
-            std::cout << "ESSE TRUE AQUI "<< std::endl;
             return true;
         }
     }
@@ -1513,9 +1507,9 @@ bool identifier(Token* aux, std::list <Token>* tokensEntrada){
     char character;
     character = tokensEntrada->front().rotulo[0];
 
-    std::cout << "valor do identifier - " << tokensEntrada->front().rotulo << std::endl;
+    // std::cout << "valor do identifier - " << tokensEntrada->front().rotulo << std::endl;
 
-    std::cout << "Valor do character do identifier - " << character << std::endl;
+    // std::cout << "Valor do character do identifier - " << character << std::endl;
     
     int tam = tokensEntrada->front().rotulo.size();
     
@@ -1536,7 +1530,7 @@ bool identifier(Token* aux, std::list <Token>* tokensEntrada){
             Token aux1 = tokensEntrada->front();
             aux = &aux1;
         }
-        std::cout << "valor do token - " << tokensEntrada->front().rotulo << std::endl;
+        // std::cout << "valor do token - " << tokensEntrada->front().rotulo << std::endl;
 
         return true;
     }
@@ -2293,7 +2287,7 @@ bool digit(Token* aux, std::list <Token>* tokensEntrada, char character){
     //terminais digitos
     char digits[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     if(ChecaValidos(digits, character, sizeof(digits)/ sizeof(digits[0]))){
-        std::cout <<"DEU BOM\n";
+        // std::cout <<"DEU BOM\n";
         return true;
     }
     else return false;
