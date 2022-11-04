@@ -1,7 +1,8 @@
 #include "header.h"
+#include <vector>
 
 //Verificar se a palavra reservada Begin
-std::list<Token> SeekBegin(int &validBegin, std::string* Bracket,char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekBegin(int &validBegin, std::string* Bracket,char character, std::vector<Token> TokensClasses){
     std::string Begin = Bracket[0];
 
     if(character == Begin[validBegin+1]){
@@ -21,7 +22,7 @@ std::list<Token> SeekBegin(int &validBegin, std::string* Bracket,char character,
 }
 
 //Verificar se a palavra reservada end
-std::list<Token> SeekEnd(int &validEnd, std::string* Bracket,char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekEnd(int &validEnd, std::string* Bracket,char character, std::vector<Token> TokensClasses){
     std::string end = Bracket[1];
 
     if(character == end[validEnd+1]){
@@ -41,7 +42,7 @@ std::list<Token> SeekEnd(int &validEnd, std::string* Bracket,char character, std
 }
 
 //Verificar se a palavra reservada Comment
-std::list<Token> SeekAssigment(int &validAssigment, std::string* compSeparators,char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekAssigment(int &validAssigment, std::string* compSeparators,char character, std::vector<Token> TokensClasses){
     std::string assigment = compSeparators[0];
 
     if(character == assigment[validAssigment+1]){
@@ -61,7 +62,7 @@ std::list<Token> SeekAssigment(int &validAssigment, std::string* compSeparators,
 }
 
 //Verificar se a palavra reservada step
-std::list<Token> SeekStep(int &validStep, std::string* compSeparators,char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekStep(int &validStep, std::string* compSeparators,char character, std::vector<Token> TokensClasses){
     std::string step = compSeparators[1];
 
     if(character == step[validStep+1]){
@@ -81,7 +82,7 @@ std::list<Token> SeekStep(int &validStep, std::string* compSeparators,char chara
 }
 
 //Verificar se a palavra reservada until
-std::list<Token> Seekuntil(int &validUntil, std::string* compSeparators,char character, std::list<Token> TokensClasses){
+std::vector<Token> Seekuntil(int &validUntil, std::string* compSeparators,char character, std::vector<Token> TokensClasses){
     std::string until = compSeparators[2];
 
     if(character == until[validUntil+1]){
@@ -101,7 +102,7 @@ std::list<Token> Seekuntil(int &validUntil, std::string* compSeparators,char cha
 }
 
 //Verificar se a palavra reservada while
-std::list<Token> SeekWhile(int &validWhile, std::string* compSeparators,char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekWhile(int &validWhile, std::string* compSeparators,char character, std::vector<Token> TokensClasses){
     std::string While = compSeparators[3];
 
     if(character == While[validWhile+1]){
@@ -121,7 +122,7 @@ std::list<Token> SeekWhile(int &validWhile, std::string* compSeparators,char cha
 }
 
 //Verificar se a palavra reservada Comment
-std::list<Token> SeekComment(int &validComment, std::string* compSeparators,char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekComment(int &validComment, std::string* compSeparators,char character, std::vector<Token> TokensClasses){
     std::string comment = compSeparators[4];
 
     if(character == comment[validComment+1]){
@@ -134,7 +135,7 @@ std::list<Token> SeekComment(int &validComment, std::string* compSeparators,char
 }
 
 //Verificar se a palavra reservada menorIgual
-std::list<Token> SeekMenorIgual(int &validMenorIgual, std::string* opCompRelational,char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekMenorIgual(int &validMenorIgual, std::string* opCompRelational,char character, std::vector<Token> TokensClasses){
     std::string menorIgual = opCompRelational[0];
 
     if(character == menorIgual[validMenorIgual+1]){
@@ -154,7 +155,7 @@ std::list<Token> SeekMenorIgual(int &validMenorIgual, std::string* opCompRelatio
 }
 
 //Verificar se a palavra reservada é operador diferente
-std::list<Token> SeekDiferente(int &validDiferente, std::string* opCompRelational, char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekDiferente(int &validDiferente, std::string* opCompRelational, char character, std::vector<Token> TokensClasses){
     std::string diferente = opCompRelational[1];
 
     if(character == diferente[validDiferente+1]){
@@ -174,7 +175,7 @@ std::list<Token> SeekDiferente(int &validDiferente, std::string* opCompRelationa
 }
 
 //Verificar se a palavra reservada >=
-std::list<Token> SeekMaiorIgual(int &validMaiorigual, std::string* opCompRelational,char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekMaiorIgual(int &validMaiorigual, std::string* opCompRelational,char character, std::vector<Token> TokensClasses){
     std::string maiorIgual = opCompRelational[2];
 
     if(character == maiorIgual[validMaiorigual+1]){
@@ -194,7 +195,7 @@ std::list<Token> SeekMaiorIgual(int &validMaiorigual, std::string* opCompRelatio
 }
 
 //Verificar se a palavra reservada Own
-std::list<Token> SeekOwn(int &validOwn, std::string* declarador,char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekOwn(int &validOwn, std::string* declarador,char character, std::vector<Token> TokensClasses){
     std::string own = declarador[0];
 
     if(character == own[validOwn+1]){
@@ -214,7 +215,7 @@ std::list<Token> SeekOwn(int &validOwn, std::string* declarador,char character, 
 }
 
 //Verificar se a palabra reservada integer
-std::list<Token> SeekInteger(int &validInt, std::string* declarador, char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekInteger(int &validInt, std::string* declarador, char character, std::vector<Token> TokensClasses){
     std::string integer = declarador[1];
 
     if(character == integer[validInt+1]){
@@ -234,7 +235,7 @@ std::list<Token> SeekInteger(int &validInt, std::string* declarador, char charac
 }
 
 //Verificar se a palabra reservada array
-std::list<Token> SeekArray(int &validArray, std::string* declarador, char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekArray(int &validArray, std::string* declarador, char character, std::vector<Token> TokensClasses){
     std::string array = declarador[2];
 
     if(character == array[validArray+1]){
@@ -254,7 +255,7 @@ std::list<Token> SeekArray(int &validArray, std::string* declarador, char charac
 }
 
 //Verificar se a palabra reservada array
-std::list<Token> SeekProcedure(int &validProcedure, std::string* declarador, char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekProcedure(int &validProcedure, std::string* declarador, char character, std::vector<Token> TokensClasses){
     std::string procedure = declarador[3];
 
     if(character == procedure[validProcedure+1]){
@@ -274,7 +275,7 @@ std::list<Token> SeekProcedure(int &validProcedure, std::string* declarador, cha
 }
 
 //Verificando se o operador é valido (GOTO)
-std::list<Token> SeekGoto(int &validGoto, std::string* opSequential, char character, std::list<Token> TokensClasses){
+std::vector<Token> SeekGoto(int &validGoto, std::string* opSequential, char character, std::vector<Token> TokensClasses){
     std::string goTo = opSequential[0];
 
     if(character == goTo[validGoto+1]){
@@ -294,7 +295,7 @@ std::list<Token> SeekGoto(int &validGoto, std::string* opSequential, char charac
 }
 
 //Verificando se é a condicional IF
-std::list<Token> SeekIf(int &validIf, std::string* opSequential, char character, std::list<Token> TokensClasses){ 
+std::vector<Token> SeekIf(int &validIf, std::string* opSequential, char character, std::vector<Token> TokensClasses){ 
     std::string IF = opSequential[1];
 
     if(character == IF[validIf+1]){
@@ -314,7 +315,7 @@ std::list<Token> SeekIf(int &validIf, std::string* opSequential, char character,
 }
 
 //Verificando se é a condicional THEN
-std::list<Token> SeekThen(int &validThen, std::string* opSequential, char character, std::list<Token> TokensClasses){ 
+std::vector<Token> SeekThen(int &validThen, std::string* opSequential, char character, std::vector<Token> TokensClasses){ 
     std::string Then = opSequential[2];
 
     if(character == Then[validThen+1]){
@@ -334,7 +335,7 @@ std::list<Token> SeekThen(int &validThen, std::string* opSequential, char charac
 }
 
 //Verificando se é a condicional ELSE
-std::list<Token> SeekElse(int &validElse, std::string* opSequential, char character, std::list<Token> TokensClasses){ 
+std::vector<Token> SeekElse(int &validElse, std::string* opSequential, char character, std::vector<Token> TokensClasses){ 
     std::string Else = opSequential[3];
 
     if(character == Else[validElse+1]){
@@ -354,7 +355,7 @@ std::list<Token> SeekElse(int &validElse, std::string* opSequential, char charac
 }
 
 //Verificando se é a condicional FOR
-std::list<Token> SeekFor(int &validFor, std::string* opSequential, char character, std::list<Token> TokensClasses){ 
+std::vector<Token> SeekFor(int &validFor, std::string* opSequential, char character, std::vector<Token> TokensClasses){ 
     std::string FOR = opSequential[4];
 
     if(character == FOR[validFor+1]){
@@ -374,7 +375,7 @@ std::list<Token> SeekFor(int &validFor, std::string* opSequential, char characte
 }
 
 //Verificando se é a condicional FOR
-std::list<Token> SeekDo(int &validDo, std::string* opSequential, char character, std::list<Token> TokensClasses){ 
+std::vector<Token> SeekDo(int &validDo, std::string* opSequential, char character, std::vector<Token> TokensClasses){ 
     std::string Do = opSequential[5];
 
     if(character == Do[validDo+1]){

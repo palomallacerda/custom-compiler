@@ -1,11 +1,12 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include "header.h"
 #include "FuncoesSimples.cpp"
 #include "VerificadorReservadas.cpp"
 #pragma once
 
-std::list<Token> TokensClasses; //Lista final do output
+std::vector<Token> TokensClasses; //Lista final do output
 
 bool Analisador_Lexico(){
     char separators[]{',', ':','_', '(', ')', '[', ']', ' ', ';', '!'};
@@ -198,7 +199,7 @@ bool Analisador_Lexico(){
     return true;
 }
 
-std::list<Token> TokensLexico(){ //Metodo para retornar tokens lexicos
+std::vector<Token> TokensLexico(){ //Metodo para retornar tokens lexicos
     return TokensClasses;
 }
 

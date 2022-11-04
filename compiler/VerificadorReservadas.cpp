@@ -1,11 +1,12 @@
 #pragma once
 #include <fstream>
 #include <regex>
+#include <vector>
 #include "FuncoesCompostas.cpp"
 #include "header.h"
 
 // Função para identificar palavras reservadas ou identificadores
-std::list<Token> seekReserved(int start, int end, std::fstream& File, std::list<Token> TokensClasses, std::string* BracketComp, std::string* opCompRelational,
+std::vector<Token> seekReserved(int start, int end, std::fstream& File, std::vector<Token> TokensClasses, std::string* BracketComp, std::string* opCompRelational,
 std::string* compSeparators,  std::string* declarator, std::string* opSequential, char *Digits){
     int validBegin{-1};
     int validEnd{-1};

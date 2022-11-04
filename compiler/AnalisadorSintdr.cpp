@@ -15,7 +15,7 @@ std::list<Token> InicialState(std::list <Token> tokensEntrada){
     std::list<Token> erros;
 
     if(block(aux, &tokensEntrada)){
-         //Começa percorrer a bnf
+        //Começa percorrer a bnf
         if(tokensEntrada.front().rotulo == "$"){
             tokensEntrada.pop_front(); //retirando ultimo elemento da lista
             if(!erros.empty()){
