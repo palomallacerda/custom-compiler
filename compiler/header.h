@@ -251,6 +251,8 @@ bool auxTerm(int pos, std::vector<Token> tokensEntrada);
 bool multiplyingOperator(int pos, std::vector<Token> tokensEntrada);
 bool factor(int pos, std::vector<Token> tokensEntrada);
 bool primary(int pos, std::vector<Token> tokensEntrada);
+bool unsignedNumber(int pos, std::vector<Token> tokensEntrada);
+bool decimalNumber(int pos, std::vector<Token> tokensEntrada);
 bool unsignedInteger(int pos, std::vector<Token> tokensEntrada);
 bool auxUnsignedInteger(int pos, std::vector<Token> tokensEntrada);
 bool exponentialPart(int pos, std::vector<Token> tokensEntrada);
