@@ -8,7 +8,7 @@ std::vector<Token> erros;
 
 std::vector<Token> inicialState(std::vector<Token> tokensEntrada){
     //Começa percorrer a bnf
-    program(tokensEntrada);
+    procedureDeclaration(tokensEntrada);
 
     if(pos == tokensEntrada.size() - 1){
         if(!erros.empty()){
@@ -59,13 +59,15 @@ bool matchLetter(std::vector<Token> tokensEntrada){
 
     if(ChecaValidos(letters, character, sizeof(letters)/ sizeof(letters[0]))){
         std::string conChar(1, character);
-        match(conChar, tokensEntrada);
-        return true;
+        if (match(tokensEntrada.at(pos).rotulo, tokensEntrada)){
+            return true;
+        }
     }
     else{
         std::cout << "Função erro MacthLetter" << std::endl;
         return false;
     }
+    //return false;
 }
 
 //VERIFICAR TODOS OS TERMINAIS DE DIGITOS
@@ -76,12 +78,14 @@ bool matchDigit(std::vector<Token> tokensEntrada){
 
     if(ChecaValidos(digits, character, sizeof(digits)/ sizeof(digits[0]))){
         std::string conChar(1, character);
-        match(conChar, tokensEntrada);
-        return true;
+        if (match(conChar, tokensEntrada)){
+            return true;
+        }
     }
     else{
         return false;
     }
+    //return false;
 }
 
 // Função para adicionar símbolo na tabela de precedência
@@ -96,7 +100,16 @@ bool program(std::vector<Token> tokensEntrada){
 
 bool block(std::vector<Token> tokensEntrada){
     std::cout << "Função: block" << std::endl;
-    return (unlabelledBlock(tokensEntrada) || (label(tokensEntrada) && match(":", tokensEntrada) && block(tokensEntrada)));
+    int auxPos = pos;
+    if (!unlabelledBlock(tokensEntrada)){
+        pos = auxPos;
+        
+        if (!(label(tokensEntrada) && match(":", tokensEntrada) && block(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
+    }
+    return (true);
 }
 
 bool unlabelledBlock(std::vector<Token> tokensEntrada){
@@ -111,12 +124,13 @@ bool blockHead(std::vector<Token> tokensEntrada){
 
 bool blockAux(std::vector<Token> tokensEntrada){
     std::cout << "Função: blockAux" << std::endl;
+    int auxPos = pos;
     if(match(";", tokensEntrada) ){
         if(declaration(tokensEntrada) ){
             blockAux(tokensEntrada);
         }
         else {
-            pos-=1;
+            pos = auxPos;
         }
     }
     return true;
@@ -124,7 +138,15 @@ bool blockAux(std::vector<Token> tokensEntrada){
 
 bool compoundStatement(std::vector<Token> tokensEntrada){
     std::cout << "Função: compoundStatement" << std::endl;
-    return (unlabelledCompound(tokensEntrada) || (label(tokensEntrada) && match(":", tokensEntrada) && compoundStatement(tokensEntrada)));
+    int auxPos = pos;
+    if (not unlabelledCompound(tokensEntrada)){
+        pos = auxPos;
+        if (not ((label(tokensEntrada) && match(":", tokensEntrada) && compoundStatement(tokensEntrada)))){
+            pos = auxPos;
+            return false;
+        }
+    }
+    return true;
 }
 
 bool unlabelledCompound(std::vector<Token> tokensEntrada){
@@ -135,11 +157,11 @@ bool unlabelledCompound(std::vector<Token> tokensEntrada){
 bool compoundTail(std::vector<Token> tokensEntrada){
     std::cout << "Função: compoundTail" << std::endl;
     // return ((statement(tokensEntrada) && match("end", tokensEntrada))  || (statement(tokensEntrada) && match(";", tokensEntrada) && compoundTail(tokensEntrada)));
-    int pin = pos;
+    int auxPos = pos;
     if (!(statement(tokensEntrada) && match("end", tokensEntrada))){
-        pos = pin;
+        pos = auxPos;
         if (!(statement(tokensEntrada) && match(";", tokensEntrada) && compoundTail(tokensEntrada))){
-            pos = pin;
+            pos = auxPos;
             return false;
         } else {
             return true;
@@ -171,7 +193,15 @@ bool type(std::vector<Token> tokensEntrada){
 
 bool typeList(std::vector<Token> tokensEntrada){
     std::cout << "Função: typeList" << std::endl;
-    return (simpleVariable(tokensEntrada) || (simpleVariable(tokensEntrada) && (match(",", tokensEntrada) && typeList(tokensEntrada))));
+    int auxPos = pos;
+    if (not (simpleVariable(tokensEntrada) && (match(",", tokensEntrada) && typeList(tokensEntrada)))){
+        pos = auxPos;
+        if (not (simpleVariable(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
+    }
+    return (true);
 }
 
 bool arrayDeclaration(std::vector<Token> tokensEntrada){
@@ -261,7 +291,7 @@ bool valuePart(std::vector<Token> tokensEntrada){
 
 bool specificationPart(std::vector<Token> tokensEntrada){
     std::cout << "Função: specificationPart" << std::endl;
-    return (((specifier(tokensEntrada) && identifierList(tokensEntrada) && match(";", tokensEntrada) && auxSpecificationPart(tokensEntrada))));
+    return (((specifier(tokensEntrada) && identifierList(tokensEntrada) && match(";", tokensEntrada) && auxSpecificationPart(tokensEntrada))) || true);
 }
 
 bool auxSpecificationPart(std::vector<Token> tokensEntrada){
@@ -583,7 +613,7 @@ bool identifier(std::vector<Token> tokensEntrada){
 
 bool auxIdentifier(std::vector<Token> tokensEntrada){
     std::cout << "Função: auxIdentifier" << std::endl;
-    return ((letter(tokensEntrada) && auxIdentifier(tokensEntrada)) || (digit(tokensEntrada) && auxIdentifier(tokensEntrada)) || true);
+    return ((digit(tokensEntrada) && auxIdentifier(tokensEntrada)) || (letter(tokensEntrada) && auxIdentifier(tokensEntrada)) || true);
 }
 
 bool basicSymbol(std::vector<Token> tokensEntrada){

@@ -2660,6 +2660,10 @@ bool subscriptExpression(Token * aux, std::list <Token>* tokensEntrada){
 bool letter(Token* aux, std::list <Token>* tokensEntrada, char character){
     std::list <Token> tokensAux = *tokensEntrada;
 
+    for(Token i : *tokensEntrada){
+        std:: cout << i.rotulo;
+    }
+
     //VERIFICAR TODOS OS TERMINAIS DE LETRAS
     char letters[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     if(ChecaValidos(letters, character, sizeof(letters)/ sizeof(letters[0]))){
@@ -2667,6 +2671,7 @@ bool letter(Token* aux, std::list <Token>* tokensEntrada, char character){
     } 
     else {
         tokensEntrada = &tokensAux;
+
         return false;
     }
 }

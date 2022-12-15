@@ -17,8 +17,8 @@ int main(){
         exit(0);
     }
 
-   ClassesTokens = TokensLexico();   
-   ClassesTokens = inicialState(ClassesTokens);
+    ClassesTokens = TokensLexico();   
+    ClassesTokens = inicialState(ClassesTokens);
 
 //    if(ClassesTokens.empty()){
 //         std::cout << "Análise Sintática concluida com sucesso" << std::endl;

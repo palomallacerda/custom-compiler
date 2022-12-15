@@ -26,7 +26,7 @@ bool Analisador_Lexico(){
     bool s_sep;
 
     std::fstream File;    //Criando o objeto (arquivo)
-    File.open("arquivos/test.txt", std::ios_base::in);
+    File.open("arquivos/loop.txt", std::ios_base::in);
 
     if(File.is_open()){
         char character;

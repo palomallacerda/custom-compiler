@@ -176,6 +176,9 @@ std::string* compSeparators,  std::string* declarator, std::string* opSequential
     // se a palavra não for reservada é salva como identificador (aqui podemos colocar a verificação de número)
     if(!found){
         if(!id.empty()){
+            if (id == "" || id == " " || id == "\n"){
+                return TokensClasses;
+            }
             std::regex r("\\s+");
             id = std::regex_replace(id, r, "");
 

@@ -1,19 +1,11 @@
-begin procedure absmax(a) size:(n, m) result:(y) subscripts:(i, k);
-    value n, m; array a; integer n, m, i, k; real y;
-comment the absolute greatest element of the matrix a, of size n by m
-    is transferred to y, and the subscripts of this element to i and k;
-begin
-    integer p, q;
-    y := 0; i := k := 1;
-    for p := 1 step 1 until n do
-        for q := 1 step 1 until m do
-            if abs(a[p, q]) > y then
-                begin y := abs(a[p, q]);
-                    i := p; k := q
-                end
-end absmax 
-
-
-
-
+procedure drawboard(board);
+   integer array board;
+   begin
+      integer x,y;
+      for y := 0 step 1 until 17 do
+      begin
+         for x := 0 step 1 until 9 do 
+            setsquarecolor(y,x, board[y,x]);
+      end;
+   end; 
 
