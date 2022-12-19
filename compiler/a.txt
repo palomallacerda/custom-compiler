@@ -1,0 +1,2029 @@
+Função: program
+Função: block
+Função: unlabelledBlock
+Função: blockHead
+Token: begin
+Char encontrado: begin
+
+Posição atual: 1
+
+Função: declaration
+Função: typeDeclaration
+Função: localOrOwnType
+Função: type
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: typeList
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token: ,
+Char encontrado: ,
+
+Posição atual: 4
+
+Função: typeList
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: q
+Char encontrado: q
+
+Posição atual: 5
+
+Função: auxIdentifier
+Função: digit
+Digito: ;
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ;
+Char comparado ERRADO: ,
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: q
+Char encontrado: q
+
+Posição atual: 5
+
+Função: auxIdentifier
+Função: digit
+Digito: ;
+Função: letter
+Função erro MatchLetter
+Função: blockAux
+Token: ;
+Char encontrado: ;
+
+Posição atual: 6
+
+Função: declaration
+Função: typeDeclaration
+Função: localOrOwnType
+Função: type
+Token ERRADO: y
+Char comparado ERRADO: integer
+Token ERRADO: y
+Char comparado ERRADO: own
+Função: arrayDeclaration
+Token ERRADO: y
+Char comparado ERRADO: array
+Função: localOrOwnType
+Função: type
+Token ERRADO: y
+Char comparado ERRADO: integer
+Token ERRADO: y
+Char comparado ERRADO: own
+Função: procedureDeclaration
+Token ERRADO: y
+Char comparado ERRADO: procedure
+Função: type
+Token ERRADO: y
+Char comparado ERRADO: integer
+Token: ;
+Char encontrado: ;
+
+Posição atual: 6
+
+Função: compoundTail
+Função: statement
+Função: forStatement
+Função: forClause
+Função: forClause
+Token ERRADO: y
+Char comparado ERRADO: for
+Função: label
+Função: identifier
+Função: letter
+Token: y
+Char encontrado: y
+
+Posição atual: 7
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função: conditionalStatement
+Função: ifStatement
+Função: ifClause
+Token ERRADO: y
+Char comparado ERRADO: if
+Função: ifStatement
+Função: ifClause
+Token ERRADO: y
+Char comparado ERRADO: if
+Função: ifClause
+Token ERRADO: y
+Char comparado ERRADO: if
+Função: label
+Função: identifier
+Função: letter
+Token: y
+Char encontrado: y
+
+Posição atual: 7
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função unconditionalStatement
+Função: basicStatement
+Função: unlabelledBasicStatement
+Função: assignmentStatement
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: y
+Char encontrado: y
+
+Posição atual: 7
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token: :=
+Char encontrado: :=
+
+Posição atual: 8
+
+Função: auxLeftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: subscriptedVariable
+Função: arrayIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 0
+Token: 0
+Char encontrado: 0
+
+Posição atual: 9
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: ;
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: ;
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: ;
+Char comparado ERRADO: +
+Token ERRADO: ;
+Char comparado ERRADO: -
+Token ERRADO: ;
+Char comparado ERRADO: end
+Função: statement
+Função: forStatement
+Função: forClause
+Função: forClause
+Token ERRADO: y
+Char comparado ERRADO: for
+Função: label
+Função: identifier
+Função: letter
+Token: y
+Char encontrado: y
+
+Posição atual: 7
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função: conditionalStatement
+Função: ifStatement
+Função: ifClause
+Token ERRADO: y
+Char comparado ERRADO: if
+Função: ifStatement
+Função: ifClause
+Token ERRADO: y
+Char comparado ERRADO: if
+Função: ifClause
+Token ERRADO: y
+Char comparado ERRADO: if
+Função: label
+Função: identifier
+Função: letter
+Token: y
+Char encontrado: y
+
+Posição atual: 7
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função unconditionalStatement
+Função: basicStatement
+Função: unlabelledBasicStatement
+Função: assignmentStatement
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: y
+Char encontrado: y
+
+Posição atual: 7
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token: :=
+Char encontrado: :=
+
+Posição atual: 8
+
+Função: auxLeftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: subscriptedVariable
+Função: arrayIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 0
+Token: 0
+Char encontrado: 0
+
+Posição atual: 9
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: ;
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: ;
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: ;
+Char comparado ERRADO: +
+Token ERRADO: ;
+Char comparado ERRADO: -
+Token: ;
+Char encontrado: ;
+
+Posição atual: 10
+
+Função: compoundTail
+Função: statement
+Função: forStatement
+Função: forClause
+Função: forClause
+Token ERRADO: i
+Char comparado ERRADO: for
+Função: label
+Função: identifier
+Função: letter
+Token: i
+Char encontrado: i
+
+Posição atual: 11
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função: conditionalStatement
+Função: ifStatement
+Função: ifClause
+Token ERRADO: i
+Char comparado ERRADO: if
+Função: ifStatement
+Função: ifClause
+Token ERRADO: i
+Char comparado ERRADO: if
+Função: ifClause
+Token ERRADO: i
+Char comparado ERRADO: if
+Função: label
+Função: identifier
+Função: letter
+Token: i
+Char encontrado: i
+
+Posição atual: 11
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função unconditionalStatement
+Função: basicStatement
+Função: unlabelledBasicStatement
+Função: assignmentStatement
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: i
+Char encontrado: i
+
+Posição atual: 11
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token: :=
+Char encontrado: :=
+
+Posição atual: 12
+
+Função: auxLeftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: subscriptedVariable
+Função: arrayIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 13
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: ;
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: ;
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: ;
+Char comparado ERRADO: +
+Token ERRADO: ;
+Char comparado ERRADO: -
+Token ERRADO: ;
+Char comparado ERRADO: end
+Função: statement
+Função: forStatement
+Função: forClause
+Função: forClause
+Token ERRADO: i
+Char comparado ERRADO: for
+Função: label
+Função: identifier
+Função: letter
+Token: i
+Char encontrado: i
+
+Posição atual: 11
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função: conditionalStatement
+Função: ifStatement
+Função: ifClause
+Token ERRADO: i
+Char comparado ERRADO: if
+Função: ifStatement
+Função: ifClause
+Token ERRADO: i
+Char comparado ERRADO: if
+Função: ifClause
+Token ERRADO: i
+Char comparado ERRADO: if
+Função: label
+Função: identifier
+Função: letter
+Token: i
+Char encontrado: i
+
+Posição atual: 11
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função unconditionalStatement
+Função: basicStatement
+Função: unlabelledBasicStatement
+Função: assignmentStatement
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: i
+Char encontrado: i
+
+Posição atual: 11
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token: :=
+Char encontrado: :=
+
+Posição atual: 12
+
+Função: auxLeftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: subscriptedVariable
+Função: arrayIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 13
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: ;
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: ;
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: ;
+Char comparado ERRADO: +
+Token ERRADO: ;
+Char comparado ERRADO: -
+Token: ;
+Char encontrado: ;
+
+Posição atual: 14
+
+Função: compoundTail
+Função: statement
+Função: forStatement
+Função: forClause
+Função: forClause
+Token ERRADO: k
+Char comparado ERRADO: for
+Função: label
+Função: identifier
+Função: letter
+Token: k
+Char encontrado: k
+
+Posição atual: 15
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função: conditionalStatement
+Função: ifStatement
+Função: ifClause
+Token ERRADO: k
+Char comparado ERRADO: if
+Função: ifStatement
+Função: ifClause
+Token ERRADO: k
+Char comparado ERRADO: if
+Função: ifClause
+Token ERRADO: k
+Char comparado ERRADO: if
+Função: label
+Função: identifier
+Função: letter
+Token: k
+Char encontrado: k
+
+Posição atual: 15
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função unconditionalStatement
+Função: basicStatement
+Função: unlabelledBasicStatement
+Função: assignmentStatement
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: k
+Char encontrado: k
+
+Posição atual: 15
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token: :=
+Char encontrado: :=
+
+Posição atual: 16
+
+Função: auxLeftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: subscriptedVariable
+Função: arrayIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 17
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: ;
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: ;
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: ;
+Char comparado ERRADO: +
+Token ERRADO: ;
+Char comparado ERRADO: -
+Token ERRADO: ;
+Char comparado ERRADO: end
+Função: statement
+Função: forStatement
+Função: forClause
+Função: forClause
+Token ERRADO: k
+Char comparado ERRADO: for
+Função: label
+Função: identifier
+Função: letter
+Token: k
+Char encontrado: k
+
+Posição atual: 15
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função: conditionalStatement
+Função: ifStatement
+Função: ifClause
+Token ERRADO: k
+Char comparado ERRADO: if
+Função: ifStatement
+Função: ifClause
+Token ERRADO: k
+Char comparado ERRADO: if
+Função: ifClause
+Token ERRADO: k
+Char comparado ERRADO: if
+Função: label
+Função: identifier
+Função: letter
+Token: k
+Char encontrado: k
+
+Posição atual: 15
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função unconditionalStatement
+Função: basicStatement
+Função: unlabelledBasicStatement
+Função: assignmentStatement
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: k
+Char encontrado: k
+
+Posição atual: 15
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token: :=
+Char encontrado: :=
+
+Posição atual: 16
+
+Função: auxLeftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: subscriptedVariable
+Função: arrayIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 17
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: ;
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: ;
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: ;
+Char comparado ERRADO: +
+Token ERRADO: ;
+Char comparado ERRADO: -
+Token: ;
+Char encontrado: ;
+
+Posição atual: 18
+
+Função: compoundTail
+Função: statement
+Função: forStatement
+Função: forClause
+Função: forClause
+Token: for
+Char encontrado: for
+
+Posição atual: 19
+
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 20
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token: :=
+Char encontrado: :=
+
+Posição atual: 21
+
+Função: forList
+Função: forList
+Função: forListElement
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 22
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: s
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: step
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: step
+Char comparado ERRADO: +
+Token ERRADO: step
+Char comparado ERRADO: -
+Token: step
+Char encontrado: step
+
+Posição atual: 23
+
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 24
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: u
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: until
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: until
+Char comparado ERRADO: +
+Token ERRADO: until
+Char comparado ERRADO: -
+Token: until
+Char encontrado: until
+
+Posição atual: 25
+
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: n
+Função: exponentialPart
+Token ERRADO: n
+Char comparado ERRADO: ^
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: n
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: n
+Char encontrado: n
+
+Posição atual: 26
+
+Função: auxIdentifier
+Função: digit
+Digito: d
+Função: letter
+Token: do
+Char encontrado: do
+
+Posição atual: 27
+
+Função: auxIdentifier
+Função: digit
+Digito: ;
+Função: letter
+Função erro MatchLetter
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: ;
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: ;
+Char comparado ERRADO: +
+Token ERRADO: ;
+Char comparado ERRADO: -
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 22
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: s
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: step
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: step
+Char comparado ERRADO: +
+Token ERRADO: step
+Char comparado ERRADO: -
+Token ERRADO: step
+Char comparado ERRADO: while
+Função: auxForList
+Token ERRADO: step
+Char comparado ERRADO: ,
+Token ERRADO: step
+Char comparado ERRADO: do
+Função: label
+Função: identifier
+Função: letter
+Token: for
+Char encontrado: for
+
+Posição atual: 19
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 20
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função: conditionalStatement
+Função: ifStatement
+Função: ifClause
+Token ERRADO: for
+Char comparado ERRADO: if
+Função: ifStatement
+Função: ifClause
+Token ERRADO: for
+Char comparado ERRADO: if
+Função: ifClause
+Token ERRADO: for
+Char comparado ERRADO: if
+Função: label
+Função: identifier
+Função: letter
+Token: for
+Char encontrado: for
+
+Posição atual: 19
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 20
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função unconditionalStatement
+Função: basicStatement
+Função: unlabelledBasicStatement
+Função: assignmentStatement
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: for
+Char encontrado: for
+
+Posição atual: 19
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 20
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token: :=
+Char encontrado: :=
+
+Posição atual: 21
+
+Função: auxLeftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: subscriptedVariable
+Função: arrayIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 22
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: s
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: step
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: step
+Char comparado ERRADO: +
+Token ERRADO: step
+Char comparado ERRADO: -
+Token ERRADO: step
+Char comparado ERRADO: end
+Função: statement
+Função: forStatement
+Função: forClause
+Função: forClause
+Token: for
+Char encontrado: for
+
+Posição atual: 19
+
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 20
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token: :=
+Char encontrado: :=
+
+Posição atual: 21
+
+Função: forList
+Função: forList
+Função: forListElement
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 22
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: s
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: step
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: step
+Char comparado ERRADO: +
+Token ERRADO: step
+Char comparado ERRADO: -
+Token: step
+Char encontrado: step
+
+Posição atual: 23
+
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 24
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: u
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: until
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: until
+Char comparado ERRADO: +
+Token ERRADO: until
+Char comparado ERRADO: -
+Token: until
+Char encontrado: until
+
+Posição atual: 25
+
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: n
+Função: exponentialPart
+Token ERRADO: n
+Char comparado ERRADO: ^
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: n
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: n
+Char encontrado: n
+
+Posição atual: 26
+
+Função: auxIdentifier
+Função: digit
+Digito: d
+Função: letter
+Token: do
+Char encontrado: do
+
+Posição atual: 27
+
+Função: auxIdentifier
+Função: digit
+Digito: ;
+Função: letter
+Função erro MatchLetter
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: ;
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: ;
+Char comparado ERRADO: +
+Token ERRADO: ;
+Char comparado ERRADO: -
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 22
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: s
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: step
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: step
+Char comparado ERRADO: +
+Token ERRADO: step
+Char comparado ERRADO: -
+Token ERRADO: step
+Char comparado ERRADO: while
+Função: auxForList
+Token ERRADO: step
+Char comparado ERRADO: ,
+Token ERRADO: step
+Char comparado ERRADO: do
+Função: label
+Função: identifier
+Função: letter
+Token: for
+Char encontrado: for
+
+Posição atual: 19
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 20
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função: conditionalStatement
+Função: ifStatement
+Função: ifClause
+Token ERRADO: for
+Char comparado ERRADO: if
+Função: ifStatement
+Função: ifClause
+Token ERRADO: for
+Char comparado ERRADO: if
+Função: ifClause
+Token ERRADO: for
+Char comparado ERRADO: if
+Função: label
+Função: identifier
+Função: letter
+Token: for
+Char encontrado: for
+
+Posição atual: 19
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 20
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token ERRADO: :=
+Char comparado ERRADO: :
+Função unconditionalStatement
+Função: basicStatement
+Função: unlabelledBasicStatement
+Função: assignmentStatement
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: for
+Char encontrado: for
+
+Posição atual: 19
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 20
+
+Função: auxIdentifier
+Função: digit
+Digito: :
+Função: letter
+Função erro MatchLetter
+Token: :=
+Char encontrado: :=
+
+Posição atual: 21
+
+Função: auxLeftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: subscriptedVariable
+Função: arrayIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Função erro MatchLetter
+Função: arithmeticExpression
+Função: simpleArithmeticExpression
+Função: term
+Função: factor
+Função: primary
+Função: unsignedNumber
+Função: decimalNumber
+Função: unsignedInteger
+Função: digit
+Digito: 1
+Token: 1
+Char encontrado: 1
+
+Posição atual: 22
+
+Função: auxUnsignedInteger
+Função: digit
+Digito: s
+Função: auxTerm
+Função: multiplyingOperator
+Token ERRADO: step
+Char comparado ERRADO: *
+Função: auxSimpleArithmeticExpression
+Função: addingOperator
+Token ERRADO: step
+Char comparado ERRADO: +
+Token ERRADO: step
+Char comparado ERRADO: -
+Token ERRADO: step
+Char comparado ERRADO: ;
+Função: label
+Função: identifier
+Função: letter
+Token: begin
+Char encontrado: begin
+
+Posição atual: 1
+
+Função: auxIdentifier
+Função: digit
+Digito: i
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :
+Função: compoundStatement
+Função: unlabelledCompound
+Token: begin
+Char encontrado: begin
+
+Posição atual: 1
+
+Função: compoundTail
+Função: statement
+Função: forStatement
+Função: forClause
+Função: forClause
+Token ERRADO: integer
+Char comparado ERRADO: for
+Função: label
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :
+Função: conditionalStatement
+Função: ifStatement
+Função: ifClause
+Token ERRADO: integer
+Char comparado ERRADO: if
+Função: ifStatement
+Função: ifClause
+Token ERRADO: integer
+Char comparado ERRADO: if
+Função: ifClause
+Token ERRADO: integer
+Char comparado ERRADO: if
+Função: label
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :
+Função unconditionalStatement
+Função: basicStatement
+Função: unlabelledBasicStatement
+Função: assignmentStatement
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :=
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :=
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :=
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :=
+Função: goToStatement
+Token ERRADO: integer
+Char comparado ERRADO: goto
+Função: procedureStatement
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Função: actualParameterPart
+Token ERRADO: ,
+Char comparado ERRADO: (
+Token ERRADO: ,
+Char comparado ERRADO: end
+Função: statement
+Função: forStatement
+Função: forClause
+Função: forClause
+Token ERRADO: integer
+Char comparado ERRADO: for
+Função: label
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :
+Função: conditionalStatement
+Função: ifStatement
+Função: ifClause
+Token ERRADO: integer
+Char comparado ERRADO: if
+Função: ifStatement
+Função: ifClause
+Token ERRADO: integer
+Char comparado ERRADO: if
+Função: ifClause
+Token ERRADO: integer
+Char comparado ERRADO: if
+Função: label
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :
+Função unconditionalStatement
+Função: basicStatement
+Função: unlabelledBasicStatement
+Função: assignmentStatement
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :=
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :=
+Função: leftPartList
+Função: leftPart
+Função: variable
+Função: simpleVariable
+Função: variableIdentifier
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :=
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :=
+Função: goToStatement
+Token ERRADO: integer
+Char comparado ERRADO: goto
+Função: procedureStatement
+Função: procedureIdentifier
+Função: identifier
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Função: actualParameterPart
+Token ERRADO: ,
+Char comparado ERRADO: (
+Token ERRADO: ,
+Char comparado ERRADO: ;
+Função: label
+Função: identifier
+Função: letter
+Token: begin
+Char encontrado: begin
+
+Posição atual: 1
+
+Função: auxIdentifier
+Função: digit
+Digito: i
+Função: letter
+Token: integer
+Char encontrado: integer
+
+Posição atual: 2
+
+Função: auxIdentifier
+Função: digit
+Digito: p
+Função: letter
+Token: p
+Char encontrado: p
+
+Posição atual: 3
+
+Função: auxIdentifier
+Função: digit
+Digito: ,
+Função: letter
+Função erro MatchLetter
+Token ERRADO: ,
+Char comparado ERRADO: :
+Erro na análise sintática
+POSIÇÃO ATUAL DO POS: 0
+PILHA NO SINTATICO
+begin - Idenficador Reservado
+integer - Idenficador Reservado
+p - Identificador
+, - Separador
+q - Identificador
+; - Separador
+y - Identificador
+:= - Separador
+0 - Digito
+; - Separador
+i - Identificador
+:= - Separador
+1 - Digito
+; - Separador
+k - Identificador
+:= - Separador
+1 - Digito
+; - Separador
+for - Idenficador Reservado
+p - Identificador
+:= - Separador
+1 - Digito
+step - Idenficador Reservado
+1 - Digito
+until - Idenficador Reservado
+n - Identificador
+do - Idenficador Reservado
+; - Separador
+if - Idenficador Reservado
+6 - Digito
+> - Operador relacional
+y - Identificador
+then - Idenficador Reservado
+begin - Idenficador Reservado
+y - Identificador
+:= - Separador
+k - Identificador
+; - Separador
+i - Identificador
+:= - Separador
+p - Identificador
+; - Separador
+k - Identificador
+:= - Separador
+q - Identificador
+end - Idenficador Reservado
+end - Idenficador Reservado
+$ - Fim

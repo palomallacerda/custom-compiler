@@ -8,7 +8,7 @@ std::vector<Token> erros;
 
 std::vector<Token> inicialState(std::vector<Token> tokensEntrada){
     //Começa percorrer a bnf
-    block(tokensEntrada);
+    program(tokensEntrada);
 
     if(pos == tokensEntrada.size() - 1){
         if(!erros.empty()){
@@ -43,17 +43,16 @@ std::vector<Token> inicialState(std::vector<Token> tokensEntrada){
 bool match(std::string character, std::vector<Token> tokensEntrada){
     
     if(tokensEntrada.at(pos).rotulo == character){
-        std::cout << "Posição encontrada" << pos << std::endl;
         std::cout << "Token: " << tokensEntrada.at(pos).rotulo << std::endl;
-        
-        std::cout << "Char encontrado: " << character << std::endl;
+        std::cout << "Char encontrado: " << character << std::endl << std::endl;
         //std::cout << "Posição no vector: " << pos << std::endl;
         //addToTable(tokensEntrada.at(pos));
         pos++;
+        std::cout << "Posição atual: " << pos << std::endl << std::endl;
         return true;
     }
     else{
-        std::cout << "Posição ERRADA encontrada " << pos << std::endl;
+        //std::cout << "Posição ERRADA encontrada " << pos << std::endl;
         std::cout << "Token ERRADO: " << tokensEntrada.at(pos).rotulo << std::endl;
         std::cout << "Char comparado ERRADO: " << character << std::endl;
         
@@ -73,7 +72,7 @@ bool matchLetter(std::vector<Token> tokensEntrada){
         }
     }
     else{
-        std::cout << "Função erro MacthLetter" << std::endl;
+        std::cout << "Função erro MatchLetter" << std::endl;
         return false;
     }
     //return false;
@@ -109,11 +108,10 @@ bool program(std::vector<Token> tokensEntrada){ //Paloma
     //return (block(tokensEntrada) || compoundStatement(tokensEntrada));
     if (not block(tokensEntrada)){
         pos = auxPos;
-        return false;
-    }
-    if (not compoundStatement(tokensEntrada)){
-        pos = auxPos;
-        return false;
+        if (not compoundStatement(tokensEntrada)){
+            pos = auxPos;
+            return false;
+        }
     }
 
     return true;
@@ -130,7 +128,7 @@ bool block(std::vector<Token> tokensEntrada){
             return false;
         }
     }
-    return (true);
+    return true;
 }
 
 bool unlabelledBlock(std::vector<Token> tokensEntrada){ //Paloma
@@ -159,13 +157,8 @@ bool blockHead(std::vector<Token> tokensEntrada){ //Paloma
 bool blockAux(std::vector<Token> tokensEntrada){
     std::cout << "Função: blockAux" << std::endl;
     int auxPos = pos;
-    if(match(";", tokensEntrada) ){
-        if(declaration(tokensEntrada) ){
-            blockAux(tokensEntrada);
-        }
-        else {
-            pos = auxPos;
-        }
+    if(not (match(";", tokensEntrada) && declaration(tokensEntrada) && blockAux(tokensEntrada))){
+        pos = auxPos;
     }
     return true;
 }
@@ -205,12 +198,9 @@ bool compoundTail(std::vector<Token> tokensEntrada){
         if (!(statement(tokensEntrada) && match(";", tokensEntrada) && compoundTail(tokensEntrada))){
             pos = auxPos;
             return false;
-        } else {
-            return true;
         }
-    } else {
-        return true;
     }
+    return true;
 }
 
 bool declaration(std::vector<Token> tokensEntrada){
@@ -218,15 +208,13 @@ bool declaration(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not typedeclaration(tokensEntrada)){
         pos = auxPos;
-        return false;
-    }
-    if (not arrayDeclaration(tokensEntrada)){
-        pos = auxPos;
-        return false;
-    }
-    if (not procedureDeclaration(tokensEntrada)){
-        pos = auxPos;
-        return false;
+        if (not arrayDeclaration(tokensEntrada)){
+            pos = auxPos;
+            if (not procedureDeclaration(tokensEntrada)){
+                pos = auxPos;
+                return false;
+            }
+        }
     }
     return true;
 }
@@ -248,11 +236,11 @@ bool localOrOwnType(std::vector<Token> tokensEntrada){
     //return (type(tokensEntrada) || (match("own", tokensEntrada) && type(tokensEntrada)));
     if(not type(tokensEntrada)){
         pos = auxPos;
-        return false;
-    }
-    if(not (match("own", tokensEntrada) && type(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if(not (match("own", tokensEntrada) && type(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
 }
@@ -287,11 +275,10 @@ bool arrayDeclaration(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (match("array", tokensEntrada) && arrayList(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (localOrOwnType(tokensEntrada) && match("array", tokensEntrada) && arrayList(tokensEntrada))){
-        pos = auxPos;
-        return false;
+        if (not (localOrOwnType(tokensEntrada) && match("array", tokensEntrada) && arrayList(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     // return ((match("array", tokensEntrada) && arrayList(tokensEntrada)) || (localOrOwnType(tokensEntrada) && match("array", tokensEntrada) && arrayList(tokensEntrada)));
@@ -314,7 +301,6 @@ bool auxArrayList(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if(not (match(",", tokensEntrada) && arraySegment(tokensEntrada) && auxArrayList(tokensEntrada))){
         pos = auxPos;
-        return false;
     }
     return true;
     // return ((match(",", tokensEntrada) && arraySegment(tokensEntrada) && auxArrayList(tokensEntrada)) || true);
@@ -325,11 +311,11 @@ bool arraySegment(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if(not (arrayIdentifier(tokensEntrada) && (match("[", tokensEntrada) && boundPairList(tokensEntrada) && match("]", tokensEntrada)))){
         pos = auxPos;
-        return false;
-    }
-    if (not (arrayIdentifier(tokensEntrada) && match(",", tokensEntrada) && arraySegment(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (arrayIdentifier(tokensEntrada) && match(",", tokensEntrada) && arraySegment(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     // return ((arrayIdentifier(tokensEntrada) && (match("[", tokensEntrada) && boundPairList(tokensEntrada) && match("]", tokensEntrada))) || (arrayIdentifier(tokensEntrada) && match(",", tokensEntrada) && arraySegment(tokensEntrada))); 
@@ -362,7 +348,6 @@ bool auxBoundPairList(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (match(",", tokensEntrada) && boundPair(tokensEntrada) && auxBoundPairList(tokensEntrada))){
         pos = auxPos;
-        return false;
     }
     return true;
     // return((match(",", tokensEntrada) && boundPair(tokensEntrada) && auxBoundPairList(tokensEntrada)) || true);
@@ -395,11 +380,11 @@ bool procedureDeclaration(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (match("procedure", tokensEntrada) && procedureHeading(tokensEntrada) && procedureBody(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (type(tokensEntrada) && match("procedure", tokensEntrada) && procedureHeading(tokensEntrada) && procedureBody(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (type(tokensEntrada) && match("procedure", tokensEntrada) && procedureHeading(tokensEntrada) && procedureBody(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     // return ((match("procedure", tokensEntrada) && procedureHeading(tokensEntrada) && procedureBody(tokensEntrada)) || (type(tokensEntrada) && match("procedure", tokensEntrada) && procedureHeading(tokensEntrada) && procedureBody(tokensEntrada)));
@@ -498,7 +483,6 @@ bool auxSpecificationPart(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not ((specifier(tokensEntrada) && identifierList(tokensEntrada) && auxSpecificationPart(tokensEntrada)))){
         pos = auxPos;
-        return false;
     }
     return true;
     // return ((specifier(tokensEntrada) && identifierList(tokensEntrada) && auxSpecificationPart(tokensEntrada)) || true);
@@ -509,31 +493,31 @@ bool specifier(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (type(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (match("array", tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (match("array", tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (type(tokensEntrada) && match("array", tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (match("label", tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (match("procedure", tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (type(tokensEntrada) && match("procedure", tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (match("array", tokensEntrada))){
+            pos = auxPos;
+
+            if (not (match("array", tokensEntrada))){
+                pos = auxPos;
+
+                if (not (type(tokensEntrada) && match("array", tokensEntrada))){
+                    pos = auxPos;
+
+                    if (not (match("label", tokensEntrada))){
+                        pos = auxPos;
+
+                        if (not (match("procedure", tokensEntrada))){
+                            pos = auxPos;
+
+                            if (not (type(tokensEntrada) && match("procedure", tokensEntrada))){
+                                pos = auxPos;
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     return true;
     // return (type(tokensEntrada) || match("array", tokensEntrada) || (type(tokensEntrada) && match("array", tokensEntrada)) || match("label", tokensEntrada) || match("procedure", tokensEntrada) || (type(tokensEntrada) && match("procedure", tokensEntrada)));
@@ -551,16 +535,19 @@ bool identifierList(std::vector<Token> tokensEntrada){
 }
 
 bool auxIdentifierList(std::vector<Token> tokensEntrada){
+    std::cout << "Função: auxIdentifierList" << std::endl;
+
     int auxPos = pos;
     if (not (match(",", tokensEntrada) && identifier(tokensEntrada) && auxIdentifierList(tokensEntrada))){
         pos = auxPos;
-        return false;
     }
     return true;
     // return ((match(",", tokensEntrada) && identifier(tokensEntrada) && auxIdentifierList(tokensEntrada)) || true);
 }
 
 bool procedureBody(std::vector<Token> tokensEntrada){
+    std::cout << "Função: procedureBody" << std::endl;
+
     int auxPos = pos;
     if (not (statement(tokensEntrada))){
         pos = auxPos;
@@ -573,17 +560,17 @@ bool procedureBody(std::vector<Token> tokensEntrada){
 bool statement(std::vector<Token> tokensEntrada){
     std::cout << "Função: statement" << std::endl;
     int auxPos = pos;
-    if (not (unconditionalStatement(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (conditionalStatement(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
     if (not (forStatement(tokensEntrada))){
         pos = auxPos;
-        return false;
+
+        if (not (conditionalStatement(tokensEntrada))){
+            pos = auxPos;
+
+            if (not (unconditionalStatement(tokensEntrada))){
+                pos = auxPos;
+                return false;
+            }
+        }
     }
     return true;
     // return (unconditionalStatement(tokensEntrada) || conditionalStatement(tokensEntrada) || forStatement(tokensEntrada));
@@ -594,15 +581,15 @@ bool unconditionalStatement(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (basicStatement(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (compoundStatement(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (block(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (compoundStatement(tokensEntrada))){
+            pos = auxPos;
+
+            if (not (block(tokensEntrada))){
+                pos = auxPos;
+                return false;
+            }
+        }
     }
     return true;
     // return (basicStatement(tokensEntrada) || compoundStatement(tokensEntrada) || block(tokensEntrada));
@@ -613,11 +600,11 @@ bool basicStatement(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (unlabelledBasicStatement(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (label(tokensEntrada) && match(":", tokensEntrada) && basicStatement(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (label(tokensEntrada) && match(":", tokensEntrada) && basicStatement(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     // return (unlabelledBasicStatement(tokensEntrada) || (label(tokensEntrada) && match(":", tokensEntrada) && basicStatement(tokensEntrada)));
@@ -628,11 +615,11 @@ bool label(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (identifier(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (unsignedInteger(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (unsignedInteger(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     // return (identifier(tokensEntrada) || unsignedInteger(tokensEntrada));
@@ -643,15 +630,15 @@ bool unlabelledBasicStatement(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (assignmentStatement(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (goToStatement(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (procedureStatement(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (goToStatement(tokensEntrada))){
+            pos = auxPos;
+
+            if (not (procedureStatement(tokensEntrada))){
+                pos = auxPos;
+                return false;
+            }
+        }
     }
     return true;
     // return (assignmentStatement(tokensEntrada) || goToStatement(tokensEntrada) || procedureStatement(tokensEntrada));
@@ -662,11 +649,11 @@ bool assignmentStatement(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (leftPartList(tokensEntrada) && arithmeticExpression(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (leftPartList(tokensEntrada) && booleanExpression(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (leftPartList(tokensEntrada) && booleanExpression(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     // return ((leftPartList(tokensEntrada) && arithmeticExpression(tokensEntrada)) || (leftPartList(tokensEntrada) && booleanExpression(tokensEntrada)));
@@ -688,7 +675,6 @@ bool auxLeftPartList(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (leftPart(tokensEntrada) && auxLeftPartList(tokensEntrada))){
         pos = auxPos;
-        return false;
     }
     return true;
     // return ((leftPart(tokensEntrada) && auxLeftPartList(tokensEntrada)) || true);
@@ -699,11 +685,11 @@ bool leftPart(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (variable(tokensEntrada) && match(":=", tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (procedureIdentifier(tokensEntrada) && match(":=", tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (procedureIdentifier(tokensEntrada) && match(":=", tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     // return ((variable(tokensEntrada) && match(":=", tokensEntrada)) || (procedureIdentifier(tokensEntrada) && match(":=", tokensEntrada)));
@@ -721,14 +707,16 @@ bool goToStatement(std::vector<Token> tokensEntrada){
 }
 
 bool designationalExpression(std::vector<Token> tokensEntrada){
+    std::cout << "Função: designationalExpression" << std::endl;
+
     int auxPos = pos;
     if (not (simpleDesignationalExpression(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (ifClause(tokensEntrada) && simpleDesignationalExpression(tokensEntrada) && match("else", tokensEntrada) && designationalExpression(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (ifClause(tokensEntrada) && simpleDesignationalExpression(tokensEntrada) && match("else", tokensEntrada) && designationalExpression(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     // return (simpleDesignationalExpression(tokensEntrada) || (ifClause(tokensEntrada) && simpleDesignationalExpression(tokensEntrada) && match("else", tokensEntrada) && designationalExpression(tokensEntrada) ) );
@@ -739,11 +727,10 @@ bool simpleDesignationalExpression(std::vector<Token> tokensEntrada){
     int auxPos = pos;
     if (not (label(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (match("(", tokensEntrada) && designationalExpression(tokensEntrada) && match(")", tokensEntrada))){
-        pos = auxPos;
-        return false;
+        if (not (match("(", tokensEntrada) && designationalExpression(tokensEntrada) && match(")", tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     // return (label(tokensEntrada) || (match("(", tokensEntrada) && designationalExpression(tokensEntrada) && match(")", tokensEntrada)));
@@ -761,16 +748,18 @@ bool procedureStatement(std::vector<Token> tokensEntrada){
 }
 
 bool actualParameterPart(std::vector<Token> tokensEntrada){
+    std::cout << "Função: actualParameterPart" << std::endl;
     int auxPos = pos;
     if (not (match("(", tokensEntrada) && actualParameterList(tokensEntrada) && match(")", tokensEntrada))){
         pos = auxPos;
-        return false;
     }
     return true;
     // return (true || (match("(", tokensEntrada) && actualParameterList(tokensEntrada) && match(")", tokensEntrada)));
 }
 
 bool actualParameterList(std::vector<Token> tokensEntrada){
+    std::cout << "Função: actualParameterList" << std::endl;
+
     int auxPos = pos;
     if (not (actualParameter(tokensEntrada) && auxActualParameterList(tokensEntrada))){
         pos = auxPos;
@@ -781,20 +770,21 @@ bool actualParameterList(std::vector<Token> tokensEntrada){
 }
 
 bool auxActualParameterList(std::vector<Token> tokensEntrada){
+    std::cout << "Função: auxActualParameterList" << std::endl;
+
     int auxPos = pos;
     if (not (parameterDelimiter(tokensEntrada) && actualParameter(tokensEntrada) && auxActualParameterList(tokensEntrada))){
         pos = auxPos;
-        return false;
     }
     return true;
     // return ((parameterDelimiter(tokensEntrada) && actualParameter(tokensEntrada) && auxActualParameterList(tokensEntrada)) || true);
 }
 
 bool parameterDelimiter(std::vector<Token> tokensEntrada){
+    std::cout << "Função: parameterDelimiter" << std::endl;
+
     return (match(",", tokensEntrada));
 }
-
-
 
 bool actualParameter(std::vector<Token> tokensEntrada){ //Paloma
     std::cout << "Função: actualParameter" << std::endl;
@@ -802,15 +792,15 @@ bool actualParameter(std::vector<Token> tokensEntrada){ //Paloma
    // return (expression(tokensEntrada) || arrayIdentifier(tokensEntrada) || procedureIdentifier(tokensEntrada));
     if (not expression(tokensEntrada)){
         pos = auxPos;
-        return false;
-    }
-    if(not arrayIdentifier(tokensEntrada)){
-        pos = auxPos;
-        return false;
-    }
-    if(not procedureIdentifier(tokensEntrada)){
-        pos = auxPos;
-        return false;
+    
+        if(not arrayIdentifier(tokensEntrada)){
+            pos = auxPos;
+        
+            if(not procedureIdentifier(tokensEntrada)){
+                pos = auxPos;
+                return false;
+            }
+        }
     }
     return true;
 }
@@ -824,25 +814,27 @@ bool conditionalStatement(std::vector<Token> tokensEntrada){ //Paloma
     
     if (not (ifStatement(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if(not (ifStatement(tokensEntrada) && match("else", tokensEntrada) && statement(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if(not (ifClause(tokensEntrada) && forStatement(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if(not (label(tokensEntrada) && match(":", tokensEntrada) && conditionalStatement(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if(not (ifStatement(tokensEntrada) && match("else", tokensEntrada) && statement(tokensEntrada))){
+            pos = auxPos;
+            
+            if(not (ifClause(tokensEntrada) && forStatement(tokensEntrada))){
+                pos = auxPos;
+            
+                if(not (label(tokensEntrada) && match(":", tokensEntrada) && conditionalStatement(tokensEntrada))){
+                    pos = auxPos;
+                    return false;
+                }
+            }
+        }
     }
 
     return true;
 }
 
-bool ifStatement(std::vector<Token> tokensEntrada){ //Paloma
+bool ifStatement(std::vector<Token> tokensEntrada){ 
+    std::cout << "Função: ifStatement" << std::endl;
+
     //return (ifClause(tokensEntrada) && unconditionalStatement(tokensEntrada));
     int auxPos = pos;
     if (not (ifClause(tokensEntrada) && unconditionalStatement(tokensEntrada))){
@@ -853,6 +845,8 @@ bool ifStatement(std::vector<Token> tokensEntrada){ //Paloma
 }
 
 bool ifClause(std::vector<Token> tokensEntrada){ //Paloma
+    std::cout << "Função: ifClause" << std::endl;
+
     int auxPos = pos;
     //return ((match("if", tokensEntrada) && booleanExpression(tokensEntrada) && match("then", tokensEntrada)));
     
@@ -870,19 +864,18 @@ bool forStatement(std::vector<Token> tokensEntrada){
     
     if(not (forClause(tokensEntrada) && statement(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
 
-    if(not (label(tokensEntrada) && match(":", tokensEntrada) && forStatement(tokensEntrada))){
-        pos = auxPos;
-        return false;
+        if(not (label(tokensEntrada) && match(":", tokensEntrada) && forStatement(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
-    
     return true;
 }
 
 bool forClause(std::vector<Token> tokensEntrada){ //Paloma
-
+    std::cout << "Função: forClause" << std::endl;
+    std::cout << "Função: forClause" << std::endl;
     //return (match("for", tokensEntrada) && variable(tokensEntrada) && match(":=", tokensEntrada) && forList(tokensEntrada) && match("do", tokensEntrada));
     int auxPos = pos;
     if(not (match("for", tokensEntrada) && variable(tokensEntrada) && match(":=", tokensEntrada) && forList(tokensEntrada) && match("do", tokensEntrada))){
@@ -893,6 +886,9 @@ bool forClause(std::vector<Token> tokensEntrada){ //Paloma
 }
 
 bool forList(std::vector<Token> tokensEntrada){ //Paloma
+    std::cout << "Função: forList" << std::endl;
+
+    std::cout << "Função: forList" << std::endl;
     int auxPos = pos;
     //return (forListElement(tokensEntrada) && auxForList(tokensEntrada));
     if(not (forListElement(tokensEntrada) && auxForList(tokensEntrada))){
@@ -902,6 +898,7 @@ bool forList(std::vector<Token> tokensEntrada){ //Paloma
     return true;
 }
 bool auxForList(std::vector<Token> tokensEntrada){
+    std::cout << "Função: auxForList" << std::endl;
     int auxPos = pos;
     //return ((match(",", tokensEntrada) && forListElement(tokensEntrada) && auxForList(tokensEntrada)) || true);
     if(not (match(",", tokensEntrada) && forListElement(tokensEntrada) && auxForList(tokensEntrada))){
@@ -916,19 +913,20 @@ bool forListElement(std::vector<Token> tokensEntrada){ //Paloma
     //return ((arithmeticExpression(tokensEntrada)) || (arithmeticExpression(tokensEntrada) && match("step" , tokensEntrada) && arithmeticExpression(tokensEntrada) && match("until", tokensEntrada) && 
     //arithmeticExpression(tokensEntrada)) || (arithmeticExpression(tokensEntrada) && match("while" , tokensEntrada) && booleanExpression(tokensEntrada)));
     
-    if(not (arithmeticExpression(tokensEntrada))){
+        
+    if((arithmeticExpression(tokensEntrada) && match("step" , tokensEntrada) && arithmeticExpression(tokensEntrada) 
+    && match("until", tokensEntrada) && arithmeticExpression(tokensEntrada))){
         pos = auxPos;
-        return false;
+        
+        if((arithmeticExpression(tokensEntrada) && match("while" , tokensEntrada) && booleanExpression(tokensEntrada))){
+            pos = auxPos;
+            if(not (arithmeticExpression(tokensEntrada))){
+                pos = auxPos;
+                return false;
+            }
+        }
     }
-    if((arithmeticExpression(tokensEntrada) && match("step" , tokensEntrada) && arithmeticExpression(tokensEntrada) && match("until", tokensEntrada) && 
-    arithmeticExpression(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if((arithmeticExpression(tokensEntrada) && match("while" , tokensEntrada) && booleanExpression(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }       
+       
     return true;
 }
 
@@ -939,17 +937,16 @@ bool expression(std::vector<Token> tokensEntrada){
     //return (arithmeticExpression(tokensEntrada) || booleanExpression(tokensEntrada) || designationalExpression(tokensEntrada));
     if(not arithmeticExpression(tokensEntrada)){
         pos = auxPos;
-        return false;
-    }
-    if(not booleanExpression(tokensEntrada)){
-        pos = auxPos;
-        return false;
-    }
-    if(not designationalExpression(tokensEntrada)){
-        pos = auxPos;
-        return false;
-    }
+        
+        if(not booleanExpression(tokensEntrada)){
+            pos = auxPos;
 
+            if(not designationalExpression(tokensEntrada)){
+                pos = auxPos;
+                return false;
+            }
+        }
+    }
     return true;
 }
 
@@ -962,17 +959,17 @@ bool arithmeticExpression(std::vector<Token> tokensEntrada){//Paloma
     
     if(not simpleArithmeticExpression(tokensEntrada)){
         pos = auxPos;
-        return false;
-    }
-    if(not simpleArithmeticExpression(tokensEntrada)){
-        pos = auxPos;
-        return false;
-    }
-    if((ifClause(tokensEntrada) && simpleArithmeticExpression(tokensEntrada) && match("else", tokensEntrada) && arithmeticExpression(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
     
+        if(not simpleArithmeticExpression(tokensEntrada)){
+            pos = auxPos;
+        
+            if((ifClause(tokensEntrada) && simpleArithmeticExpression(tokensEntrada) && match("else", tokensEntrada) && arithmeticExpression(tokensEntrada))){
+                pos = auxPos;
+                return false;
+            }
+        }
+    }
+        
     return true;
 }
 
@@ -983,11 +980,11 @@ bool simpleArithmeticExpression(std::vector<Token> tokensEntrada){ //Paloma
     
     if(not (term(tokensEntrada) && auxSimpleArithmeticExpression(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if(not ((addingOperator(tokensEntrada) && term(tokensEntrada) && auxSimpleArithmeticExpression(tokensEntrada)))){
-        pos = auxPos;
-        return false;
+    
+        if(not ((addingOperator(tokensEntrada) && term(tokensEntrada) && auxSimpleArithmeticExpression(tokensEntrada)))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
 
@@ -1004,7 +1001,9 @@ bool auxSimpleArithmeticExpression(std::vector<Token> tokensEntrada){
     return true;
 }
 
+
 bool addingOperator(std::vector<Token> tokensEntrada){ 
+    std::cout << "Função: addingOperator" << std::endl;
     return (match("+", tokensEntrada) || match("-", tokensEntrada));
 }
 
@@ -1021,7 +1020,8 @@ bool term(std::vector<Token> tokensEntrada){
     return true;
 }
 
-bool auxTerm(std::vector<Token> tokensEntrada){ //Paloma 
+bool auxTerm(std::vector<Token> tokensEntrada){ //Paloma
+    std::cout << "Função: auxTerm" << std::endl; 
     int auxPos = pos;
     
     //return ((multiplyingOperator(tokensEntrada) && factor(tokensEntrada) && auxTerm(tokensEntrada)) || true);
@@ -1034,22 +1034,20 @@ bool auxTerm(std::vector<Token> tokensEntrada){ //Paloma
 }
 
 bool multiplyingOperator(std::vector<Token> tokensEntrada){
+    std::cout << "Função: multiplyingOperator" << std::endl;
     return (match("*", tokensEntrada));
 }
-
-// ELIAS A PARTIR DAQ 
-
 
 bool factor(std::vector<Token> tokensEntrada){
     std::cout << "Função: factor" << std::endl;
     int auxPos = pos;
     if (not primary(tokensEntrada)){
         pos = auxPos;
-        return false;
-    }
-    if (not (factor(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (factor(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     
@@ -1062,19 +1060,19 @@ bool primary(std::vector<Token> tokensEntrada){
     
     if (not unsignedNumber(tokensEntrada)){
         pos = auxPos;
-        return false;
-    }
-    if (not variable(tokensEntrada)){
-        pos = auxPos;
-        return false;
-    }
-    if (not functionDesignator(tokensEntrada)){
-        pos = auxPos;
-        return false;
-    }
-    if (not (match("(", tokensEntrada) && arithmeticExpression(tokensEntrada) && match(")", tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not variable(tokensEntrada)){
+            pos = auxPos;
+
+            if (not functionDesignator(tokensEntrada)){
+                pos = auxPos;
+
+                if (not (match("(", tokensEntrada) && arithmeticExpression(tokensEntrada) && match(")", tokensEntrada))){
+                    pos = auxPos;
+                    return false;
+                }
+            }
+        }
     }
 
     return true;
@@ -1088,18 +1086,18 @@ bool unsignedNumber(std::vector<Token> tokensEntrada){
     
     if (not decimalNumber(tokensEntrada)){
         pos = auxPos;
-        return false;
-    }
-    if (not exponentialPart(tokensEntrada)){
-        pos = auxPos;
-        return false;
-    }
-    if (not (decimalNumber(tokensEntrada) && exponentialPart(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not exponentialPart(tokensEntrada)){
+            pos = auxPos;
+
+            if (not (decimalNumber(tokensEntrada) && exponentialPart(tokensEntrada))){
+                pos = auxPos;
+                return false;
+            }
+        }
     }
 
-    return false;
+    return true;
     
     // return (decimalNumber(tokensEntrada) || exponentialPart(tokensEntrada) || (decimalNumber(tokensEntrada) && exponentialPart(tokensEntrada)));
 }
@@ -1138,7 +1136,9 @@ bool auxUnsignedInteger(std::vector<Token> tokensEntrada){
     // return ((digit(tokensEntrada) && auxUnsignedInteger(tokensEntrada)) || true);
 }
 
+
 bool exponentialPart(std::vector<Token> tokensEntrada){
+    std::cout << "Função: exponentialPart" << std::endl;
     int auxPos = pos;
     if (not (match("^", tokensEntrada) && integer(tokensEntrada))){
         pos = auxPos;
@@ -1154,15 +1154,15 @@ bool integer(std::vector<Token> tokensEntrada){
     
     if (not (unsignedInteger(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if(not (match("+", tokensEntrada) && unsignedInteger(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (match("-", tokensEntrada) && unsignedInteger(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if(not (match("+", tokensEntrada) && unsignedInteger(tokensEntrada))){
+            pos = auxPos;
+
+            if (not (match("-", tokensEntrada) && unsignedInteger(tokensEntrada))){
+                pos = auxPos;
+                return false;
+            }
+        }
     }
     
     return true;
@@ -1176,11 +1176,11 @@ bool booleanExpression(std::vector<Token> tokensEntrada){
     
     if (not (simpleBoolean(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (ifClause(tokensEntrada) && simpleBoolean(tokensEntrada) && match("else", tokensEntrada) && booleanExpression(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (ifClause(tokensEntrada) && simpleBoolean(tokensEntrada) && match("else", tokensEntrada) && booleanExpression(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
 
     return true;
@@ -1189,7 +1189,9 @@ bool booleanExpression(std::vector<Token> tokensEntrada){
     // && match("else", tokensEntrada) && booleanExpression(tokensEntrada)));
 }
 
+
 bool simpleBoolean(std::vector<Token> tokensEntrada){
+    std::cout << "Função: simpleBoolean" << std::endl;
     int auxPos = pos;
     
     if (not (implication(tokensEntrada) && auxSimpleBoolean(tokensEntrada))){
@@ -1200,7 +1202,9 @@ bool simpleBoolean(std::vector<Token> tokensEntrada){
     // return (implication(tokensEntrada) && auxSimpleBoolean(tokensEntrada));
 }
 
+
 bool auxSimpleBoolean(std::vector<Token> tokensEntrada){
+    std::cout << "Função: auxSimpleBoolean" << std::endl;
     int auxPos = pos;
     
     if (not (match("==", tokensEntrada) && implication(tokensEntrada) && auxSimpleBoolean(tokensEntrada))){
@@ -1210,7 +1214,9 @@ bool auxSimpleBoolean(std::vector<Token> tokensEntrada){
     // return ((match("==", tokensEntrada) && implication(tokensEntrada) && auxSimpleBoolean(tokensEntrada)) || true);
 }
 
+
 bool implication(std::vector<Token> tokensEntrada){
+    std::cout << "Função: implication" << std::endl;
     int auxPos = pos;
     
     if (not (booleanTerm(tokensEntrada))){
@@ -1221,7 +1227,9 @@ bool implication(std::vector<Token> tokensEntrada){
     // return booleanTerm(tokensEntrada);
 }
 
+
 bool booleanTerm(std::vector<Token> tokensEntrada){
+    std::cout << "Função: booleanTerm" << std::endl;
     int auxPos = pos;
     
     if (not (booleanFactor(tokensEntrada) && auxBooleanTerm(tokensEntrada))){
@@ -1233,7 +1241,9 @@ bool booleanTerm(std::vector<Token> tokensEntrada){
     // return (booleanFactor(tokensEntrada) && auxBooleanTerm(tokensEntrada));
 }
 
+
 bool auxBooleanTerm(std::vector<Token> tokensEntrada){
+    std::cout << "Função: auxBooleanTerm" << std::endl;
     int auxPos = pos;
     
     if (not (match("||", tokensEntrada) && booleanFactor(tokensEntrada) && auxBooleanTerm(tokensEntrada))){
@@ -1244,7 +1254,10 @@ bool auxBooleanTerm(std::vector<Token> tokensEntrada){
     //return ((match("||", tokensEntrada) && booleanFactor(tokensEntrada) && auxBooleanTerm(tokensEntrada)) || true);
 }
 
+
+
 bool booleanFactor(std::vector<Token> tokensEntrada){
+    std::cout << "Função: booleanFactor" << std::endl;
     int auxPos = pos;
     
     if (not (booleanSecondary(tokensEntrada) && auxBooleanFactor(tokensEntrada))){
@@ -1256,7 +1269,10 @@ bool booleanFactor(std::vector<Token> tokensEntrada){
     // return (booleanSecondary(tokensEntrada) && auxBooleanFactor(tokensEntrada));
 }
 
+
 bool auxBooleanFactor(std::vector<Token> tokensEntrada){
+    std::cout << "Função: auxBooleanFactor" << std::endl;
+
     int auxPos = pos;
     
     if (not (match("&&", tokensEntrada) && booleanSecondary(tokensEntrada) && auxBooleanFactor(tokensEntrada))){
@@ -1268,14 +1284,16 @@ bool auxBooleanFactor(std::vector<Token> tokensEntrada){
 
 bool booleanSecondary(std::vector<Token> tokensEntrada){
     int auxPos = pos;
+    std::cout << "Função: booleanSecondary" << std::endl;
+
     
     if (not (booleanPrimary(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (match("!", tokensEntrada) && booleanPrimary(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (match("!", tokensEntrada) && booleanPrimary(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
 
@@ -1284,26 +1302,29 @@ bool booleanSecondary(std::vector<Token> tokensEntrada){
 
 bool booleanPrimary(std::vector<Token> tokensEntrada){
     int auxPos = pos;
+
+    std::cout << "Função: booleanPrimary" << std::endl;
+
     
     if (not (logicalValue(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (variable(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (funcionDesignator(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (relation(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (match("(", tokensEntrada) && booleanExpression(tokensEntrada) && match(")", tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (variable(tokensEntrada))){
+            pos = auxPos;
+
+            if (not (funcionDesignator(tokensEntrada))){
+                pos = auxPos;
+
+                if (not (relation(tokensEntrada))){
+                    pos = auxPos;
+
+                    if (not (match("(", tokensEntrada) && booleanExpression(tokensEntrada) && match(")", tokensEntrada))){
+                        pos = auxPos;
+                        return false;
+                    }
+                }
+            }
+        }
     }
 
     return true;
@@ -1313,6 +1334,9 @@ bool booleanPrimary(std::vector<Token> tokensEntrada){
 
 bool functionDesignator(std::vector<Token> tokensEntrada){
     int auxPos = pos;
+
+    std::cout << "Função: functionDesignator" << std::endl;
+
     
     if (not (procedureIdentifier(tokensEntrada) && actualParameterPart(tokensEntrada))){
         pos = auxPos;
@@ -1353,11 +1377,11 @@ bool variable(std::vector<Token> tokensEntrada){
     
     if (not (simpleVariable(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (subscriptedVariable(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (subscriptedVariable(tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     // return (simpleVariable(tokensEntrada) || subscriptedVariable(tokensEntrada));
@@ -1403,6 +1427,8 @@ bool subscriptedVariable(std::vector<Token> tokensEntrada){
 
 bool subscriptList(std::vector<Token> tokensEntrada){
     int auxPos = pos;
+    std::cout << "Função: subscriptList" << std::endl;
+
     
     if (not (subscriptExpression(tokensEntrada) && auxSubscriptList(tokensEntrada))){
         pos = auxPos;
@@ -1454,9 +1480,10 @@ bool auxIdentifier(std::vector<Token> tokensEntrada){
     
     if (not (digit(tokensEntrada) && auxIdentifier(tokensEntrada))){
         pos = auxPos;
-    }
-    if (not (letter(tokensEntrada) && auxIdentifier(tokensEntrada))){
-        pos = auxPos;
+
+        if (not (letter(tokensEntrada) && auxIdentifier(tokensEntrada))){
+            pos = auxPos;
+        }
     }
     
     return true;
@@ -1468,19 +1495,19 @@ bool basicSymbol(std::vector<Token> tokensEntrada){
     
     if (not (letter(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not digit(tokensEntrada)){
-        pos = auxPos;
-        return false;
-    }
-    if (not logicalValue(tokensEntrada)){
-        pos = auxPos;
-        return false;
-    }
-    if (not delimiter(tokensEntrada)){
-        pos = auxPos;
-        return false;
+        
+        if (not digit(tokensEntrada)){
+            pos = auxPos;
+
+            if (not logicalValue(tokensEntrada)){
+                pos = auxPos;
+
+                if (not delimiter(tokensEntrada)){
+                    pos = auxPos;
+                    return false;
+                }
+            }
+        }
     }
     return true;
     
@@ -1513,13 +1540,15 @@ bool digit(std::vector<Token> tokensEntrada){
 
 bool logicalValue(std::vector<Token> tokensEntrada){
     int auxPos = pos;
+    std::cout << "Função: logicalValue" << std::endl;
+
     if (not (match("true", tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (match("false", tokensEntrada))){
-        pos = auxPos;
-        return false;
+        
+        if (not (match("false", tokensEntrada))){
+            pos = auxPos;
+            return false;
+        }
     }
     return true;
     
@@ -1528,25 +1557,27 @@ bool logicalValue(std::vector<Token> tokensEntrada){
 
 bool delimiter(std::vector<Token> tokensEntrada){
     int auxPos = pos;
+    std::cout << "Função: delimiter" << std::endl;
+
     if (not (Operator(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (separator(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (bracket(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (declarator(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (specificator(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (separator(tokensEntrada))){
+            pos = auxPos;
+
+            if (not (bracket(tokensEntrada))){
+                pos = auxPos;
+
+                if (not (declarator(tokensEntrada))){
+                    pos = auxPos;
+
+                    if (not (specificator(tokensEntrada))){
+                        pos = auxPos;
+                        return false;
+                    }
+                }
+            }
+        }
     }
     
     return true;
@@ -1556,21 +1587,24 @@ bool delimiter(std::vector<Token> tokensEntrada){
 
 bool Operator(std::vector<Token> tokensEntrada){
     int auxPos = pos;
+
+    std::cout << "Função: Operator" << std::endl;
+
     if (not (arithmeticOperator(tokensEntrada))){
         pos = auxPos;
-        return false;
-    }
-    if (not (relationalOperator(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (logicalOperator(tokensEntrada))){
-        pos = auxPos;
-        return false;
-    }
-    if (not (sequentialOperator(tokensEntrada))){
-        pos = auxPos;
-        return false;
+
+        if (not (relationalOperator(tokensEntrada))){
+            pos = auxPos;
+
+            if (not (logicalOperator(tokensEntrada))){
+                pos = auxPos;
+
+                if (not (sequentialOperator(tokensEntrada))){
+                    pos = auxPos;
+                    return false;
+                }
+            }
+        }
     }
 
     return true;
@@ -1578,18 +1612,22 @@ bool Operator(std::vector<Token> tokensEntrada){
 }
 
 bool arithmeticOperator(std::vector<Token> tokensEntrada){
+    std::cout << "Função: arithmeticOperator" << std::endl;
     return (match("+", tokensEntrada) || match("-", tokensEntrada) || match("*", tokensEntrada) || match("/", tokensEntrada));
 }
 
 bool relationalOperator(std::vector<Token> tokensEntrada){
+    std::cout << "Função: relationalOperator" << std::endl;
     return (match("<", tokensEntrada) || match("<=", tokensEntrada) || match("=", tokensEntrada) || match("!=", tokensEntrada) || match(">", tokensEntrada) || match(">=", tokensEntrada)); 
 }
 
 bool logicalOperator(std::vector<Token> tokensEntrada){
+    std::cout << "Função: logicalOperator" << std::endl;
     return (match("==", tokensEntrada) || match("||", tokensEntrada) || match("&&", tokensEntrada) || match("!", tokensEntrada));
 }
 
 bool sequentialOperator(std::vector<Token> tokensEntrada){
+    std::cout << "Função: sequentialOperator" << std::endl;
     return (match("goto", tokensEntrada) || match("if", tokensEntrada) || match("then", tokensEntrada) || match("else", tokensEntrada) || match("for", tokensEntrada) || match("do", tokensEntrada));
 }
 
@@ -1605,7 +1643,9 @@ bool bracket(std::vector<Token> tokensEntrada){
     match("]", tokensEntrada) || match("begin", tokensEntrada) || match("end", tokensEntrada));
 }
 
-bool declarator(std::vector<Token> tokensEntrada){
+bool declarator(std::vector<Token> tokensEntrada)
+{
+    std::cout << "Função: declarator" << std::endl;
     return (match("own", tokensEntrada) || match("integer", tokensEntrada) || match("array", tokensEntrada) || match("procedure", tokensEntrada));
 }
 
