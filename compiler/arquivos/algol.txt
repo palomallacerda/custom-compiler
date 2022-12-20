@@ -1,4 +1,4 @@
 begin
-    file f(kind = remote);
-    write(f, hello world!);
+    integer y;
+    y := 20
 end

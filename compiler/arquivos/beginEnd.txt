@@ -1,9 +1,7 @@
 begin
     integer p, q;
     y := 0; i := 1; k := 1;
-    for p := 1 step 1 until n do;
+    for p := 1 step 1 until 5 do
         if 6 > y then
-            begin y := k;
-                i := p; k := q
-            end
+            y - 2
 end 
